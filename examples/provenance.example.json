@@ -1,0 +1,7 @@
+{
+  "model_id": "operator-supplied/model-id",
+  "revision": "operator-supplied-immutable-revision",
+  "license": "operator-supplied-weight-license",
+  "reference_source": "Operator-selected local F16 reference provenance",
+  "quantized_source": "Operator-selected Q4_0 quantization provenance"
+}

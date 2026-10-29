@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "kind": "quantopsy.linear-probes",
+  "tensor": "blk.0.attn_q.weight",
+  "provenance": {
+    "model_id": "authored-format-example-only",
+    "revision": "not-a-real-model-run",
+    "dataset": "authored-zero-vector",
+    "capture": "Replace with approved local activation captures matching the tensor width"
+  },
+  "vectors": [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+               0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+}
