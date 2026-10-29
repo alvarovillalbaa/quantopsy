@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "kind": "quantopsy.source-publication",
+  "verified_at_utc": "2026-10-29 19:14:23 UTC",
+  "repository": "alvarovillalbaa/quantopsy",
+  "visibility": "public",
+  "default_branch": "main",
+  "source_commit": "685ad5f9b72f47f5b5fc3a609419e76ff31c56d2",
+  "ref_matched": true,
+  "truncated": false,
+  "leaf_count": 27,
+  "leaf_comparison": "all path/mode/type/blob-SHA values match",
+  "entries": [
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8262f64aee788bc1427dd8dd3bbb3eab723d2895"
+    },
+    {
+      "path": "AGENTS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fbf9ff15e6244efa41618829a33f44a0acf8fdf0"
+    },
+    {
+      "path": "docs/format.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d993d1157f43fa57251aa3eca912f67cd9f989b"
+    },
+    {
+      "path": "docs/proposals/fixture-checks.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4f12c32a81b9c570fc9c80bdc7fa4a16a2312dd6"
+    },
+    {
+      "path": "docs/results/2026/10-29/initial-source.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f4fdbf2c67f2330faeded85de098df11cf1bc5c"
+    },
+    {
+      "path": "docs/results/2026/10-29/source-inventory.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d6039e924f8d3dd9eab130284061e0f7f964dd00"
+    },
+    {
+      "path": "docs/sources.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "159d2cea0115a079af203a9f751d18a3fbe1d143"
+    },
+    {
+      "path": "docs/spec.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7023018c89b3a1188e1e06d46e714ebd112298eb"
+    },
+    {
+      "path": "examples/probes.example.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "483198b8312c8a81928c9aca8e91aa8e1b130d75"
+    },
+    {
+      "path": "examples/provenance.example.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2acc55cd9fc32972daafaf3c2de78cfaaad13a31"
+    },
+    {
+      "path": "LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7694388483b2d169819b727c2484e0e748498f4c"
+    },
+    {
+      "path": "quantopsy/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "830caf9c9fd65a4e4bc6d39dcc475351141b2331"
+    },
+    {
+      "path": "quantopsy/__main__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eb53e2f31b2f703ad32ef64b8a41faa3e7d18e08"
+    },
+    {
+      "path": "quantopsy/cli.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6adcf4c2afb99233deb4f66f7cc380bb9c218e12"
+    },
+    {
+      "path": "quantopsy/contracts.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26e94f435e3e32a7d098d328041db8ad06ae3b23"
+    },
+    {
+      "path": "quantopsy/diagnostics.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ecef296f7e074419c38197418bbc847dfc1f402"
+    },
+    {
+      "path": "quantopsy/errors.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e77dba60a233e5ec473bb7f2b6cdb5455622b46d"
+    },
+    {
+      "path": "quantopsy/gguf.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a0ace5a8ffbbe7e1a6d6eb6193327b82e76461b"
+    },
+    {
+      "path": "quantopsy/io.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4818c030a0e3f294f9a80ca0e56225362d23f881"
+    },
+    {
+      "path": "quantopsy/repair.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "04280a2c63f2c14d2f53fe6046634ecbd8a27029"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6286616af25f5882ac8b56c66cd1eec6bdb11745"
+    },
+    {
+      "path": "tests/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "588278021eeaeb731e29d8dd27c8675fb761c9cb"
+    },
+    {
+      "path": "tests/fixtures.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ecab52e0020273248d8f2b7b9d3f533ceb3ba8b9"
+    },
+    {
+      "path": "tests/test_cli.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3365a11ab4451379ac17a4c6d7b04c92f5a078fb"
+    },
+    {
+      "path": "tests/test_diagnostics.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e4fc88686602a73809f8149d85252ca260a55e5"
+    },
+    {
+      "path": "tests/test_gguf.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "732cf4606ed5510123a00e40c87d3467c4077c68"
+    },
+    {
+      "path": "tests/test_repair.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b2f3bf137ebd93e55652f1a543909aca235d554"
+    }
+  ],
+  "verification": {
+    "ref": "https://api.github.com/repos/alvarovillalbaa/quantopsy/git/ref/heads/main",
+    "tree": "https://api.github.com/repos/alvarovillalbaa/quantopsy/git/trees/685ad5f9b72f47f5b5fc3a609419e76ff31c56d2?recursive=1",
+    "method": "Connected GitHub readback compared every local and remote leaf directly; connector root SHA not used",
+    "checkout_clean_at_source_readback": true
+  },
+  "workflow_definitions": {
+    "total_count": 0,
+    "method": "Authenticated gh API read; connected Fetch does not expose this endpoint"
+  },
+  "prepared_source": {
+    "files": 25,
+    "bytes": 185312,
+    "python_ast_files": 15,
+    "imports_checked": 117,
+    "literal_cases": 80,
+    "inventory_sha256": "7fb815e37d0bf05bd9df629aa5259574f94728d7daa7f8df536f4ade9a24b122"
+  },
+  "approval": {
+    "scope": "80 local fixture cases, four explicit modules, existing Python 3.14.7, 120-second cap",
+    "state": "requested_pending",
+    "proposal": "https://github.com/alvarovillalbaa/quantopsy/blob/685ad5f9b72f47f5b5fc3a609419e76ff31c56d2/docs/proposals/fixture-checks.md"
+  },
+  "execution": {
+    "domain_checks": "not_run",
+    "cli_fixtures": "not_run",
+    "real_checkpoint": "not_run",
+    "inference": "not_run",
+    "behavioral_recovery": "not_established"
+  },
+  "hosting": "Local CLI; no Vercel/Supabase service provisioned",
+  "limitations": [
+    "This receipt verifies the initial source commit, not its own later publication.",
+    "The 25 prepared inputs are unchanged; dated result records are outside their seal.",
+    "No runtime/platform compatibility matrix, model lineage or recovered behavior was verified."
+  ]
+}

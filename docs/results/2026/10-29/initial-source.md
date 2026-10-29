@@ -1,8 +1,10 @@
 # Initial Quantopsy source delivery
 
-29 October 2026. Source is prepared locally; publication readback will be
-recorded after the repository is created. The full project remains open at its
-real-model inference and behavior acceptance gates.
+29 October 2026. Source is published in the separate public personal
+[Quantopsy repository](https://github.com/alvarovillalbaa/quantopsy) at
+[`685ad5f9b72f47f5b5fc3a609419e76ff31c56d2`](https://github.com/alvarovillalbaa/quantopsy/commit/685ad5f9b72f47f5b5fc3a609419e76ff31c56d2).
+The full project remains open at its real-model inference and behavior
+acceptance gates.
 
 The complete one-line [Notion brief](https://app.notion.com/p/3fda1ee8bd0680eda403c2d43ba08224)
 was read. Bounded local/project-owner searches found no existing Quantopsy
@@ -39,6 +41,20 @@ No dependency, CI, runtime provider, Vercel/Supabase project, account, paid plan
 or model was provisioned. The local storage preflight returned insufficient
 reserve for large work, so no install/build/checkpoint copy was attempted.
 This small source-only implementation does not bypass that limit.
+
+Connected GitHub ref/tree readback matched all 27 file paths, modes, types and
+blob SHAs, without truncation, against the initial source commit. The checkout
+was clean. Direct leaf comparison was used instead of the connector's root
+tree SHA. An authenticated workflow-definition read returned zero; the
+connected Fetch endpoint does not expose that list. The
+[machine publication receipt](source-publication.json) preserves these facts.
+No CI file was created or job activated. Staged and unstaged diff checks passed
+after removing one extra blank line at EOF; the source seal was refreshed
+before committing, with no domain execution.
+
+Approval was requested against the immutable published 80-case proposal and
+remains pending. These dated publication records do not change any of the 25
+sealed source/test/document inputs. No fixture run is implied by publication.
 
 Next: obtain explicit approval for the published 80-case scope, execute and
 retain those results, then prepare separate concrete real-model acceptance
