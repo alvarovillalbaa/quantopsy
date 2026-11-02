@@ -64,10 +64,12 @@ does not replace a stricter local reserve policy. Neither input is rewritten.
 ## Verification status
 
 Source authoring/static checks and publication are recorded in the
-[delivery receipt](docs/results/2026/10-29/initial-source.md). Domain checks are
-prepared separately and remain unexecuted until explicitly approved. No real
-checkpoint, model inference or behavioral-quality result is claimed. The full
-project remains unfinished at those acceptance gates.
+[delivery receipt](docs/results/2026/10-29/initial-source.md). All 80 authored
+GGUF, diagnostics, repair and CLI fixture checks passed on Python 3.14.7 at
+`b6f355290df7cdb5ed673dbf5865cf4f99dfe0e9`; see the
+[2 November result](docs/results/2026/11-02/fixture-checks.md) for exact cases,
+source guards and cleanup. No real checkpoint, model inference or behavioral
+recovery is established. The full project remains unfinished at those gates.
 
 This is a local CLI, so no Vercel/Supabase deployment is needed for its current
 execution path. No account, paid plan or provider is provisioned.

@@ -1,0 +1,641 @@
+{
+  "schemaVersion": "quantopsy.fixture-checks.v1",
+  "date": "2026-11-02",
+  "status": "passed",
+  "authorization": "Persistent owner approval to approve everything, keep going and do all the work; root explicitly assigned this exact 80-case authored fixture packet. No new permission or broader scope inferred.",
+  "source": {
+    "repository": "alvarovillalbaa/quantopsy",
+    "commit": "b6f355290df7cdb5ed673dbf5865cf4f99dfe0e9",
+    "tree": "1b676f15512b022addde8bc4afb045a78770df39",
+    "url": "https://github.com/alvarovillalbaa/quantopsy/tree/b6f355290df7cdb5ed673dbf5865cf4f99dfe0e9",
+    "manifest": "docs/results/2026/10-29/source-inventory.json",
+    "manifestSha256": "7fb815e37d0bf05bd9df629aa5259574f94728d7daa7f8df536f4ade9a24b122",
+    "selectedSourceFiles": 25,
+    "sourceInputs": {
+      ".gitignore": {
+        "sha256": "9bbd21af805e40ee1262e68716fb4e28b25315e57acd5843554d4412e6289858",
+        "bytes": 243,
+        "mode": "100644",
+        "gitBlob": "8262f64aee788bc1427dd8dd3bbb3eab723d2895"
+      },
+      "AGENTS.md": {
+        "sha256": "858b7bed19ba6dcbd04fb622b5ef9e048aad150bcb08044bd38b3a9c3d97160b",
+        "bytes": 2520,
+        "mode": "100644",
+        "gitBlob": "fbf9ff15e6244efa41618829a33f44a0acf8fdf0"
+      },
+      "LICENSE": {
+        "sha256": "6e3ae862a0f98e9f377f98f71fd86160932dad7186416f5509a335703c6fe3b5",
+        "bytes": 1078,
+        "mode": "100644",
+        "gitBlob": "7694388483b2d169819b727c2484e0e748498f4c"
+      },
+      "README.md": {
+        "sha256": "d93d6fad4c075f77c025f40a50e8f2cd437947875d1e7c58c99458e7535cb46c",
+        "bytes": 3902,
+        "mode": "100644",
+        "gitBlob": "6286616af25f5882ac8b56c66cd1eec6bdb11745"
+      },
+      "docs/format.md": {
+        "sha256": "7afa42e0fa6dd2ef686d9ac7ca874da68465f41ac8de85c5fb87ac242cf2a713",
+        "bytes": 6606,
+        "mode": "100644",
+        "gitBlob": "6d993d1157f43fa57251aa3eca912f67cd9f989b"
+      },
+      "docs/proposals/fixture-checks.md": {
+        "sha256": "c2bd584980b0b8f28235c751acb1455e50aa31d0774f1815a3bcfad8ac886477",
+        "bytes": 3429,
+        "mode": "100644",
+        "gitBlob": "4f12c32a81b9c570fc9c80bdc7fa4a16a2312dd6"
+      },
+      "docs/sources.md": {
+        "sha256": "8d70f42ccd3d2f06976b01c1ffc43ae76d181f8cea9338ea1c501b58fb2dbf52",
+        "bytes": 2193,
+        "mode": "100644",
+        "gitBlob": "159d2cea0115a079af203a9f751d18a3fbe1d143"
+      },
+      "docs/spec.md": {
+        "sha256": "e8a20cdf2f66aed12bf81175ddd299ab67511d7d9bb089a7c411d3ea8141e48c",
+        "bytes": 4821,
+        "mode": "100644",
+        "gitBlob": "7023018c89b3a1188e1e06d46e714ebd112298eb"
+      },
+      "examples/probes.example.json": {
+        "sha256": "7a8a743e99c316839c1d8b7d0b2cd51ab4b4f5fa4e0d5401dc6ad6659c7f0569",
+        "bytes": 473,
+        "mode": "100644",
+        "gitBlob": "483198b8312c8a81928c9aca8e91aa8e1b130d75"
+      },
+      "examples/provenance.example.json": {
+        "sha256": "1a5331a1fa7edd6a2e77bb84080ab2a5a3866f136eaa32fb49a44c7e9ecc2950",
+        "bytes": 296,
+        "mode": "100644",
+        "gitBlob": "2acc55cd9fc32972daafaf3c2de78cfaaad13a31"
+      },
+      "quantopsy/__init__.py": {
+        "sha256": "2a114c8834891f57ef666e57c4444252378c233660aa4280b301449d696f4983",
+        "bytes": 99,
+        "mode": "100644",
+        "gitBlob": "830caf9c9fd65a4e4bc6d39dcc475351141b2331"
+      },
+      "quantopsy/__main__.py": {
+        "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+        "bytes": 48,
+        "mode": "100644",
+        "gitBlob": "eb53e2f31b2f703ad32ef64b8a41faa3e7d18e08"
+      },
+      "quantopsy/cli.py": {
+        "sha256": "e4acab1836adeaf12f2d0121fe0c3d781073bbad28a92b251a32e00c58c54b82",
+        "bytes": 6375,
+        "mode": "100644",
+        "gitBlob": "6adcf4c2afb99233deb4f66f7cc380bb9c218e12"
+      },
+      "quantopsy/contracts.py": {
+        "sha256": "500a8efda6b0923df15b439426daf7203e6352c61313dc4425e35346a727fc6b",
+        "bytes": 1102,
+        "mode": "100644",
+        "gitBlob": "26e94f435e3e32a7d098d328041db8ad06ae3b23"
+      },
+      "quantopsy/diagnostics.py": {
+        "sha256": "120eb56904b8db1e2391013586f7f2b6591c0c9b0b8a8e37b70140c09e4a09d7",
+        "bytes": 11864,
+        "mode": "100644",
+        "gitBlob": "6ecef296f7e074419c38197418bbc847dfc1f402"
+      },
+      "quantopsy/errors.py": {
+        "sha256": "58714b8b8dd29939217a9b395bfee40cdb17591cd6b4b2619336ebdfb42bf926",
+        "bytes": 339,
+        "mode": "100644",
+        "gitBlob": "e77dba60a233e5ec473bb7f2b6cdb5455622b46d"
+      },
+      "quantopsy/gguf.py": {
+        "sha256": "78dc8679fa50d53798e84c8de689a6ce161424cb1c9ac1cb19385ae4be81c8ef",
+        "bytes": 19329,
+        "mode": "100644",
+        "gitBlob": "6a0ace5a8ffbbe7e1a6d6eb6193327b82e76461b"
+      },
+      "quantopsy/io.py": {
+        "sha256": "0327451749cdd6523cde2ef00175dabdc539af50be63ef2a7e8253363d9c0a9c",
+        "bytes": 5696,
+        "mode": "100644",
+        "gitBlob": "4818c030a0e3f294f9a80ca0e56225362d23f881"
+      },
+      "quantopsy/repair.py": {
+        "sha256": "b6d899a985da9f9cf7207761a395a96ca9b1715238a5d0e12b3d0266a9ae1982",
+        "bytes": 29918,
+        "mode": "100644",
+        "gitBlob": "04280a2c63f2c14d2f53fe6046634ecbd8a27029"
+      },
+      "tests/__init__.py": {
+        "sha256": "e1631a641fd09d08a8a4df20ed4bc239bf732b415388f9d28f831fb7bf9499e1",
+        "bytes": 86,
+        "mode": "100644",
+        "gitBlob": "588278021eeaeb731e29d8dd27c8675fb761c9cb"
+      },
+      "tests/fixtures.py": {
+        "sha256": "c22cbf315b8bef3ee96de902ee679ea0089ebde8c256f1e01d519767d6be7ea7",
+        "bytes": 6855,
+        "mode": "100644",
+        "gitBlob": "ecab52e0020273248d8f2b7b9d3f533ceb3ba8b9"
+      },
+      "tests/test_cli.py": {
+        "sha256": "c5671130315b47cd002e04cfc2842c08ad798962916313714eec4b91033c2bf7",
+        "bytes": 14989,
+        "mode": "100644",
+        "gitBlob": "3365a11ab4451379ac17a4c6d7b04c92f5a078fb"
+      },
+      "tests/test_diagnostics.py": {
+        "sha256": "da5cc24bfa5a4262fbb6057d0a31a2bfc584256db2a191736f4145e7063d9f2b",
+        "bytes": 18400,
+        "mode": "100644",
+        "gitBlob": "7e4fc88686602a73809f8149d85252ca260a55e5"
+      },
+      "tests/test_gguf.py": {
+        "sha256": "c6d8d6027ef5c0bbc3112faf0432789c1df69ac99d925974d3589d6dcbb49b20",
+        "bytes": 16392,
+        "mode": "100644",
+        "gitBlob": "732cf4606ed5510123a00e40c87d3467c4077c68"
+      },
+      "tests/test_repair.py": {
+        "sha256": "64a6d1079a2ed36f5e1968dc21476d04688931471d253c610733f524084c52f5",
+        "bytes": 28259,
+        "mode": "100644",
+        "gitBlob": "1b2f3bf137ebd93e55652f1a543909aca235d554"
+      }
+    },
+    "bytesSizesModesAndGitBlobsMatchedBeforeAfter": true,
+    "sourceGuardError": null,
+    "sourceOrTestsChanged": false,
+    "guardWindow": "Before and immediately after the single test invocation at b6f355290df7cdb5ed673dbf5865cf4f99dfe0e9; not a claim that later documentation editions retain those historical bytes.",
+    "subsequentDocumentationOnlyEdition": {
+      "owner": "Parent agent",
+      "paths": [
+        "AGENTS.md",
+        "README.md",
+        "docs/proposals/fixture-checks.md"
+      ],
+      "purpose": "Replace stale approval and verification status with links to these actual results.",
+      "qualification": "The publication edition changes three of the 25 historical sealed documentation inputs after execution. Product code, tests, fixtures, specification and the original seal remain unchanged; these status-document edits were not rerun."
+    }
+  },
+  "runtime": {
+    "pythonVersion": "3.14.7",
+    "executable": "python3.14",
+    "binarySha256": "87d4df53fd91304be5bac391fb204643c36b7df2023c04a0953bcbc7d4fdf634",
+    "binaryBytes": 34640,
+    "binaryMode": "0o755",
+    "binaryUnchangedBeforeAfter": true,
+    "siteStartupDisabled": true,
+    "bytecodeDisabled": true,
+    "attribution": "The same resolved existing interpreter performed a sanitized child preflight and ran the test process. Host-specific executable paths are omitted from this published receipt."
+  },
+  "command": [
+    "python3",
+    "-B",
+    "-S",
+    "-m",
+    "unittest",
+    "tests.test_gguf",
+    "tests.test_diagnostics",
+    "tests.test_repair",
+    "tests.test_cli",
+    "-v"
+  ],
+  "interpreterFlagScope": "-B prevents bytecode writes and -S disables site startup; the four requested unittest modules and all authored assertions are unchanged.",
+  "environment": {
+    "passedKeys": [
+      "PATH",
+      "PYTHONDONTWRITEBYTECODE",
+      "PYTHONNOUSERSITE",
+      "PYTHONUTF8",
+      "PYTHON_COLORS",
+      "TMPDIR",
+      "TZ"
+    ],
+    "timezone": "UTC",
+    "path": "Explicit system utility allowlist.",
+    "tmpdir": "Fresh task-owned fixture parent, verified by marker and device/inode before removal.",
+    "homeOrAccountCredentialsPassed": false,
+    "nodeOrPythonPathOverridesPassed": false
+  },
+  "execution": {
+    "startedAt": "2026-11-02T08:38:53.024929+00:00",
+    "finishedAt": "2026-11-02T08:38:53.565302+00:00",
+    "controllerElapsedMs": 540.124,
+    "actualTestProcessInvocations": 1,
+    "exitCode": 0,
+    "signal": null,
+    "stop": null,
+    "interrupted": false,
+    "processReaped": true,
+    "controller": {
+      "wallSeconds": 120,
+      "termGraceSeconds": 3,
+      "postKillDrainSeconds": 3,
+      "stdoutLimitBytes": 262144,
+      "stderrLimitBytes": 262144
+    },
+    "actualCases": [
+      {
+        "id": "tests.test_gguf.GGUFTests.test_alignment_accepts_multiples_of_eight_and_rejects_invalid_metadata",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_declared_metadata_and_tensor_counts_are_bounded_before_allocation",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_duplicate_metadata_and_tensor_names_are_refused",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_f16_values_preserve_independently_packed_binary16_edges",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_f32_values_preserve_sign_fraction_and_negative_zero",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_fifo_refusal_and_nonblocking_nofollow_descriptor_flags_are_explicit",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_file_string_metadata_array_and_global_value_budgets_are_explicit",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_invalid_utf8_in_keys_values_and_tensor_names_is_not_replaced",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_magic_endianness_and_unsupported_versions_are_not_guessed",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_nonfinite_f32_f16_and_q4_scale_values_fail_during_decode",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_one_byte_streams_and_hashes_cover_exact_payloads_and_fresh_file",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_overlapping_payload_spans_are_rejected_independent_of_table_order",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_payload_truncation_cannot_be_hidden_by_valid_header_and_offsets",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_q4_low_nibbles_precede_high_nibbles_for_one_literal_block",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_q4_negative_and_zero_scales_preserve_rows_without_positive_fabrication",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_q4_rows_and_quantization_version_must_match_the_supported_profile",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_scalar_and_flat_array_metadata_have_independent_encodings",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_shard_metadata_and_tokenizer_only_zero_tensor_files_are_rejected",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_source_mutation_and_path_replacement_invalidate_open_streams_and_hashes",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_symlink_leaf_and_directories_are_never_read_as_model_inputs",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_tensor_relative_offsets_must_be_aligned",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_truncated_headers_and_declared_strings_fail_without_large_buffers",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_unknown_nested_boolean_and_nonfinite_metadata_types_are_rejected",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_unsupported_tensor_encodings_do_not_receive_guessed_sizes",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_v3_inventory_identity_and_original_metadata_bytes",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_gguf.GGUFTests.test_zero_excessive_rank_and_overflowing_dimensions_are_rejected",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_activation_choice_can_hide_or_expose_the_same_weight_error_without_behavior_claims",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_constant_reference_against_zero_weights_has_independent_exact_metrics",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_extreme_representable_metrics_remain_finite_and_true_product_overflow_fails",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_invalid_duplicate_missing_and_excessive_selections_never_guess_a_tensor",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_nonfinite_selected_reference_or_quantized_scale_is_never_a_zero_error",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_one_hot_probes_have_independently_known_row_outputs_and_distortions",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_pair_metadata_shape_and_unquantized_identity_mismatches_fail_before_a_report",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_probe_fingerprint_binds_the_supplied_intent_and_provenance_is_detached",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_probe_records_require_exact_version_kind_and_all_four_capture_fields",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_probe_vector_and_rank_bounds_reject_ragged_empty_boolean_or_oversized_values",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_probe_work_budget_counts_all_vector_weight_pairs_before_forward_work",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_selection_order_and_complete_input_hashes_do_not_claim_behavior_or_lineage",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_signed_two_row_fixture_preserves_magnitude_without_position_or_sign_shortcuts",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_source_changes_before_or_during_streaming_prevent_a_completed_diagnosis",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_work_limits_include_every_selected_element_and_precede_decoding",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_diagnostics.DiagnosticsTests.test_zero_reference_energy_stays_null_and_identical_zero_weights_stay_zero",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_added_weight_and_decode_work_budgets_accept_exact_bounds_before_decode",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_all_selected_matrices_use_reference_encoding_without_reordering_inventory",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_candidate_restores_only_selected_reference_bytes_and_preserves_metadata",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_dense_llama_profile_rejects_other_architectures_experts_and_fused_layouts",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_existing_directory_file_and_symlink_outputs_are_never_overwritten",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_explicit_plan_binds_selected_bytes_shapes_input_hashes_and_provenance",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_input_mutation_before_or_during_copy_never_publishes_completion",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_interruption_cleanup_removes_only_owned_inodes_and_keeps_unexpected_files",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_manifest_is_published_last_after_reparse_and_contains_exact_artifact_hashes",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_non_power_of_two_alignment_is_preserved_with_rebuilt_offsets",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_output_size_storage_and_reserve_budgets_fail_before_bundle_creation",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_pair_rejects_architecture_and_nonquantization_identity_disagreement",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_pair_requires_complete_tensor_names_and_exact_dimensions",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_pair_summary_binds_complete_original_bytes_and_honest_lineage",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_plan_validation_is_detached_strict_and_checks_internal_arithmetic",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_provenance_requires_exact_nonblank_bounded_utf8_fields",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_quantization_only_metadata_may_differ_without_requiring_table_order",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_reference_quantization_and_changed_input_identity_are_refused",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_selected_matrix_encoding_rank_and_both_inputs_finiteness_are_checked",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_selection_requires_explicit_unique_present_supported_matrix_names",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_semantically_valid_forged_source_or_tensor_binding_cannot_write",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_repair.RepairTests.test_unquantized_tensors_must_preserve_encoding_and_payload_exactly",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_cli_failures_return_finite_json_without_echoing_paths_or_argument_payloads",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_cli_report_output_refuses_existing_files_and_retains_their_exact_bytes",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_diagnose_command_uses_selected_actual_weights_without_a_runner",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_failed_json_fsync_removes_only_the_owned_partial_and_closes_its_descriptor",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_inspect_prints_actual_container_hash_and_explicit_unrun_behavior",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_cleanup_preserves_a_replaced_path_after_the_owned_write_fails",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_create_is_private_and_input_output_paths_refuse_symlinks_or_nonfiles",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_depth_entry_byte_and_limit_budgets_reject_before_unbounded_output",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_descriptor_setup_failures_close_the_fd_and_never_claim_a_completed_record",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_output_rejects_cycles_non_json_values_and_isolated_unicode_units",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_reads_reject_invalid_utf8_duplicates_surrogates_and_nonfinite_numbers",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_roundtrip_preserves_unicode_zero_and_canonical_key_order",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_pair_open_failure_closes_prior_resources_through_the_actual_cli_stack",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_plan_command_creates_a_new_provenance_bound_record_with_exact_source_hashes",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_probe_command_reads_explicit_calibration_and_reports_only_supplied_linear_evidence",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_repair_command_writes_real_selected_f16_bytes_without_subprocess_or_network",
+        "status": "ok"
+      }
+    ],
+    "actualUniqueIdsMatchFrozen80": true,
+    "groups": [
+      {
+        "path": "tests/test_gguf.py",
+        "expected": 26,
+        "actual": 26,
+        "passed": 26
+      },
+      {
+        "path": "tests/test_diagnostics.py",
+        "expected": 16,
+        "actual": 16,
+        "passed": 16
+      },
+      {
+        "path": "tests/test_repair.py",
+        "expected": 22,
+        "actual": 22,
+        "passed": 22
+      },
+      {
+        "path": "tests/test_cli.py",
+        "expected": 16,
+        "actual": 16,
+        "passed": 16
+      }
+    ],
+    "counts": {
+      "pass": 80,
+      "fail": 0,
+      "error": 0,
+      "skip": 0,
+      "expectedFailure": 0,
+      "unexpectedSuccess": 0,
+      "unknown": 0
+    },
+    "unittestSummary": {
+      "tests": 80,
+      "durationSeconds": 0.272,
+      "result": "OK"
+    },
+    "stdout": {
+      "capturedBytes": 0,
+      "observedBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "capturedBytes": 14705,
+      "observedBytes": 14705,
+      "sha256": "9cbdac6aedda7b4a34e6c07252b87630bee256fd25b957108cb33f92d7597ba9"
+    }
+  },
+  "cleanup": {
+    "remainingFixtureEntries": [],
+    "ownedRootRemoved": true,
+    "error": null,
+    "bytecodeGenerationDisabled": true,
+    "existingPycacheDeleted": false
+  },
+  "storage": {
+    "policyRead": true,
+    "kind": "Small disposable fixtures with an existing runtime; no large checkpoint copy, worktree, installation, build or test database.",
+    "fixtureMaxGgufBytes": 65536,
+    "fixtureBoundSource": "tests/fixtures.py rejects generated header/payload spans above 64 KiB.",
+    "existingPycachePreserved": true,
+    "onlyOwnedTemporaryTreeRemoved": true
+  },
+  "scope": [
+    "GGUF v3 admission, metadata/tensor bounds, alignment, F32/F16/Q4_0 decoding and source ownership using independently encoded tiny bytes.",
+    "Paired weight diagnostics and explicitly supplied linear-probe arithmetic, with no inference engine or recovered-behavior claim.",
+    "Selected F16 byte restoration into create-only candidate bundles, immutable input hashes, offset/metadata preservation, tamper/refusal and owned cleanup.",
+    "Actual CLI entry functions with captured streams and authored files, finite JSON/error boundaries and resource closure."
+  ],
+  "limits": [
+    "This is a single observed local Python 3.14.7 profile, not portability or a runtime matrix.",
+    "Fixture models have no inference behavior. No trained weights, downloaded checkpoint, real activation/prompt data, model loading, inference or recovered behavior was tested.",
+    "Declared provenance/compatible metadata and matching bytes do not establish licensed checkpoint compatibility or cryptographic model lineage.",
+    "No installation, dependency change, build, CI, browser, app server, account, database, provider/network/model call, hosted configuration, promotion, deployment or paid action occurred.",
+    "This agent authored only these two owning result files. Parent subsequently updates AGENTS.md, README.md and docs/proposals/fixture-checks.md for status and result links; those three documentation editions are outside the tested revision. Product code, tests, fixtures, specification and the original seal remain unchanged. Root owns canonical publication and the full product/portfolio objective remains unfinished."
+  ],
+  "publication": "Local owning-repository evidence only; not committed, pushed or remotely published by this agent."
+}

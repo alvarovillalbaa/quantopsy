@@ -27,7 +27,9 @@
   user artifacts. Tests use independently authored tiny GGUF byte fixtures.
 - AST parsing and diff/whitespace/import checks are allowed. Domain/backend
   checks and model/CLI fixture execution require their explicit scoped approval.
-  No tests have been approved for this new repository yet.
+  The owner's continued approval covered the 80-case authored fixture scope;
+  its [2 November result](docs/results/2026/11-02/fixture-checks.md) records the
+  passing run and its proof limits.
 - Read the supplied storage policy and run Storage Guard before large checkpoint
   copies, installs or builds. Do not bypass a failure or clean unrelated work.
 - Keep contracts, provenance and evidence in docs/. State source publication,

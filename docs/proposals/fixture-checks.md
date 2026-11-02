@@ -1,9 +1,11 @@
 # Proposed 80 local authored-fixture checks
 
-29 October 2026. **Prepared, not approved or executed.** Source publication is
-authorized separately by the portfolio goal. The supplied workspace and local
-`AGENTS.md` require explicit approval for domain/CLI execution; AST parsing and
-read-only source review do not grant that permission.
+Prepared 29 October 2026; **80/80 passed on 2 November** at
+`b6f355290df7cdb5ed673dbf5865cf4f99dfe0e9` under the owner's continued approval
+and instruction to keep going. The [result](../results/2026/11-02/fixture-checks.md)
+records actual cases, runtime, source guards and owned cleanup. The original
+procedure below is retained as scope; source publication remains separately
+authorized by the portfolio goal.
 
 ## Exact action
 
@@ -27,7 +29,7 @@ use mocks to verify cleanup and ownership boundaries.
 | `tests/test_diagnostics.py` | 16 | Paired weight metrics, supplied linear responses, selection/work/provenance/finite-result boundaries |
 | `tests/test_repair.py` | 22 | Compatibility, strict bound plan, actual selected-byte restoration, unchanged payloads, metadata/offsets, tampering, overwrite refusal, capacity and owned cleanup |
 | `tests/test_cli.py` | 16 | Five command paths, finite errors, bounded JSON, create-only records and resource cleanup |
-| **Total** | **80** | **All new, authored and currently unrun** |
+| **Total** | **80** | **All passed in the recorded fixture run** |
 
 The [source inventory](../results/2026/10-29/source-inventory.json) freezes all
 80 literal method names and exact file hashes. No dynamic test discovery was
@@ -52,8 +54,8 @@ account, hosted/provider configuration, network/model call, downloaded model,
 real weights/activation data, inference, promotion, deployment, payment or paid
 enrollment is included. The source CLI needs no Vercel/Supabase service.
 
-Passing these checks would establish fixture behavior for one observed local
-runtime. It would not verify Python/platform portability, real model lineage,
+These passing checks establish fixture behavior for one observed local
+runtime. They do not verify Python/platform portability, real model lineage,
 licensed checkpoint compatibility, inference loading, recovered behavior or
 regression thresholds. Those full-project gates remain open in the
 [product contract](../spec.md).
