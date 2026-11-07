@@ -110,3 +110,11 @@ selection, account, paid service or provider call. Own every temporary input,
 candidate and process; require bounded original output, unchanged source/input
 identities and verified teardown. Disable and retire the owned CI control after
 its terminal run. Source review and static checks precede any execution.
+
+The [first v2 receipt](docs/results/2026/11-07/gguf-compat-v2-attempt-1.md)
+records the completed invocation at `e18dee0559949f0bbedba01da9c3006b228c44cd`:
+92 fixture passes, fresh pair bindings and a hash-verified candidate, with
+normal process closure and owned artifact teardown. The workflow is disabled.
+Preserve this source and its immutable originals; do not repeat the closed
+scope without a concrete changed need. Product acceptance remains false and
+model inference/behavior recovery remain untested.

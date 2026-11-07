@@ -4,7 +4,8 @@ Investigate quantization loss and create a local weight-restoration candidate.
 
 The source inspects GGUF containers, compares selected weights and supplied
 linear activation probes, and restores explicitly selected Q4_0 tensors from
-an F16 reference into a NEW GGUF bundle. It uses Python 3.11+ and the standard
+an F16 reference (default v1) or F32 reference (explicit v2) into a NEW GGUF bundle.
+It uses Python 3.11+ and the standard
 library on POSIX macOS/Linux, with no model download, hosted service or inference
 engine. No Python/platform runtime matrix has been verified yet.
 
@@ -80,7 +81,8 @@ pair remains unadmitted; unquantized payload equality was not evaluated.
 This is actual container evidence, with verified owned remote weight teardown,
 not repair, inference, lineage or recovered behavior. No local weights are
 included. The earlier create-event control remains UNRUN. The full project
-remains unfinished at compatible-pair and behavioral acceptance gates.
+remained unfinished at compatible-pair and behavioral acceptance gates in that
+v1 observation. The separate v2 result below establishes candidate-byte checks.
 
 This is a local CLI, so no Vercel/Supabase deployment is needed for its current
 execution path. No account, paid plan or provider is provisioned.
@@ -106,7 +108,13 @@ These are usage examples. V2 records use schema version 2 and require the same
 explicit profile when repaired. Both complete inputs, every unquantized binding,
 selected payloads and the rebuilt output are rechecked; opaque Q8 payloads are
 copied and hash-verified. Existing create-only and manifest-last rules apply.
-The new source and its focused verification are pending; neither the historical
-80-case result nor the public-file diagnostic proves this new path.
+The [first v2 result](docs/results/2026/11-07/gguf-compat-v2-attempt-1.md)
+passed 28 new cases and 64 relevant v1 regressions at `e18dee05`, then created
+and independently verified a candidate from the two pinned public 15M files.
+All 13 unquantized bindings and 57 prescribed output payloads matched, including
+the unchanged opaque Q8 payload. The 19,362,432-byte candidate was disposed of
+after verification; it is not distributed here. The earlier v1 refusal remains
+unchanged. Model inference, recovered behavior and full-product acceptance
+remain unproved; default v1 still excludes Q8 and requires selected F16 bytes.
 
 MIT licensed. Original implementation; see [primary sources](docs/sources.md).

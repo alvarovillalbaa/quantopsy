@@ -1,6 +1,7 @@
 # Opt-in v2: opaque Q8_0 and F32 restoration
 
-SOURCE CANDIDATE; not runtime-accepted. Review precedes execution.
+IMPLEMENTED; the [first v2 receipt](../results/2026/11-07/gguf-compat-v2-attempt-1.md)
+verifies the scoped byte-level path. Product acceptance remains false.
 The [actual observation](../results/2026/11-07/public-gguf-observation-attempt-2.md)
 admitted the 15M reference as F32, refused its Q4-labelled partner because
 `output.weight` is Q8_0, and established matching metadata/name/dimension maps.
@@ -52,7 +53,7 @@ omission and manifest-last completion; a bundle is not an atomic transaction.
   metadata/dimension/unquantized-hash/version/budget/input-change refusals; and
   create-only/manifest-last failures. Run relevant existing v1 reader, repair
   and CLI regressions for these seams. The old 80-case receipt is historical;
-  no new pass count is claimed.
+  the full historical 80-case suite was not repeated.
 
 After source review, one owned free-CI packet uses the diagnostic's exact pinned
 15M downloads: v2 inspect, explicit `blk.0.attn_q.weight` plan, repair and
@@ -60,4 +61,8 @@ candidate inspection. Require the fresh 13 bindings, unchanged complete input
 hashes, selected F32 hash and every unselected output hash, final manifest,
 bounded originals and normal process/EOF/artifact cleanup. Retain no weights in
 Git. No dependencies, automatic selection, inference, behavior recovery or
-cryptographic-lineage claim is added. Publication and execution await review.
+cryptographic-lineage claim is added. The first invocation passed at `e18dee05`:
+92 fixture cases, 13 fresh unquantized bindings and all 57 prescribed output
+payloads, with normal closure and verified teardown. The disposed candidate was
+19,362,432 bytes. Preserve the unchanged earlier v1 refusal and original outputs;
+inference and recovered behavior remain separate, untested gates.
