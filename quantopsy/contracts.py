@@ -2,6 +2,8 @@
 
 from dataclasses import dataclass
 
+from .errors import fail
+
 
 @dataclass(frozen=True, slots=True)
 class Limits:
@@ -25,7 +27,14 @@ DEFAULT_LIMITS = Limits()
 TYPE_F32 = 0
 TYPE_F16 = 1
 TYPE_Q4_0 = 2
-TYPE_NAMES = {TYPE_F32: "F32", TYPE_F16: "F16", TYPE_Q4_0: "Q4_0"}
+TYPE_Q8_0 = 8
+TYPE_NAMES = {TYPE_F32: "F32", TYPE_F16: "F16", TYPE_Q4_0: "Q4_0", TYPE_Q8_0: "Q8_0"}
+
+
+def profile_version(profile: str) -> int:
+    if type(profile) is not str or profile not in ("v1", "v2"):
+        fail("gguf_invalid_profile", "Choose the explicit v1 or v2 compatibility profile.")
+    return 1 if profile == "v1" else 2
 
 
 @dataclass(frozen=True, slots=True)

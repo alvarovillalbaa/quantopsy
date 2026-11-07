@@ -83,3 +83,30 @@ The owned workflow is disabled. First control remains UNRUN; keep both scopes
 closed and their source/input/output identities intact before new work.
 The temporary default stub is retired in the later publication; its presence
 and hash above describe the checked preparation only.
+
+## Approved opt-in v2 compatibility slice — 7 November 2026
+
+Standing owner approval covers the separate [v2 contract](docs/proposals/opaque-q8-f32-v2.md):
+explicit `--profile v2` on inspect/plan/repair, opaque unselected Q8_0 spans,
+and selected dense-Llama Q4_0 restoration from matching F32 references.
+Preserve default v1 admission, selected F16 behavior, schemas and historical
+results. Both readers and each operation must explicitly agree on profile;
+strict plan versions cannot select or silently upgrade the operation profile.
+Q8 numerical decoding, selected Q8 restoration and v2 diagnose/probe stay out
+of scope. All provenance, pairing, hash, budget and output-ownership fences stay.
+
+The changed reader/repair/CLI seams justify one new authored Tier 2 integration
+suite plus the existing 64 reader/repair/CLI cases in one owned free public
+Ubuntu CI packet, capped at 15 minutes. The unchanged 16 diagnostic cases and
+closed public-observation scopes are not repeated. Then inspect the exact two
+pinned 15M files under v2, bind every unquantized payload freshly, and explicitly
+plan/repair/inspect `blk.0.attn_q.weight`. Preserve original outputs and failures;
+do not infer pair admission from matching metadata. A hash-verified candidate
+is byte-level evidence, never inference or recovered behavior.
+
+No local runtime/download/install/build exception is granted. Keep HOME and
+all unrelated work intact. No dependencies, model code, probes, automatic
+selection, account, paid service or provider call. Own every temporary input,
+candidate and process; require bounded original output, unchanged source/input
+identities and verified teardown. Disable and retire the owned CI control after
+its terminal run. Source review and static checks precede any execution.

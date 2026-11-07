@@ -111,3 +111,36 @@ The default writer reserve is 1 GiB after estimated output. This does not
 override a stricter local storage policy; perform that preflight before large
 checkpoints or outputs. No credentials, model weights or local probe artifacts
 belong in this repository.
+
+## Opt-in profile v2
+
+The preceding v1 contract and defaults remain unchanged. `inspect`, `plan` and
+`repair` accept an explicit `--profile v2`; omission means v1. The Python reader
+and repair APIs likewise require matching explicit profiles on both inputs and
+the operation. A plan's version never chooses the operation profile. V2
+inspection, plans and completion manifests use integer `schema_version: 2` with
+their existing kind identifiers and strict field shapes; cross-version records,
+boolean versions and unknown profiles are refused. `diagnose` and `probe` have
+no v2 path.
+
+V2 admits Q8_0 (type 8) only as opaque payloads. Its pinned block layout is 34
+bytes per 32 values; dimension zero must contain complete blocks. Span bounds,
+alignment, overlap and file-size rules still apply. This profile conservatively
+requires integer quantization version 2 whenever Q4_0 or Q8_0 occurs, including
+Q8-only files; that is a Quantopsy policy, not a general GGUF format mandate.
+`iter_values` explicitly refuses Q8 numerical decoding.
+
+Selected v2 restoration requires F32 reference payloads and rank-two Q4_0
+dense-Llama targets; v1 retains its F16 reference requirement. The reference
+container still contains only F32/F16 tensors. Complete metadata/name/dimension
+agreement and type/hash equality for every unquantized input tensor remain
+mandatory. The observed public fixture has 13 such bindings; the implementation
+uses the complete actual inventory rather than a hard-coded count.
+
+Selected F32 and Q4 values must be finite within the same explicit work and
+growth budgets. Every unselected payload, including Q8, is copied unchanged.
+Both partial and installed candidate readers use v2; inventory, metadata,
+selected/unselected hashes and complete input hashes are verified before the
+last completion manifest. No Q8 restoration, automatic selection, model engine,
+inference, cryptographic lineage or behavioral recovery is implied. See the
+[separate proposal](proposals/opaque-q8-f32-v2.md) for its verification gate.

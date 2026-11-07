@@ -85,4 +85,28 @@ remains unfinished at compatible-pair and behavioral acceptance gates.
 This is a local CLI, so no Vercel/Supabase deployment is needed for its current
 execution path. No account, paid plan or provider is provisioned.
 
+## Opt-in compatibility v2
+
+The separate [v2 contract](docs/proposals/opaque-q8-f32-v2.md) adds
+`--profile v2` to `inspect`, `plan` and `repair`. Default v1 keeps the supported
+profile and F16 restoration examples above. V2 additionally admits Q8_0 as
+opaque unselected payloads and restores explicit Q4_0 matrices from matching
+F32 references. It does not decode Q8 values. `diagnose` and `probe` remain v1.
+
+```sh
+python3 -m quantopsy inspect quantized-with-q8.gguf --profile v2
+python3 -m quantopsy plan reference-f32.gguf quantized-with-q8.gguf --profile v2 \
+  --tensor blk.0.attn_q.weight --provenance local-provenance.json \
+  --max-added-bytes 67108864 --output repair-plan-v2.json
+python3 -m quantopsy repair reference-f32.gguf quantized-with-q8.gguf --profile v2 \
+  --plan repair-plan-v2.json --output-dir candidate-v2
+```
+
+These are usage examples. V2 records use schema version 2 and require the same
+explicit profile when repaired. Both complete inputs, every unquantized binding,
+selected payloads and the rebuilt output are rechecked; opaque Q8 payloads are
+copied and hash-verified. Existing create-only and manifest-last rules apply.
+The new source and its focused verification are pending; neither the historical
+80-case result nor the public-file diagnostic proves this new path.
+
 MIT licensed. Original implementation; see [primary sources](docs/sources.md).

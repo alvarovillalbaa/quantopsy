@@ -36,3 +36,28 @@ files on Linux/Python 3.12.3: inspect exits 0/0/2. This is diagnostic completion
 the Q8_0-containing file and F32-reference restoration pair remain unadmitted.
 The first control is UNRUN, not a failed or passing runtime test. Raw originals,
 source guards and weight teardown are preserved separately from future scopes.
+
+## Separate opt-in v2 verification
+
+The new `integration/test_profile_v2.py` suite uses Tier 2 independently authored
+GGUF byte fixtures, capped at 64 KiB by the existing builder. Its helper belongs
+under `helpers/`; no product encoder constructs expected bytes. The suite covers
+the file/CLI/profile/rebuild seams without a database, network or model engine.
+Unittest module/class names declare the integration/Tier 2 scope; the older
+flat test modules remain grandfathered. Existing reader/repair/CLI modules total
+64 cases and are relevant regressions after these source changes. The unchanged
+16 diagnostics cases are excluded from this packet.
+
+A separately reviewed `scripts/` controller will run those cases once in owned
+free public CI, then use only the exact pinned 15M reference/quantized public
+files for v2 inspect, selected F32/Q4 plan, repair and candidate inspection.
+Every unquantized binding must be freshly evaluated, including the fixture's
+13 F32 payloads; every unselected output payload, including Q8, must retain its
+input hash. Source/input identity, budgets, originals, manifest-last completion,
+process closure and temporary teardown are required. The raw model/candidate
+bytes stay in owned disposable runner storage, never Git or local storage.
+This is Tier 2 isolated static public-fixture integration, with actual container
+bytes rather than synthetic weights. No database tiers or production roles.
+
+No new passing count, accepted pair or candidate is recorded yet. Historical
+v1 fixture and observation results remain unchanged and cannot prove v2.

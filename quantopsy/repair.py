@@ -12,7 +12,7 @@ import stat
 import struct
 from typing import BinaryIO
 
-from .contracts import DEFAULT_LIMITS, TYPE_F16, TYPE_F32, TYPE_Q4_0, TensorInfo
+from .contracts import DEFAULT_LIMITS, TYPE_F16, TYPE_F32, TYPE_Q4_0, TensorInfo, profile_version
 from .errors import QuantopsyError, fail
 from .gguf import GGUFFile
 from .io import canonical_json_bytes
@@ -94,10 +94,19 @@ def _dense_llama(source: GGUFFile, architecture: str) -> None:
             fail("repair_layout_unsupported", "Expert, fused, adapter and multimodal tensor layouts are unsupported.")
 
 
-def pair_inputs(reference: GGUFFile, quantized: GGUFFile, *, require_llama: bool = False) -> dict:
+def _matching_profile(reference: GGUFFile, quantized: GGUFFile, profile: str) -> int:
+    version = profile_version(profile)
+    if reference.profile != profile or quantized.profile != profile:
+        fail("repair_profile_mismatch", "Both opened inputs must use the explicitly requested compatibility profile.")
+    return version
+
+
+def pair_inputs(reference: GGUFFile, quantized: GGUFFile, *, require_llama: bool = False,
+                profile: str = "v1") -> dict:
     """Check compatibility, without claiming lineage or taking descriptor ownership."""
     if type(require_llama) is not bool:
         fail("repair_invalid_plan", "The dense-Llama requirement must be a boolean.")
+    _matching_profile(reference, quantized, profile)
     reference.assert_unchanged()
     quantized.assert_unchanged()
     if any(tensor.kind not in (TYPE_F32, TYPE_F16) for tensor in reference.tensors):
@@ -147,11 +156,14 @@ def _selection(names: object) -> list[str]:
     return result
 
 
-def validate_plan(value: object) -> dict:
+def validate_plan(value: object, *, profile: str = "v1") -> dict:
+    version = profile_version(profile)
+    reference_kind = TYPE_F16 if profile == "v1" else TYPE_F32
     raw = _record(value, {"kind", "schema_version", "reference", "quantized", "architecture", "provenance", "selected",
                           "added_weight_bytes", "max_added_bytes", "max_elements", "lineage", "behavioral_validation"})
-    if type(raw["kind"]) is not str or raw["kind"] != PLAN_KIND or type(raw["schema_version"]) is not int or raw["schema_version"] != 1 or type(raw["architecture"]) is not str or raw["architecture"] != "llama":
-        fail("repair_invalid_plan", "Use the supported version-one dense Llama repair plan.")
+    if type(raw["kind"]) is not str or raw["kind"] != PLAN_KIND or type(raw["schema_version"]) is not int or raw["schema_version"] != version or type(raw["architecture"]) is not str or raw["architecture"] != "llama":
+        message = "Use the supported version-one dense Llama repair plan." if profile == "v1" else "Use the supported version-two dense Llama repair plan."
+        fail("repair_invalid_plan", message)
     if type(raw["lineage"]) is not str or raw["lineage"] != "operator_declared_compatibility_checked" or type(raw["behavioral_validation"]) is not str or raw["behavioral_validation"] != "not_run":
         fail("repair_invalid_plan", "Repair plans cannot claim verified lineage or recovered behavior.")
     budget = _integer(raw["max_added_bytes"], 0, DEFAULT_LIMITS.max_output_bytes)
@@ -174,22 +186,23 @@ def validate_plan(value: object) -> dict:
         elements = _integer(row["elements"], 1, work)
         if shape[0] * shape[1] != elements or shape[0] % 32:
             fail("repair_selection_invalid", "Q4_0 repair matrices must contain whole 32-value rows.")
-        if type(row["reference_kind"]) is not int or row["reference_kind"] != TYPE_F16 or type(row["quantized_kind"]) is not int or row["quantized_kind"] != TYPE_Q4_0:
-            fail("repair_selection_invalid", "Restore Q4_0 tensors using matching F16 reference payloads.")
+        if type(row["reference_kind"]) is not int or row["reference_kind"] != reference_kind or type(row["quantized_kind"]) is not int or row["quantized_kind"] != TYPE_Q4_0:
+            message = "Restore Q4_0 tensors using matching F16 reference payloads." if profile == "v1" else "Restore Q4_0 tensors using matching F32 reference payloads."
+            fail("repair_selection_invalid", message)
         original_bytes = _integer(row["reference_bytes"], 1, DEFAULT_LIMITS.max_file_bytes)
         encoded_bytes = _integer(row["quantized_bytes"], 1, DEFAULT_LIMITS.max_file_bytes)
-        if original_bytes != elements * 2 or encoded_bytes != elements // 32 * 18:
+        if original_bytes != elements * (2 if profile == "v1" else 4) or encoded_bytes != elements // 32 * 18:
             fail("repair_selection_invalid", "Planned byte counts must match the supported tensor encodings.")
         total_elements += elements
         added_bytes += original_bytes - encoded_bytes
         rows.append({"name": row["name"], "dimensions": shape, "elements": elements,
-                     "reference_kind": TYPE_F16, "quantized_kind": TYPE_Q4_0,
+                     "reference_kind": reference_kind, "quantized_kind": TYPE_Q4_0,
                      "reference_sha256": _hash(row["reference_sha256"]), "quantized_sha256": _hash(row["quantized_sha256"]),
                      "reference_bytes": original_bytes, "quantized_bytes": encoded_bytes})
     _selection(names)
     if total_elements > work or added_bytes > budget or _integer(raw["added_weight_bytes"], 0, DEFAULT_LIMITS.max_output_bytes) != added_bytes:
         fail("repair_budget_exceeded", "The explicit selected work and added-weight budgets must cover this plan.")
-    result = {"kind": PLAN_KIND, "schema_version": 1, "reference": _input_binding(raw["reference"]),
+    result = {"kind": PLAN_KIND, "schema_version": version, "reference": _input_binding(raw["reference"]),
               "quantized": _input_binding(raw["quantized"]), "architecture": "llama", "provenance": _provenance(raw["provenance"]),
               "selected": rows, "added_weight_bytes": added_bytes, "max_added_bytes": budget, "max_elements": work,
               "lineage": "operator_declared_compatibility_checked", "behavioral_validation": "not_run"}
@@ -208,20 +221,24 @@ def _finite_values(source: GGUFFile, tensor: TensorInfo) -> None:
 
 
 def create_plan(reference: GGUFFile, quantized: GGUFFile, names: list[str], provenance: dict,
-                max_added_bytes: int, *, max_elements: int = DEFAULT_LIMITS.max_selected_elements) -> dict:
+                max_added_bytes: int, *, max_elements: int = DEFAULT_LIMITS.max_selected_elements,
+                profile: str = "v1") -> dict:
+    version = _matching_profile(reference, quantized, profile)
+    reference_kind = TYPE_F16 if profile == "v1" else TYPE_F32
     selected_names = _selection(names)
     declared = _provenance(provenance)
     budget = _integer(max_added_bytes, 0, DEFAULT_LIMITS.max_output_bytes)
     work = _integer(max_elements, 1, min(DEFAULT_LIMITS.max_selected_elements, reference.limits.max_selected_elements, quantized.limits.max_selected_elements))
-    pair = pair_inputs(reference, quantized, require_llama=True)
+    pair = pair_inputs(reference, quantized, require_llama=True, profile=profile)
     tensors = []
     elements = 0
     added = 0
     # Validate the complete selection and work bound before decoding any values.
     for name in selected_names:
         original, tensor = reference.tensor(name), quantized.tensor(name)
-        if len(tensor.dimensions) != 2 or original.kind != TYPE_F16 or tensor.kind != TYPE_Q4_0:
-            fail("repair_selection_invalid", "Choose rank-two Q4_0 matrices with matching F16 references.")
+        if len(tensor.dimensions) != 2 or original.kind != reference_kind or tensor.kind != TYPE_Q4_0:
+            message = "Choose rank-two Q4_0 matrices with matching F16 references." if profile == "v1" else "Choose rank-two Q4_0 matrices with matching F32 references."
+            fail("repair_selection_invalid", message)
         elements += tensor.elements
         added += original.nbytes - tensor.nbytes
         tensors.append((original, tensor))
@@ -235,10 +252,10 @@ def create_plan(reference: GGUFFile, quantized: GGUFFile, names: list[str], prov
                      "reference_kind": original.kind, "quantized_kind": tensor.kind,
                      "reference_sha256": reference.hash_tensor(original), "quantized_sha256": quantized.hash_tensor(tensor),
                      "reference_bytes": original.nbytes, "quantized_bytes": tensor.nbytes})
-    result = validate_plan({"kind": PLAN_KIND, "schema_version": 1, "reference": pair["reference"], "quantized": pair["quantized"],
+    result = validate_plan({"kind": PLAN_KIND, "schema_version": version, "reference": pair["reference"], "quantized": pair["quantized"],
                            "architecture": "llama", "provenance": declared, "selected": rows, "added_weight_bytes": added,
                            "max_added_bytes": budget, "max_elements": work, "lineage": "operator_declared_compatibility_checked",
-                           "behavioral_validation": "not_run"})
+                           "behavioral_validation": "not_run"}, profile=profile)
     reference.assert_unchanged()
     quantized.assert_unchanged()
     return result
@@ -427,10 +444,11 @@ def _zeros(target: BinaryIO, count: int) -> None:
 
 
 def _verify(reference: GGUFFile, quantized: GGUFFile, output: _Output, layout: list,
-            data_offset: int, total: int, selected: dict[str, dict]) -> dict:
+            data_offset: int, total: int, selected: dict[str, dict], *, profile: str = "v1") -> dict:
+    _matching_profile(reference, quantized, profile)
     output.check_file("candidate.gguf.partial")
     limits = replace(quantized.limits, max_file_bytes=quantized.limits.max_output_bytes)
-    with GGUFFile(output.path / "candidate.gguf.partial", limits=limits) as candidate:
+    with GGUFFile(output.path / "candidate.gguf.partial", limits=limits, profile=profile) as candidate:
         output.check_reader("candidate.gguf.partial", candidate)
         expected_metadata = [key for key in quantized.metadata if key != "general.file_type"]
         if list(candidate.metadata) != expected_metadata or any(candidate.metadata[key].encoded != quantized.metadata[key].encoded for key in expected_metadata):
@@ -452,11 +470,12 @@ def _verify(reference: GGUFFile, quantized: GGUFFile, output: _Output, layout: l
 
 
 def write_candidate(reference: GGUFFile, quantized: GGUFFile, plan: dict, output_dir: str | Path,
-                    *, reserve_bytes: int = 1024**3) -> dict:
-    accepted = validate_plan(plan)
+                    *, reserve_bytes: int = 1024**3, profile: str = "v1") -> dict:
+    version = _matching_profile(reference, quantized, profile)
+    accepted = validate_plan(plan, profile=profile)
     reserve = _integer(reserve_bytes, 0, _MAX_INTEGER)
     regenerated = create_plan(reference, quantized, [row["name"] for row in accepted["selected"]], accepted["provenance"],
-                              accepted["max_added_bytes"], max_elements=accepted["max_elements"])
+                              accepted["max_added_bytes"], max_elements=accepted["max_elements"], profile=profile)
     if regenerated != accepted:
         fail("repair_plan_mismatch", "The supplied plan no longer matches the opened inputs and explicit repair intent.")
     plan_bytes = canonical_json_bytes(accepted)
@@ -485,13 +504,13 @@ def write_candidate(reference: GGUFFile, quantized: GGUFFile, plan: dict, output
                     fail("repair_verification_failed", "The candidate byte count differs from its planned layout.")
                 target.flush()
                 os.fsync(target.fileno())
-            candidate = _verify(reference, quantized, output, layout, data_offset, total, selected)
+            candidate = _verify(reference, quantized, output, layout, data_offset, total, selected, profile=profile)
             if _binding(reference) != accepted["reference"] or _binding(quantized) != accepted["quantized"]:
                 fail("repair_plan_mismatch", "Complete source hashes changed while writing the candidate.")
             reference.assert_unchanged()
             quantized.assert_unchanged()
             output.install("candidate.gguf.partial", "candidate.gguf")
-            manifest = {"schema_version": 1, "kind": MANIFEST_KIND,
+            manifest = {"schema_version": version, "kind": MANIFEST_KIND,
                         "plan_sha256": hashlib.sha256(plan_bytes).hexdigest(),
                         "reference": accepted["reference"], "quantized": accepted["quantized"], "output": candidate,
                         "architecture": "llama", "selected": accepted["selected"], "added_weight_bytes": accepted["added_weight_bytes"],
@@ -502,7 +521,7 @@ def write_candidate(reference: GGUFFile, quantized: GGUFFile, plan: dict, output
             # Re-open the installed inode and retain its reader fence through
             # completion, including same-inode size/content changes after link.
             limits = replace(quantized.limits, max_file_bytes=quantized.limits.max_output_bytes)
-            with GGUFFile(output.path / "candidate.gguf", limits=limits) as installed:
+            with GGUFFile(output.path / "candidate.gguf", limits=limits, profile=profile) as installed:
                 output.check_reader("candidate.gguf", installed)
                 if installed.sha256() != candidate["sha256"]:
                     fail("repair_verification_failed", "The installed candidate differs from the verified container.")

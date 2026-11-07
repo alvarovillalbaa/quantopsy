@@ -6,7 +6,7 @@ from contextlib import ExitStack
 from pathlib import Path
 import sys
 
-from .contracts import DEFAULT_LIMITS, TYPE_NAMES
+from .contracts import DEFAULT_LIMITS, TYPE_NAMES, profile_version
 from .diagnostics import diagnose, probe
 from .errors import QuantopsyError, fail
 from .gguf import GGUFFile
@@ -28,12 +28,14 @@ def _parser() -> argparse.ArgumentParser:
     commands = parser.add_subparsers(dest="command", required=True)
     inspect = commands.add_parser("inspect", help="Read a supported GGUF container and its complete hash.")
     inspect.add_argument("model")
+    inspect.add_argument("--profile", choices=("v1", "v2"), default="v1",
+                         help="Explicit compatibility profile; v2 admits opaque Q8_0 tensors.")
     inspect.add_argument("--output", help="Create a new JSON file instead of printing the report.")
 
     def paired(name: str, help_text: str) -> argparse.ArgumentParser:
         command = commands.add_parser(name, help=help_text)
         command.add_argument("reference", help="Regular unquantized F32/F16 GGUF file.")
-        command.add_argument("quantized", help="Regular compatible F32/F16/Q4_0 GGUF file.")
+        command.add_argument("quantized", help="Regular compatible GGUF file under the command's compatibility profile.")
         return command
 
     compare = paired("diagnose", "Compare explicitly selected tensor values.")
@@ -45,12 +47,16 @@ def _parser() -> argparse.ArgumentParser:
     linear.add_argument("--max-elements", type=int, default=DEFAULT_LIMITS.max_selected_elements)
     linear.add_argument("--output")
     plan = paired("plan", "Bind an explicit selected-tensor restoration intent.")
+    plan.add_argument("--profile", choices=("v1", "v2"), default="v1",
+                      help="v1 restores selected F16 bytes; v2 restores selected F32 bytes.")
     plan.add_argument("--tensor", action="append", required=True)
     plan.add_argument("--provenance", required=True, help="Declared model/revision/license/source JSON.")
     plan.add_argument("--max-added-bytes", type=int, required=True)
     plan.add_argument("--max-elements", type=int, default=DEFAULT_LIMITS.max_selected_elements)
     plan.add_argument("--output", required=True, help="Create a new bound repair-plan JSON file.")
     repair = paired("repair", "Verify a bound plan and create a new GGUF candidate bundle.")
+    repair.add_argument("--profile", choices=("v1", "v2"), default="v1",
+                        help="Must match both the explicit plan version and input-reader profile.")
     repair.add_argument("--plan", required=True)
     repair.add_argument("--output-dir", required=True, help="Must not already exist, including empty directories.")
     repair.add_argument("--reserve-bytes", type=int, default=1024**3,
@@ -64,7 +70,7 @@ def _inspect(model: GGUFFile) -> dict[str, object]:
         return entry.value if entry and type(entry.value) in (str, int, float, bool) else None
 
     return {
-        "schema_version": 1, "kind": "quantopsy.container-inspection",
+        "schema_version": profile_version(model.profile), "kind": "quantopsy.container-inspection",
         "file": {"name": model.path.name, "size": model.file_size, "sha256": model.sha256()},
         "architecture": scalar("general.architecture"), "model_name": scalar("general.name"),
         "quantization_version": scalar("general.quantization_version"),
@@ -89,24 +95,27 @@ def _emit(value: object, output: str | None) -> None:
 def main(argv: list[str] | None = None) -> int:
     try:
         args = _parser().parse_args(argv)
+        profile = getattr(args, "profile", "v1")
+        profile_version(profile)
+        reader_options = {} if profile == "v1" else {"profile": profile}
         with ExitStack() as resources:
             if args.command == "inspect":
-                model = resources.enter_context(GGUFFile(args.model))
+                model = resources.enter_context(GGUFFile(args.model, **reader_options))
                 _emit(_inspect(model), args.output)
                 return 0
-            reference = resources.enter_context(GGUFFile(args.reference))
-            quantized = resources.enter_context(GGUFFile(args.quantized))
+            reference = resources.enter_context(GGUFFile(args.reference, **reader_options))
+            quantized = resources.enter_context(GGUFFile(args.quantized, **reader_options))
             if args.command == "diagnose":
                 result = diagnose(reference, quantized, args.tensor, max_elements=args.max_elements)
             elif args.command == "probe":
                 result = probe(reference, quantized, read_json(args.probes), max_elements=args.max_elements)
             elif args.command == "plan":
                 result = create_plan(reference, quantized, args.tensor, read_json(args.provenance),
-                                     args.max_added_bytes, max_elements=args.max_elements)
+                                     args.max_added_bytes, max_elements=args.max_elements, profile=profile)
             else:
-                plan = validate_plan(read_json(args.plan))
+                plan = validate_plan(read_json(args.plan), profile=profile)
                 result = write_candidate(reference, quantized, plan, args.output_dir,
-                                         reserve_bytes=args.reserve_bytes)
+                                         reserve_bytes=args.reserve_bytes, profile=profile)
             _emit(result, getattr(args, "output", None))
         return 0
     except QuantopsyError as error:

@@ -20,6 +20,8 @@ from .contracts import (
     TYPE_F16,
     TYPE_F32,
     TYPE_Q4_0,
+    TYPE_Q8_0,
+    profile_version,
 )
 from .errors import fail
 
@@ -71,11 +73,14 @@ class GGUFFile:
 
     The admitted subset has at least one tensor, little-endian version 3,
     F32/F16/Q4_0 payloads, and non-nested scalar/string metadata arrays.
+    The explicit v2 profile also admits opaque Q8_0 payloads.
     Tensor offsets remain relative to ``data_offset`` in the public records.
     """
 
-    def __init__(self, path: str | Path, limits: Limits = DEFAULT_LIMITS) -> None:
+    def __init__(self, path: str | Path, limits: Limits = DEFAULT_LIMITS, *, profile: str = "v1") -> None:
         self._fd: int | None = None
+        profile_version(profile)
+        self._profile = profile
         _check_limits(limits)
         self.limits = limits
         try:
@@ -98,6 +103,10 @@ class GGUFFile:
         except BaseException:
             self._close_quietly()
             raise
+
+    @property
+    def profile(self) -> str:
+        return self._profile
 
     def _open(self) -> None:
         try:
@@ -279,8 +288,13 @@ class GGUFFile:
                 if dimensions[0] % 32:
                     fail("gguf_invalid_dimensions", "Q4_0 rows must contain whole 32-value blocks.")
                 nbytes = elements // 32 * 18
+            elif kind == TYPE_Q8_0 and self.profile == "v2":
+                if dimensions[0] % 32:
+                    fail("gguf_invalid_dimensions", "Q8_0 rows must contain whole 32-value blocks.")
+                nbytes = elements // 32 * 34
             else:
-                fail("gguf_tensor_type_unsupported", "Only F32, F16 and Q4_0 tensor payloads are supported.")
+                message = "Only F32, F16 and Q4_0 tensor payloads are supported." if self.profile == "v1" else "Only F32, F16, Q4_0 and opaque Q8_0 tensor payloads are supported."
+                fail("gguf_tensor_type_unsupported", message)
             if offset % self.alignment:
                 fail("gguf_invalid_alignment", "Each tensor offset must respect the GGUF alignment.")
             tensor = TensorInfo(name=name, dimensions=dimensions, kind=kind, offset=offset, nbytes=nbytes, elements=elements)
@@ -296,10 +310,11 @@ class GGUFFile:
             if tensor.offset > self.file_size - self.data_offset or tensor.nbytes > self.file_size - self.data_offset - tensor.offset:
                 fail("gguf_truncated", "A declared tensor extends beyond the GGUF input.")
             previous_end = tensor.offset + tensor.nbytes
-        if any(tensor.kind == TYPE_Q4_0 for tensor in tensors):
+        if any(tensor.kind in (TYPE_Q4_0, TYPE_Q8_0) for tensor in tensors):
             quantization = metadata.get("general.quantization_version")
             if quantization is None or quantization.kind != 4 or type(quantization.value) is not int or quantization.value != 2:
-                fail("gguf_quantization_unsupported", "Q4_0 inputs must declare supported quantization version 2.")
+                message = "Q4_0 inputs must declare supported quantization version 2." if self.profile == "v1" else "Q4_0 and Q8_0 inputs must declare supported quantization version 2."
+                fail("gguf_quantization_unsupported", message)
         self.tensors = tuple(tensors)
 
     def tensor(self, name: str) -> TensorInfo:
@@ -331,7 +346,14 @@ class GGUFFile:
 
     def iter_values(self, tensor: TensorInfo) -> Iterator[float]:
         self._owned_tensor(tensor)
-        width = 4 if tensor.kind == TYPE_F32 else 2 if tensor.kind == TYPE_F16 else 18
+        if tensor.kind == TYPE_F32:
+            width = 4
+        elif tensor.kind == TYPE_F16:
+            width = 2
+        elif tensor.kind == TYPE_Q4_0:
+            width = 18
+        else:
+            fail("gguf_tensor_decode_unsupported", "Numerical decoding supports only F32, F16 and Q4_0 tensors.")
         carry = b""
         for chunk in self.iter_tensor_bytes(tensor):
             data = carry + chunk
@@ -342,7 +364,7 @@ class GGUFFile:
                     if not math.isfinite(value):
                         fail("gguf_nonfinite_weight", "Selected weight values must be finite.")
                     yield value
-            else:
+            elif tensor.kind == TYPE_Q4_0:
                 for offset in range(0, usable, 18):
                     scale = struct.unpack_from("<e", data, offset)[0]
                     if not math.isfinite(scale):

@@ -26,3 +26,17 @@ the resulting source has not yet passed its proposed fixture checks.
 
 The [format contract](format.md) documents product limits and evidence fields.
 Actual model behavior remains governed by the [acceptance contract](spec.md).
+
+## Q8_0 opaque profile source — 7 November 2026
+
+The opt-in v2 span calculation uses the same immutable llama.cpp revision:
+[type ID 8](https://github.com/ggml-org/llama.cpp/blob/eb4e244be77a906a183cd4a00fd51d9ad3200955/ggml/include/ggml.h#L390-L400),
+[Q8_0 block](https://github.com/ggml-org/llama.cpp/blob/eb4e244be77a906a183cd4a00fd51d9ad3200955/ggml/src/ggml-common.h#L251-L256),
+[row sizing](https://github.com/ggml-org/llama.cpp/blob/eb4e244be77a906a183cd4a00fd51d9ad3200955/ggml/src/ggml.c#L1357-L1362)
+and [tensor sizing](https://github.com/ggml-org/llama.cpp/blob/eb4e244be77a906a183cd4a00fd51d9ad3200955/ggml/src/ggml.c#L1811-L1814).
+The block has a two-byte scale and 32 signed one-byte entries: 34 bytes for 32
+values, with complete blocks along dimension zero. These excerpts were inspected
+through GitHub by the independent source reviewer. No upstream implementation,
+weights or engine is vendored; Quantopsy only bounds, copies and hashes Q8 bytes.
+Its numerical decoder explicitly refuses that encoding. Requiring quantization
+version 2 for Q8 is a conservative local admission policy, not an upstream rule.
