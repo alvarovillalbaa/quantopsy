@@ -1,6 +1,10 @@
 # Dispatch-only public GGUF observation — candidate 2
 
-Status: preparation, unrun. The [first control](../results/2026/11-07/public-gguf-observation-attempt-1.md)
+Status: [diagnostic observations completed](../results/2026/11-07/public-gguf-observation-attempt-2.md)
+at source `a604b0df2c176630ddcc8874477dea7e797ce01f`, run 42373655591.
+Two F32 containers were admitted; the Q8_0-containing file was refused. Pair and
+product acceptance remain false. The workflow is disabled; original source,
+refusal and owned teardown were audited. The preparation contract follows. The [first control](../results/2026/11-07/public-gguf-observation-attempt-1.md)
 remains UNRUN, with zero observed workflow runs and no model/CLI result.
 GitHub's [create-event documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#create)
 does not establish the cause. Do not attribute it to an unverified default-branch

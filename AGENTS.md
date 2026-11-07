@@ -74,3 +74,12 @@ Disable the owned workflow and retire the active QA body after a terminal run;
 remove the temporary default stub only through the final reviewed publication.
 No authentication, Actions permission, dependency, app-code, file, inference
 or paid-service scope is broadened.
+
+The [actual public-file receipt](docs/results/2026/11-07/public-gguf-observation-attempt-2.md) records diagnostic completion
+at `a604b0df2c176630ddcc8874477dea7e797ce01f`, with two admitted F32
+containers and one retained Q8_0 refusal. Restoration-pair and product admission
+remain false; no unquantized payload equality, candidate or behavior is proved.
+The owned workflow is disabled. First control remains UNRUN; keep both scopes
+closed and their source/input/output identities intact before new work.
+The temporary default stub is retired in the later publication; its presence
+and hash above describe the checked preparation only.

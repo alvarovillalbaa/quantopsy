@@ -30,3 +30,9 @@ is preserved, without fabricated runtime outputs. Candidate 2 changes only
 event/ref/source guards and dispatch controls. Its default-branch registration
 stub stays inert; a fixed-source job may execute only on the exact reviewed QA2
 ref. Domain logic, public inputs and acceptance distinctions remain unchanged.
+
+The [actual second-control receipt](../docs/results/2026/11-07/public-gguf-observation-attempt-2.md) observed all three fixed
+files on Linux/Python 3.12.3: inspect exits 0/0/2. This is diagnostic completion;
+the Q8_0-containing file and F32-reference restoration pair remain unadmitted.
+The first control is UNRUN, not a failed or passing runtime test. Raw originals,
+source guards and weight teardown are preserved separately from future scopes.
