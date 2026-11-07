@@ -34,3 +34,43 @@
   copies, installs or builds. Do not bypass a failure or clean unrelated work.
 - Keep contracts, provenance and evidence in docs/. State source publication,
   format checks, inference/behavior, runner and distribution limits separately.
+
+## Approved public GGUF observations — 7 November 2026
+
+The owner's standing "I approve everything / Keep going / Do all the work"
+covers the [separate public-artifact packet](docs/proposals/public-gguf-observation.md):
+one temporary free public Ubuntu job, at most 15 minutes, on
+`qa/quantopsy-artifacts-20261107-1`. Read only three explicitly pinned public
+GGUF fixtures (118,620,640 bytes total), independently observe their bounded
+headers/inventories, and run the existing `inspect` CLI once per file.
+Do not rerun the closed 80-case fixture suite, change application code, install
+dependencies, execute model code/inference, create probes/repairs or use accounts.
+
+Diagnostic completion is separate from each actual container-admission result
+and from F16/Q4_0 restoration-pair admission. A refusal stays false with original
+exit/output; no pre-authored positive pair or behavior-recovery claim is allowed.
+Keep both full input hashes, actual descriptor evidence and all source/output
+limits. Preserve HOME; use owned runner-only weight/temp paths, verify unchanged
+inputs, reaping/EOF/groups and scoped teardown. Never commit weight/tokenizer
+payloads. Disable/retire the workflow after its terminal run; another attempt
+requires a concrete changed repair. Local Storage Guard still forbids heavy
+operations below reserve; no local download, install, build or runtime exception.
+
+## Approved documented manual control — candidate 2
+
+The create-event source remained [unrun](docs/results/2026/11-07/public-gguf-observation-attempt-1.md);
+no runtime failure, model-file result or cause is inferred. Standing approval
+covers the concrete dispatch-only control change. Default branch contains a
+constant-false inert stub at `.github/workflows/public-gguf-observation-2.yml`;
+it performs no checkout or observation. The reviewed QA activation supplies
+the executable workflow only for `qa/quantopsy-artifacts-20261107-2`, exact
+workflow_dispatch event/repository/public ref, and fixed reviewed SOURCE_COMMIT.
+No dispatch inputs may choose code, input files or runner arguments.
+
+Keep the inert stub byte-exact in checked source, preserve the first source/note,
+and retain every domain/helper/input/hash/resource limit from candidate 1.
+The first actual invocation still needs all original outputs and owned teardown.
+Disable the owned workflow and retire the active QA body after a terminal run;
+remove the temporary default stub only through the final reviewed publication.
+No authentication, Actions permission, dependency, app-code, file, inference
+or paid-service scope is broadened.
