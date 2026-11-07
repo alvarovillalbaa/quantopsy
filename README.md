@@ -68,8 +68,19 @@ Source authoring/static checks and publication are recorded in the
 GGUF, diagnostics, repair and CLI fixture checks passed on Python 3.14.7 at
 `b6f355290df7cdb5ed673dbf5865cf4f99dfe0e9`; see the
 [2 November result](docs/results/2026/11-02/fixture-checks.md) for exact cases,
-source guards and cleanup. No real checkpoint, model inference or behavioral
-recovery is established. The full project remains unfinished at those gates.
+source guards and cleanup.
+
+The separate [7 November public-file observations](docs/results/2026/11-07/public-gguf-observation-attempt-2.md) completed on
+Linux/Python 3.12.3, using three fixed complete file hashes. The small container
+has 48 F32 tensors; the 15M reference has 57 F32 tensors. Both were admitted.
+The Q4-labelled file has 43 Q4_0, 13 F32 and one Q8_0 tensor; its real inspect
+exit 2 is preserved because Q8_0 is outside this profile. The explicitly selected
+288 × 288 reference matrix is F32, rather than required F16. The restoration
+pair remains unadmitted; unquantized payload equality was not evaluated.
+This is actual container evidence, with verified owned remote weight teardown,
+not repair, inference, lineage or recovered behavior. No local weights are
+included. The earlier create-event control remains UNRUN. The full project
+remains unfinished at compatible-pair and behavioral acceptance gates.
 
 This is a local CLI, so no Vercel/Supabase deployment is needed for its current
 execution path. No account, paid plan or provider is provisioned.
