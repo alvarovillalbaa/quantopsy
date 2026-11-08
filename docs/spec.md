@@ -78,9 +78,11 @@ offsets, metadata, budgets, tampering, overwrite refusal and failure cleanup.
 These domain checks need the supplied AGENTS.md §7 approval before execution.
 No fixture is an actual LLM or evidence of recovered behavior.
 
-Real-model acceptance still needs a selected licensed model pair, storage and
-compute capacity, an approved local inference engine, frozen tasks, paired
-reference/quantized/candidate results and regression thresholds. Broader GGUF
-types/formats and distribution remain open. This source slice does not complete
-Quantopsy or the portfolio objective. No Vercel/Supabase backend is needed for
-the current local CLI; no hosted replacement is claimed.
+The [8 November experiment](results/2026/11-08/behavioral-inference-attempt-2.md)
+completed actual frozen reference/quantized/candidate CPU measurements and
+verified teardown on public 15M files. Its candidate failed the predeclared
+recovery criteria: 11 qualifying losses, 10 recovered, four regressions. This
+provides a real negative evaluation, not full behavioral acceptance. Broader
+held-out recovery studies, GGUF types/formats and distribution remain open.
+This does not complete Quantopsy or the portfolio objective. No Vercel/Supabase
+backend is needed for the current local CLI; no hosted replacement is claimed.

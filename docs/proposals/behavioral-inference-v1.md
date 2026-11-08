@@ -84,3 +84,9 @@ checks. It binds the first receipt and every unchanged application/test input
 instead of repeating the closed 51 cases. Fresh model/candidate/build/inference
 and verified cleanup remain mandatory. No task, metric, threshold, selection,
 engine scorer, provider, cost or product runtime scope changes.
+
+The [second result](../results/2026/11-08/behavioral-inference-attempt-2.md)
+completed the unchanged experiment and verified cleanup. Recovery failed the
+frozen criteria (11 qualifying losses, 10 recovered, four regressions). This
+protocol is closed; preserve both attempts rather than changing thresholds or
+tasks to reverse the outcome.

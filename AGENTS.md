@@ -151,3 +151,13 @@ their existing restrictions. Record finite refusal details. Reuse the closed
 51-case receipt only after binding unchanged application/test inputs; no repeated
 test or model-quality pass is implied. Fresh build/candidate/inference and owned
 teardown remain required. The predeclared experiment is unchanged.
+
+The [second behavioral invocation](docs/results/2026/11-08/behavioral-inference-attempt-2.md)
+completed 24 actual task/role measurements and verified owned teardown at
+`40b0e846`. Its frozen decision is NEGATIVE: 11 qualifying losses, 10 recovered,
+four regressions. The 51 exact-input checks are retained first-run evidence,
+not rerun. Preserve both originals and the negative protocol; do not retune it
+or describe it as semantic/general recovery. This scope is closed. Temporary
+controls are disabled/retired; final publication removes default registration.
+Future strategy changes need a separate versioned predeclared study rather
+than overwriting these results. Full product acceptance remains open.

@@ -9,10 +9,13 @@ It uses Python 3.11+ and the standard
 library on POSIX macOS/Linux, with no model download, hosted service or inference
 engine. No Python/platform runtime matrix has been verified yet.
 
-**Behavioral recovery is not established.** Parameter error and supplied linear
-probes do not measure end-to-end task quality. A created candidate still needs
-frozen reference/quantized/candidate inference and regression checks. The
-[product contract](docs/spec.md) preserves that full objective.
+**The first inference experiment failed its recovery criteria.** Actual
+reference/quantized/candidate inference recovered 10 of 11 qualifying losses
+but exceeded four regression limits on eight frozen story tasks. The
+[full result](docs/results/2026/11-08/behavioral-inference-attempt-2.md) retains
+the negative verdict and original token measurements. Parameter error and
+linear probes remain separate diagnostics; general behavioral recovery and
+the [full product objective](docs/spec.md) remain open.
 
 ## Use from source
 
@@ -59,8 +62,9 @@ python3 -m quantopsy compare-behavior --suite suite.json --config config.json \
   --repair-manifest candidate-bundle/repair.json --output comparison.json
 ```
 
-This is a usage example. The [first inference packet](docs/proposals/behavioral-inference-v1.md)
-remains pending until actual execution and original measurements are reviewed.
+This is a usage example. The [first frozen experiment](docs/results/2026/11-08/behavioral-inference-attempt-2.md)
+completed real CPU inference and verified teardown, with a negative recovery
+decision. The application itself still imports data-only measurements.
 
 The [first invocation](docs/results/2026/11-08/behavioral-inference-attempt-1.md)
 passed 51 focused checks and built the scorer, then failed a build-file admission
@@ -137,6 +141,9 @@ All 13 unquantized bindings and 57 prescribed output payloads matched, including
 the unchanged opaque Q8 payload. The 19,362,432-byte candidate was disposed of
 after verification; it is not distributed here. The earlier v1 refusal remains
 unchanged. Model inference, recovered behavior and full-product acceptance
-remain unproved; default v1 still excludes Q8 and requires selected F16 bytes.
+were not evaluated by that byte-level packet. The separate
+[8 November experiment](docs/results/2026/11-08/behavioral-inference-attempt-2.md)
+completed inference and failed its recovery criteria. Default v1 still excludes
+Q8 and requires selected F16 bytes.
 
 MIT licensed. Original implementation; see [primary sources](docs/sources.md).

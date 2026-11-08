@@ -88,3 +88,11 @@ The [first invocation](../docs/results/2026/11-08/behavioral-inference-attempt-1
 passed these 51 cases at `f2b3c812`; a later controller-only repair reuses that
 closed result only after verifying its receipt and unchanged app/test bytes.
 Actual inference and verified scratch removal did not occur in the first run.
+
+The [second invocation](../docs/results/2026/11-08/behavioral-inference-attempt-2.md)
+completed three real CPU runs/eight tasks each, with all 50 child commands and
+owned cleanup verified. It reused the unchanged 51-check evidence, explicitly
+without executing those cases again. Independent original-stream audits
+recomputed all 24 task metrics and 16 threshold decisions. The candidate failed
+with 11 qualifying/10 recovered/four regression cases. Keep this negative study
+closed and immutable; broader recovery remains a separate objective.
