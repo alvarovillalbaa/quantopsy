@@ -1,0 +1,11 @@
+name: Quantopsy frozen behavioral inference
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  registration-only:
+    if: ${{ false }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    steps:
+      - run: echo 'Inert registration only; no checkout or execution.'

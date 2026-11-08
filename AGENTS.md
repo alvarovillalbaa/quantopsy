@@ -118,3 +118,25 @@ normal process closure and owned artifact teardown. The workflow is disabled.
 Preserve this source and its immutable originals; do not repeat the closed
 scope without a concrete changed need. Product acceptance remains false and
 model inference/behavior recovery remain untested.
+
+## Approved frozen behavioral slice — 8 November 2026
+
+Standing owner approval covers the [behavioral contract](docs/proposals/behavioral-inference-v1.md):
+a data-only comparison command, focused authored checks and 16 relevant CLI
+regressions, then one temporary free public Ubuntu job capped at 20 minutes.
+The application stays Python-standard-library-only; it never downloads or
+executes an engine. Only the reviewed CI adapter may build pinned official
+llama.cpp and the authored CPU scorer with existing compiler/CMake.
+
+Predeclare 42 matrices, eight authored story tasks, teacher-forced metrics,
+thresholds and settings before output. Bind scorer/adapter/build sources,
+actual binary, tokenizer, all models and frozen records. Preserve all tasks,
+failures, regressions and token measurements; no outcome-based tuning.
+Execution completion and recovery criteria are separate outcomes. Imported JSON
+proves neither inference nor prior freezing; this tiny suite cannot establish
+broad semantic or general model recovery. Keep closed packets unchanged.
+
+Own and verify runner downloads/build/model outputs/processes and teardown;
+disable and retire temporary CI after the terminal invocation. No local storage
+exception, paid API, account, provider, production data or product dependency
+change is included.

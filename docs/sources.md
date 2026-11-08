@@ -40,3 +40,15 @@ through GitHub by the independent source reviewer. No upstream implementation,
 weights or engine is vendored; Quantopsy only bounds, copies and hashes Q8 bytes.
 Its numerical decoder explicitly refuses that encoding. Requiring quantization
 version 2 for Q8 is a conservative local admission policy, not an upstream rule.
+
+## Separate behavioral engine research — 8 November 2026
+
+The delegated engine author inspected the immutable llama.cpp b5046 API,
+decoder example, perplexity implementation and build options listed in the
+[protocol research](research/2026/11-08/behavioral-engine.md). Root independently
+verified commit `74d4f5b041ad837153b0e90fc864b8290e01d8d5` points to Git tree
+`9ae6f9dd0984b780c942ccf510e9cd5fcee9e724`, including its one disabled-backend
+gitlink. The reviewed authored scorer performs teacher-forced target scoring;
+it is a separate CI helper, never a product dependency. Source review is not
+compilation, inference or recovered behavior. See the
+[frozen packet](proposals/behavioral-inference-v1.md) for actual evidence gates.

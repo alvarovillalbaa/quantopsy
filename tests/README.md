@@ -66,3 +66,20 @@ Source `e18dee05` ran on preinstalled Linux/Python 3.12.3; 41 commands closed
 normally with zero exits and verified owned teardown. The 16 diagnostics cases
 were not repeated. Historical v1 results remain unchanged. No model inference,
 recovered behavior or full-product acceptance follows from this byte-level run.
+
+## Frozen behavioral slice
+
+`test_behavior.py` adds 35 authored Tier 2 data-only comparison cases with
+`behavior_fixtures.py`: exact Decimal decisions, nonvacuous recovery, regressions,
+coverage/order, strict identities/manifests, same-read hashes and create-only CLI
+outputs. These use fake fingerprints and measurements, never actual inference.
+The new packet runs them with the 16 relevant existing CLI cases (51 total).
+
+The [separate approved packet](../docs/proposals/behavioral-inference-v1.md)
+then performs actual teacher-forced CPU forwards on two pinned public models
+and one manually predeclared 42-matrix candidate. Trusted helper/scorer/build
+source lives under `helpers/`; the controller under `scripts/`. The product does
+not load an engine. Original token scores, frozen identities, source/process
+guards and owned teardown are required independently of comparison records.
+Experiment completion and the frozen recovery verdict remain separate. This
+small story suite cannot establish general or semantic behavioral recovery.

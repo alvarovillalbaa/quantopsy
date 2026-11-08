@@ -6,6 +6,7 @@ from contextlib import ExitStack
 from pathlib import Path
 import sys
 
+from .behavior import compare_behavior
 from .contracts import DEFAULT_LIMITS, TYPE_NAMES, profile_version
 from .diagnostics import diagnose, probe
 from .errors import QuantopsyError, fail
@@ -26,6 +27,15 @@ def _parser() -> argparse.ArgumentParser:
         epilog="Numerical diagnostics and restored tensors do not establish recovered model behavior.",
     )
     commands = parser.add_subparsers(dest="command", required=True)
+    behavior = commands.add_parser("compare-behavior", help="Compare frozen, supplied task measurements without executing a model.")
+    behavior.add_argument("--suite", required=True, help="Frozen data-only task and threshold JSON.")
+    behavior.add_argument("--config", required=True, help="Frozen engine and deterministic configuration JSON.")
+    behavior.add_argument("--models", required=True, help="Explicit complete reference/quantized/candidate identity JSON.")
+    behavior.add_argument("--reference-run", required=True)
+    behavior.add_argument("--quantized-run", required=True)
+    behavior.add_argument("--candidate-run", required=True)
+    behavior.add_argument("--repair-manifest", help="Bind the measured triplet to an existing complete repair manifest.")
+    behavior.add_argument("--output", required=True, help="Create a new comparison report; existing paths are refused.")
     inspect = commands.add_parser("inspect", help="Read a supported GGUF container and its complete hash.")
     inspect.add_argument("model")
     inspect.add_argument("--profile", choices=("v1", "v2"), default="v1",
@@ -95,6 +105,11 @@ def _emit(value: object, output: str | None) -> None:
 def main(argv: list[str] | None = None) -> int:
     try:
         args = _parser().parse_args(argv)
+        if args.command == "compare-behavior":
+            result = compare_behavior(args.suite, args.config, args.models, args.reference_run,
+                                      args.quantized_run, args.candidate_run, manifest_path=args.repair_manifest)
+            _emit(result, args.output)
+            return 0
         profile = getattr(args, "profile", "v1")
         profile_version(profile)
         reader_options = {} if profile == "v1" else {"profile": profile}

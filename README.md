@@ -45,6 +45,23 @@ paths, including empty directories and symlinks, are refused. The manifest is
 written last; use a bundle only when its completion manifest matches the model.
 An interrupted multi-file write is not an atomic transaction.
 
+## Compare supplied task measurements
+
+`compare-behavior` checks frozen reference/quantized/candidate records against
+explicit loss, recovery and regression limits. Missing/failed tasks stay visible;
+mismatched identities are refused. It does not execute models or authenticate
+imported results; see the [record contract](docs/behavior.md).
+
+```sh
+python3 -m quantopsy compare-behavior --suite suite.json --config config.json \
+  --models models.json --reference-run reference-run.json \
+  --quantized-run quantized-run.json --candidate-run candidate-run.json \
+  --repair-manifest candidate-bundle/repair.json --output comparison.json
+```
+
+This is a usage example. The [first inference packet](docs/proposals/behavioral-inference-v1.md)
+remains pending until actual execution and original measurements are reviewed.
+
 ## First supported profile
 
 - Single regular GGUF v3 little-endian files, with only F32/F16/Q4_0 tensors.

@@ -1,5 +1,6 @@
 """Bounded data-only JSON and create-only writes."""
 
+import hashlib
 import json
 import math
 import os
@@ -25,6 +26,11 @@ def _constant(_value: str) -> object:
 
 
 def read_json(path: str | Path, max_bytes: int = JSON_BYTES) -> object:
+    return read_json_document(path, max_bytes)[0]
+
+
+def read_json_document(path: str | Path, max_bytes: int = JSON_BYTES) -> tuple[object, str]:
+    """Return parsed data and the hash of those same bounded, unchanged bytes."""
     if type(max_bytes) is not int or max_bytes < 1:
         fail("invalid_limit", "The JSON byte limit must be a positive integer.")
     descriptor = None
@@ -56,7 +62,7 @@ def read_json(path: str | Path, max_bytes: int = JSON_BYTES) -> object:
         value = json.loads(data.decode("utf-8"), object_pairs_hook=_pairs,
                            parse_constant=_constant)
         _validate(value)
-        return value
+        return value, hashlib.sha256(data).hexdigest()
     except QuantopsyError:
         raise
     except (ValueError, UnicodeError, RecursionError):

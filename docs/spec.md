@@ -28,6 +28,13 @@ the caller's added-weight budget. `repair` rechecks that plan and writes a NEW
 bundle containing a GGUF candidate and a completion manifest. Inputs are never
 rewritten. No automatic model download, tensor selection, promotion or inference.
 
+The [behavior record contract](behavior.md) adds comparison of supplied task
+measurements. Strict identities, explicit loss/recovery/regression limits and
+ordered coverage prevent missing or zero-loss cases from counting as recovery.
+It neither executes inference nor authenticates imported claims. The separate
+[first inference packet](proposals/behavioral-inference-v1.md) uses a trusted
+CI-only scorer, outside the dependency-free product runtime.
+
 Supported containers are single-file, little-endian GGUF v3 with only F32, F16
 and Q4_0 tensors. Quantized rows must contain whole 32-value Q4_0 blocks. Other
 types, shards, malformed/overlapping spans and excessive work fail visibly.
