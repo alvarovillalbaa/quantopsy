@@ -2,32 +2,10 @@ name: Quantopsy frozen behavioral inference
 on: workflow_dispatch
 permissions:
   contents: read
-concurrency:
-  group: quantopsy-behavior-20261108-1
-  cancel-in-progress: false
 jobs:
-  frozen-behavior:
-    if: >-
-      github.event_name == 'workflow_dispatch' &&
-      github.ref == 'refs/heads/qa/quantopsy-behavior-20261108-1' &&
-      github.repository == 'alvarovillalbaa/quantopsy' &&
-      github.event.repository.private == false
+  registration-only:
+    if: ${{ false }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
-    env:
-      CI: 'true'
-      SOURCE_COMMIT: f2b3c812976dafcf8507713c8bb24ccdd4f63979
-      QUANTOPSY_ARTIFACT_PUBLIC_REPOSITORY: 'true'
+    timeout-minutes: 1
     steps:
-      - name: Record earliest owned job step
-        shell: bash
-        run: echo "QUANTOPSY_ARTIFACT_JOB_STARTED_MS=$(date +%s%3N)" >> "$GITHUB_ENV"
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          ref: ${{ env.SOURCE_COMMIT }}
-          fetch-depth: 2
-          persist-credentials: false
-          clean: false
-      - name: Frozen records, authored checks and actual three-role CPU inference
-        shell: bash
-        run: python3 -I -B -S tests/scripts/run-behavioral-inference.py --source-commit "$SOURCE_COMMIT"
+      - run: echo 'Inert registration only; no checkout or execution.'
