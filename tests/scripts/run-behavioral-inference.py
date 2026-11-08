@@ -24,9 +24,9 @@ import types
 import urllib.request
 
 
-BASE_COMMIT = "87f94dbe5af72b8492e53a7096147d617c810e0d"
+BASE_COMMIT = "f2b3c812976dafcf8507713c8bb24ccdd4f63979"
 REPOSITORY = "alvarovillalbaa/quantopsy"
-BRANCH = "refs/heads/qa/quantopsy-behavior-20261108-1"
+BRANCH = "refs/heads/qa/quantopsy-behavior-20261108-2"
 ACTIVE = ".github/workflows/behavioral-inference.yml"
 # The final prepared inert registration stub is filled by the publishing owner.
 # An absent pin is deliberately an execution refusal.
@@ -41,13 +41,11 @@ LLAMA_REVISION = "74d4f5b041ad837153b0e90fc864b8290e01d8d5"
 LLAMA_TREE = "9ae6f9dd0984b780c942ccf510e9cd5fcee9e724"
 ARCHIVE_URL = "https://codeload.github.com/ggml-org/llama.cpp/tar.gz/" + LLAMA_REVISION
 ARCHIVE_ROOT = "llama.cpp-" + LLAMA_REVISION
-MODIFIED_PRIOR = {"quantopsy/cli.py", "quantopsy/io.py", "AGENTS.md", "README.md",
-                  "docs/spec.md", "docs/sources.md", "tests/README.md"}
-ADDED_PATHS = {CONTROLLER, DATA_HELPER, SCORER, CMAKE, "quantopsy/behavior.py",
-               "tests/test_behavior.py", "tests/behavior_fixtures.py", ACTIVE,
-               "docs/behavior.md", "docs/proposals/behavioral-inference-v1.md",
-               "docs/research/2026/11-08/behavioral-engine.md",
-               "docs/proposals/behavioral-inference.workflow.yml.example"}
+MODIFIED_PRIOR = {CONTROLLER, "AGENTS.md", "README.md", "tests/README.md", "docs/proposals/behavioral-inference-v1.md"}
+PRIOR_RECEIPT = "docs/results/2026/11-08/behavioral-inference-attempt-1.json"
+PRIOR_RECEIPT_SHA256 = "e82d1e384bc4626ca210403580800ed3b7cc0f7ac30ecdd9887c1e8990ff031a"
+ADDED_PATHS = {PRIOR_RECEIPT, "docs/results/2026/11-08/behavioral-inference-attempt-1.log",
+               "docs/results/2026/11-08/behavioral-inference-attempt-1.md"}
 MAX_ARCHIVE = 64 * 1024**2
 MAX_EXTRACTED = 512 * 1024**2
 MAX_BUILD = 2 * 1024**3
@@ -78,6 +76,38 @@ _tree_frozen = set()
 def need(value, code):
     if not value:
         raise RuntimeError(code)
+
+
+def require_entry(value, code, path, info):
+    if not value:
+        relative = str(Path(path).relative_to(_c.root))
+        diagnostics = _c.report.setdefault("entryRefusals", [])
+        if len(diagnostics) < 16:
+            diagnostics.append({"code": code, "relativePath": relative[:1024],
+                                "mode": format(stat.S_IMODE(info.st_mode), "04o"), "bytes": info.st_size,
+                                "type": "file" if stat.S_ISREG(info.st_mode) else "directory" if stat.S_ISDIR(info.st_mode) else "other",
+                                "uidMatchesOwner": info.st_uid == os.getuid()})
+        need(False, code)
+
+
+def private_build_descendant(path):
+    relative = Path(path).relative_to(_c.root)
+    if len(relative.parts) < 2 or relative.parts[0] != "build":
+        return False
+    private = _c.root / "build"
+    value = private.lstat()
+    original = _c.known_directories.get("build")
+    require_entry(original is not None and stat.S_ISDIR(value.st_mode) and not private.is_symlink()
+                  and value.st_uid == os.getuid() and stat.S_IMODE(value.st_mode) == 0o700
+                  and (str(value.st_dev), str(value.st_ino)) == (original["device"], original["inode"]),
+                  "private_build_ancestor_changed", private, value)
+    parent = Path(path).parent
+    while parent != private:
+        value = parent.lstat()
+        require_entry(stat.S_ISDIR(value.st_mode) and not parent.is_symlink() and value.st_uid == os.getuid()
+                      and stat.S_IMODE(value.st_mode) in (0o700, 0o755), "build_ancestor_type_or_mode", parent, value)
+        parent = parent.parent
+    return True
 
 
 def load_fixed(path, name, expected=None):
@@ -122,8 +152,10 @@ def fingerprint(file, expected=None):
             break
         need(parent.is_dir() and not parent.is_symlink(), "input_ancestor_changed")
     before = file.lstat()
-    need(stat.S_ISREG(before.st_mode) and before.st_uid == os.getuid()
-         and stat.S_IMODE(before.st_mode) in (0o600, 0o700) and before.st_size <= MAX_BUILD, "input_type_or_bound")
+    modes = (0o600, 0o644, 0o700, 0o755) if private_build_descendant(file) else (0o600, 0o700)
+    require_entry(stat.S_ISREG(before.st_mode) and before.st_uid == os.getuid()
+                  and stat.S_IMODE(before.st_mode) in modes and before.st_size <= MAX_BUILD,
+                  "input_type_or_bound", file, before)
     fd = os.open(file, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
     digest = hashlib.sha256()
     try:
@@ -159,12 +191,14 @@ def admit_file(relative, *, mutable=False):
 def admit_directory(relative):
     path = _c.root / relative
     value = path.lstat()
-    need(stat.S_ISDIR(value.st_mode) and not path.is_symlink() and value.st_uid == os.getuid()
-         and stat.S_IMODE(value.st_mode) == 0o700, "owned_directory_type")
+    modes = (0o700, 0o755) if private_build_descendant(path) else (0o700,)
+    require_entry(stat.S_ISDIR(value.st_mode) and not path.is_symlink() and value.st_uid == os.getuid()
+                  and stat.S_IMODE(value.st_mode) in modes, "owned_directory_type", path, value)
     current = _c.file_identity(value)
     if relative in _c.known_directories:
         old = _c.known_directories[relative]
-        need((current["device"], current["inode"]) == (old["device"], old["inode"]), "owned_directory_replaced")
+        require_entry((current["device"], current["inode"], current["mode"]) == (old["device"], old["inode"], old["mode"]),
+                      "owned_directory_replaced_or_mode_changed", path, value)
     _c.known_directories[relative] = current
 
 
@@ -333,6 +367,7 @@ def preflight():
 
 
 def fixture_checks():
+    """Bind closed checks from attempt 1; execute no test or application code."""
     raw = _c.read(_c.repo / "tests/test_behavior.py", 128 * 1024)
     tree = ast.parse(raw)
     names = [node.name for item in tree.body if isinstance(item, ast.ClassDef) and item.name == "BehaviorComparisonTier2Tests"
@@ -341,14 +376,33 @@ def fixture_checks():
     cli_ids = [name for name in _c.FIXTURE_IDS if name.startswith("tests.test_cli.")]
     expected = sorted(["tests.test_behavior.BehaviorComparisonTier2Tests." + name for name in names] + cli_ids)
     need(len(cli_ids) == 16 and len(expected) == EXPECTED_BEHAVIOR_CASES + 16, "fixture_regression_count")
-    out, err, command = _c.run("behavior_and_relevant_cli_fixtures", [sys.executable, "-I", "-B", "-S", "-c", _c.FIXTURE_PROGRAM,
-                              str(_c.repo), "tests.test_behavior", "tests.test_cli"], 120, allowed=(0, 1))
-    prefix = b"QUANTOPSY_V2_FIXTURE_RESULT="
-    need(out.startswith(prefix) and out.endswith(b"\n") and out.count(prefix) == 1, "fixture_original_marker")
-    value = _c.strict_json(out[len(prefix):-1])
+    raw = _c.read(_c.repo / PRIOR_RECEIPT)
+    need(_c.sha(raw) == PRIOR_RECEIPT_SHA256, "prior_fixture_receipt_hash_mismatch")
+    prior = _c.strict_json(raw)
+    need(prior["sourceCommit"] == BASE_COMMIT
+         and prior["canonicalBaseCommit"] == "87f94dbe5af72b8492e53a7096147d617c810e0d"
+         and prior["fixture"]["accepted"] is True
+         and prior["fixture"]["modules"] == ["tests.test_behavior", "tests.test_cli"]
+         and prior["fixture"]["expected"] == 51, "prior_fixture_receipt_identity")
+    value = prior["fixture"]["actual"]
+    commands = [row for row in prior["commands"] if row["label"] == prior["fixture"]["originalCommand"]]
+    need(len(commands) == 1 and commands[0]["exitCode"] == 0 and commands[0]["normallyClosed"] is True
+         and all(commands[0][stream]["complete"] is True and commands[0][stream]["retained"] is True
+                 for stream in ("stdout", "stderr")), "prior_fixture_command_incomplete")
+    previous = {row["path"]: row for row in prior["sourceFiles"]}
+    current = {row["path"]: row for row in _c.source_vector}
+    fixed = sorted(name for name in previous if (name.startswith("quantopsy/") or name.startswith("tests/"))
+                   and name not in (CONTROLLER, "tests/README.md"))
+    need(fixed and all(name in current and current[name] == previous[name] for name in fixed),
+         "prior_fixture_application_or_test_input_changed")
+    need({name for name in current if name.startswith(("quantopsy/", "tests/")) and name not in (CONTROLLER, "tests/README.md")}
+         == set(fixed), "prior_fixture_input_set_changed")
     _c.report["fixture"] = {"modules": ["tests.test_behavior", "tests.test_cli"], "expected": len(expected),
-                             "actual": value, "accepted": False, "originalCommand": command["label"]}
-    need(command["exitCode"] == 0 and value["collected"] == value["testsRun"] == len(expected)
+                             "actual": value, "accepted": False, "executed": False,
+                             "evidence": {"file": PRIOR_RECEIPT, "sha256": PRIOR_RECEIPT_SHA256, "sourceCommit": BASE_COMMIT,
+                                          "originalCommand": commands[0]["label"], "matchedSourceInputs": fixed,
+                                          "priorPython": prior["python"]}}
+    need(type(value["collected"]) is int and type(value["testsRun"]) is int and value["collected"] == value["testsRun"] == len(expected)
          and value["identities"] == expected and all(type(value[key]) is int and value[key] == 0 for key in
          ("failures", "errors", "skips", "expectedFailures", "unexpectedSuccesses")), "fixture_checks_failed")
     _c.report["fixture"]["accepted"] = True
@@ -556,7 +610,8 @@ def build_engine():
             _c.report["engineBuildTree"] = admit_tree("build", mutable=True)
     admit_tree("upstream")
     _binary = fingerprint(_c.root / "build/quantopsy-behavioral-scorer")
-    need(_binary["mode"] == "0700", "scorer_executable_mode")
+    require_entry(_binary["mode"] in ("0700", "0755"), "scorer_executable_mode",
+                  _c.root / _binary["relativePath"], (_c.root / _binary["relativePath"]).lstat())
     _c.report["engineBinary"] = _binary
     source_guard("after_build")
 
@@ -859,11 +914,13 @@ def install_support():
     _c.subprocess = types.SimpleNamespace(Popen=bounded_popen, PIPE=_c.subprocess.PIPE,
         DEVNULL=_c.subprocess.DEVNULL, TimeoutExpired=_c.subprocess.TimeoutExpired)
     _c.report = {"schemaVersion": "quantopsy.behavioral-inference.v1", "sourceCommit": _c.source_commit,
+                 "attempt": 2, "fixtureTestsExecutedThisInvocation": False,
                  "canonicalBaseCommit": BASE_COMMIT, "packetStatus": "failed", "operationalCompleted": False,
                  "suppliedRecoveryRecordsPass": False, "globalBehavioralRecoveryAccepted": False,
                  "startedAtUtc": _c.utc(), "commands": [], "guards": [], "sourceFiles": [], "downloads": [],
                  "bindings": [], "inspections": [], "errors": [], "storageSamples": [], "generatedFiles": [],
                  "scope": {"fixtureModules": ["tests.test_behavior", "tests.test_cli"], "legacyCases": 16,
+                           "fixtureExecution": "retained_attempt_1_evidence_only",
                            "realModels": _c.FIXTURES, "taskCount": 8, "modelRoles": ["reference", "quantized", "candidate"],
                            "manualSelectedMatrices": 42, "inference": "teacher_forced_target_tokens_cpu", "sampling": False},
                  "limits": {"jobMinutes": 20, "workSeconds": 900, "cleanupSeconds": 90, "marginSeconds": 30,
@@ -876,6 +933,7 @@ def install_support():
                                  "A completed negative experiment remains operationally completed; command success does not imply recovery.",
                                  "The downloaded complete archive hash is observed; full native Git tree reconstruction separately binds its source files and one unfetched pinned gitlink to the reviewed commit tree. Model cryptographic lineage remains unproved.",
                                  "Application runtime remains Python standard library only; the fixed C++ scorer and pinned upstream build exist only in this owned CI packet.",
+                                 "The 51 unchanged application/CLI checks are retained attempt-1 evidence, not tests executed by this invocation; fresh inference and teardown remain required.",
                                  "No model, tokenizer payload or build output is distributed; raw per-token stdout and all normal command closures remain in this bounded receipt."]}
 
 

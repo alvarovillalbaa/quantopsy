@@ -62,6 +62,11 @@ python3 -m quantopsy compare-behavior --suite suite.json --config config.json \
 This is a usage example. The [first inference packet](docs/proposals/behavioral-inference-v1.md)
 remains pending until actual execution and original measurements are reviewed.
 
+The [first invocation](docs/results/2026/11-08/behavioral-inference-attempt-1.md)
+passed 51 focused checks and built the scorer, then failed a build-file admission
+guard before inference. Its cleanup remains unverified. The retained failure
+does not establish recovery; the changed control keeps the frozen study intact.
+
 ## First supported profile
 
 - Single regular GGUF v3 little-endian files, with only F32/F16/Q4_0 tensors.

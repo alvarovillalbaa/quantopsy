@@ -70,3 +70,17 @@ Local Storage Guard reports 10.1 GiB free versus 34.0 GiB required on 8 November
 No local weights, installs, app/model execution or builds. Static AST/whitespace
 review and evidence handling remain allowed. No paid plan/account, private or
 production data, provider/model API, production config or database is involved.
+
+## Changed control after the first failure
+
+The [first invocation](../results/2026/11-08/behavioral-inference-attempt-1.md)
+passed all 51 cases, actual candidate payload checks and the engine build, then
+failed build-tree file admission before freezing/inference. Cleanup is unverified.
+Preserve the exact originals; no model result exists to tune against.
+
+The second control changes only owned build-file admission and finite refusal
+diagnostics, retaining strict ordinary input restrictions and later identity
+checks. It binds the first receipt and every unchanged application/test input
+instead of repeating the closed 51 cases. Fresh model/candidate/build/inference
+and verified cleanup remain mandatory. No task, metric, threshold, selection,
+engine scorer, provider, cost or product runtime scope changes.

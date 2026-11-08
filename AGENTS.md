@@ -140,3 +140,14 @@ Own and verify runner downloads/build/model outputs/processes and teardown;
 disable and retire temporary CI after the terminal invocation. No local storage
 exception, paid API, account, provider, production data or product dependency
 change is included.
+
+The [first behavioral invocation](docs/results/2026/11-08/behavioral-inference-attempt-1.md)
+passed all 51 cases and candidate/source/build checks, then refused build-tree
+admission before inference. Preserve its originals and unverified teardown.
+Standing approval covers a changed second control: admit ordinary 0644/0755
+tool-generated build leaves only beneath the private owned build tree, retaining
+exact identity/mode/hash on later checks; ordinary model/source inputs keep
+their existing restrictions. Record finite refusal details. Reuse the closed
+51-case receipt only after binding unchanged application/test inputs; no repeated
+test or model-quality pass is implied. Fresh build/candidate/inference and owned
+teardown remain required. The predeclared experiment is unchanged.

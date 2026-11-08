@@ -83,3 +83,8 @@ not load an engine. Original token scores, frozen identities, source/process
 guards and owned teardown are required independently of comparison records.
 Experiment completion and the frozen recovery verdict remain separate. This
 small story suite cannot establish general or semantic behavioral recovery.
+
+The [first invocation](../docs/results/2026/11-08/behavioral-inference-attempt-1.md)
+passed these 51 cases at `f2b3c812`; a later controller-only repair reuses that
+closed result only after verifying its receipt and unchanged app/test bytes.
+Actual inference and verified scratch removal did not occur in the first run.
