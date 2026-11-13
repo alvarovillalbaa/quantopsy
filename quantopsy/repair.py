@@ -142,18 +142,33 @@ def pair_inputs(reference: GGUFFile, quantized: GGUFFile, *, require_llama: bool
     return result
 
 
-def _selection(names: object) -> list[str]:
+def _selection(names: object, *, profile: str = "v1") -> list[str]:
     if type(names) is not list or not 1 <= len(names) <= DEFAULT_LIMITS.max_tensors:
         fail("repair_selection_invalid", "Choose an explicit nonempty bounded list of repair tensors.")
     result = []
     seen = set()
     for name in names:
-        if type(name) is not str or len(name) > DEFAULT_LIMITS.max_tensor_name_bytes or not _TARGET.fullmatch(name) or name in seen:
+        if (type(name) is not str or len(name) > DEFAULT_LIMITS.max_tensor_name_bytes
+                or not (_TARGET.fullmatch(name) or profile == "v3" and name == "token_embd.weight")
+                or name in seen):
             fail("repair_selection_invalid", "Select each supported dense Llama matrix exactly once.")
         _text(name, DEFAULT_LIMITS.max_tensor_name_bytes)
         seen.add(name)
         result.append(name)
     return result
+
+
+def _embedding_shape(reference: GGUFFile, tensor: TensorInfo) -> None:
+    width = reference.metadata.get("llama.embedding_length")
+    tokens = reference.metadata.get("tokenizer.ggml.tokens")
+    vocabulary = reference.metadata.get("llama.vocab_size")
+    if (width is None or width.kind != 4 or type(width.value) is not int or width.value <= 0
+            or tokens is None or tokens.kind != 9 or tokens.array_kind != 8
+            or type(tokens.value) is not tuple or not tokens.value
+            or tensor.dimensions != (width.value, len(tokens.value))
+            or vocabulary is not None and (vocabulary.kind != 4 or type(vocabulary.value) is not int
+                                          or vocabulary.value != len(tokens.value))):
+        fail("repair_embedding_shape_invalid", "The input embedding must match the declared Llama width and tokenizer token count.")
 
 
 def validate_plan(value: object, *, profile: str = "v1") -> dict:
@@ -162,7 +177,9 @@ def validate_plan(value: object, *, profile: str = "v1") -> dict:
     raw = _record(value, {"kind", "schema_version", "reference", "quantized", "architecture", "provenance", "selected",
                           "added_weight_bytes", "max_added_bytes", "max_elements", "lineage", "behavioral_validation"})
     if type(raw["kind"]) is not str or raw["kind"] != PLAN_KIND or type(raw["schema_version"]) is not int or raw["schema_version"] != version or type(raw["architecture"]) is not str or raw["architecture"] != "llama":
-        message = "Use the supported version-one dense Llama repair plan." if profile == "v1" else "Use the supported version-two dense Llama repair plan."
+        message = ("Use the supported version-one dense Llama repair plan." if profile == "v1" else
+                   "Use the supported version-two dense Llama repair plan." if profile == "v2" else
+                   "Use the supported version-three dense Llama repair plan.")
         fail("repair_invalid_plan", message)
     if type(raw["lineage"]) is not str or raw["lineage"] != "operator_declared_compatibility_checked" or type(raw["behavioral_validation"]) is not str or raw["behavioral_validation"] != "not_run":
         fail("repair_invalid_plan", "Repair plans cannot claim verified lineage or recovered behavior.")
@@ -199,7 +216,7 @@ def validate_plan(value: object, *, profile: str = "v1") -> dict:
                      "reference_kind": reference_kind, "quantized_kind": TYPE_Q4_0,
                      "reference_sha256": _hash(row["reference_sha256"]), "quantized_sha256": _hash(row["quantized_sha256"]),
                      "reference_bytes": original_bytes, "quantized_bytes": encoded_bytes})
-    _selection(names)
+    _selection(names, profile=profile)
     if total_elements > work or added_bytes > budget or _integer(raw["added_weight_bytes"], 0, DEFAULT_LIMITS.max_output_bytes) != added_bytes:
         fail("repair_budget_exceeded", "The explicit selected work and added-weight budgets must cover this plan.")
     result = {"kind": PLAN_KIND, "schema_version": version, "reference": _input_binding(raw["reference"]),
@@ -225,7 +242,7 @@ def create_plan(reference: GGUFFile, quantized: GGUFFile, names: list[str], prov
                 profile: str = "v1") -> dict:
     version = _matching_profile(reference, quantized, profile)
     reference_kind = TYPE_F16 if profile == "v1" else TYPE_F32
-    selected_names = _selection(names)
+    selected_names = _selection(names, profile=profile)
     declared = _provenance(provenance)
     budget = _integer(max_added_bytes, 0, DEFAULT_LIMITS.max_output_bytes)
     work = _integer(max_elements, 1, min(DEFAULT_LIMITS.max_selected_elements, reference.limits.max_selected_elements, quantized.limits.max_selected_elements))
@@ -239,6 +256,8 @@ def create_plan(reference: GGUFFile, quantized: GGUFFile, names: list[str], prov
         if len(tensor.dimensions) != 2 or original.kind != reference_kind or tensor.kind != TYPE_Q4_0:
             message = "Choose rank-two Q4_0 matrices with matching F16 references." if profile == "v1" else "Choose rank-two Q4_0 matrices with matching F32 references."
             fail("repair_selection_invalid", message)
+        if name == "token_embd.weight":
+            _embedding_shape(reference, original)
         elements += tensor.elements
         added += original.nbytes - tensor.nbytes
         tensors.append((original, tensor))

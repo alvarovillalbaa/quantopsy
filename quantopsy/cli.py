@@ -38,8 +38,8 @@ def _parser() -> argparse.ArgumentParser:
     behavior.add_argument("--output", required=True, help="Create a new comparison report; existing paths are refused.")
     inspect = commands.add_parser("inspect", help="Read a supported GGUF container and its complete hash.")
     inspect.add_argument("model")
-    inspect.add_argument("--profile", choices=("v1", "v2"), default="v1",
-                         help="Explicit compatibility profile; v2 admits opaque Q8_0 tensors.")
+    inspect.add_argument("--profile", choices=("v1", "v2", "v3"), default="v1",
+                         help="Explicit compatibility profile; v2/v3 admit opaque Q8_0 tensors.")
     inspect.add_argument("--output", help="Create a new JSON file instead of printing the report.")
 
     def paired(name: str, help_text: str) -> argparse.ArgumentParser:
@@ -57,15 +57,15 @@ def _parser() -> argparse.ArgumentParser:
     linear.add_argument("--max-elements", type=int, default=DEFAULT_LIMITS.max_selected_elements)
     linear.add_argument("--output")
     plan = paired("plan", "Bind an explicit selected-tensor restoration intent.")
-    plan.add_argument("--profile", choices=("v1", "v2"), default="v1",
-                      help="v1 restores selected F16 bytes; v2 restores selected F32 bytes.")
+    plan.add_argument("--profile", choices=("v1", "v2", "v3"), default="v1",
+                      help="v1 restores F16, v2 restores F32 matrices, v3 also permits the explicit Q4_0 input embedding.")
     plan.add_argument("--tensor", action="append", required=True)
     plan.add_argument("--provenance", required=True, help="Declared model/revision/license/source JSON.")
     plan.add_argument("--max-added-bytes", type=int, required=True)
     plan.add_argument("--max-elements", type=int, default=DEFAULT_LIMITS.max_selected_elements)
     plan.add_argument("--output", required=True, help="Create a new bound repair-plan JSON file.")
     repair = paired("repair", "Verify a bound plan and create a new GGUF candidate bundle.")
-    repair.add_argument("--profile", choices=("v1", "v2"), default="v1",
+    repair.add_argument("--profile", choices=("v1", "v2", "v3"), default="v1",
                         help="Must match both the explicit plan version and input-reader profile.")
     repair.add_argument("--plan", required=True)
     repair.add_argument("--output-dir", required=True, help="Must not already exist, including empty directories.")

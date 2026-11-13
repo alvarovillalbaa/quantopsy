@@ -196,13 +196,13 @@ def _manifest(value: object, models: dict) -> None:
     raw = _record(value, {"schema_version", "kind", "plan_sha256", "reference", "quantized", "output",
                           "architecture", "selected", "added_weight_bytes", "max_added_bytes", "max_elements",
                           "reserve_bytes", "metadata_omissions", "provenance", "lineage", "behavioral_validation", "verification"})
-    if raw["kind"] != MANIFEST_KIND or type(raw["schema_version"]) is not int or raw["schema_version"] not in (1, 2):
+    if raw["kind"] != MANIFEST_KIND or type(raw["schema_version"]) is not int or raw["schema_version"] not in (1, 2, 3):
         fail("behavior_invalid_manifest", "Use a supported complete Quantopsy repair manifest.")
     _hash(raw["plan_sha256"])
     plan_fields = ("schema_version", "reference", "quantized", "architecture", "provenance", "selected",
                    "added_weight_bytes", "max_added_bytes", "max_elements", "lineage", "behavioral_validation")
     plan = validate_plan({"kind": PLAN_KIND, **{key: raw[key] for key in plan_fields}},
-                         profile="v1" if raw["schema_version"] == 1 else "v2")
+                         profile={1: "v1", 2: "v2", 3: "v3"}[raw["schema_version"]])
     if hashlib.sha256(canonical_json_bytes(plan)).hexdigest() != raw["plan_sha256"]:
         fail("behavior_invalid_manifest", "The repair manifest must bind its complete canonical repair plan.")
     _integer(raw["reserve_bytes"], 0, 2**53 - 1)

@@ -161,3 +161,23 @@ or describe it as semantic/general recovery. This scope is closed. Temporary
 controls are disabled/retired; final publication removes default registration.
 Future strategy changes need a separate versioned predeclared study rather
 than overwriting these results. Full product acceptance remains open.
+
+## Explicit embedding profile and frozen follow-up — 13 November 2026
+
+The owner's standing all-work approval covers the separate [v3 contract](docs/proposals/input-embedding-v3.md)
+and its 74 lightweight authored fixture checks using the existing Python, no
+install/build/weights/network. V3 alone can explicitly restore a Q4_0
+`token_embd.weight` from matching F32, with width/token-count consistency.
+V1/v2 targets, defaults, record versions and closed receipts remain unchanged;
+v2's invalid future-profile test uses v4 rather than the newly valid v3.
+Q8/output-head restoration, implicit selection and inference in the product
+remain prohibited. Full source, per-case status, original streams and owned
+fixture cleanup are required. Storage Guard still blocks heavy local work.
+
+The [new behavioral study v2](docs/studies/embedding-v2.md) predeclares disjoint
+authored tasks and compares fresh reference/quantized/legacy42/embedding43
+measurements under the old thresholds. It is UNRUN until its exact bounded CI
+controller and source/engine/candidate freeze are ready. Preserve the first
+negative study and every failure. Fixture or byte success never supplies the
+missing new inference result; no positive/general recovery claim is authorized
+by this preparation. No paid resource, account or model/provider API is involved.

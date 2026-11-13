@@ -1,0 +1,165 @@
+{
+  "schema_version": 2,
+  "kind": "quantopsy.predeclared-embedding-study",
+  "study_id": "tinystories-input-embedding-v2",
+  "frozen_date": "2026-11-13",
+  "state_at_freeze": "unrun",
+  "hypothesis": "Restoring the remaining Q4_0 input embedding may improve the internal-matrix candidate on new tasks; the opaque Q8_0 output head remains unchanged.",
+  "previous_study": {
+    "source_commit": "40b0e846aef56c9e950823976c6a39d7c22c233c",
+    "receipt": "docs/results/2026/11-08/behavioral-inference-attempt-2.json",
+    "qualifying_losses": 11,
+    "recovered": 10,
+    "regressions": 4,
+    "decision": "negative-preserved"
+  },
+  "models": {
+    "repository": "ggml-org/models-moved",
+    "revision": "4cd12190a40543c61bad59a1b8d982dfc48de020",
+    "reference": {
+      "path": "tinyllamas/stories15M.gguf",
+      "bytes": 98357920,
+      "sha256": "61b50d457809a5194818fd22e6724b456cd7bb9a6264c52c8110684c53f3704a"
+    },
+    "quantized": {
+      "path": "tinyllamas/stories15M-q4_0.gguf",
+      "bytes": 19077344,
+      "sha256": "6151b1929d7f5aa3385d9ddef3393e55587c0a55de661562322bc51dfda93a04"
+    }
+  },
+  "engine": {
+    "repository": "ggml-org/llama.cpp",
+    "revision": "74d4f5b041ad837153b0e90fc864b8290e01d8d5",
+    "git_tree": "9ae6f9dd0984b780c942ccf510e9cd5fcee9e724",
+    "scorer": "tests/helpers/behavioral_scorer.cpp",
+    "build_recipe": "tests/helpers/behavioral_engine/CMakeLists.txt",
+    "new_adapter_must_be_bound_before_execution": true,
+    "parameters": {
+      "context_tokens": 128,
+      "batch_tokens": 128,
+      "threads": 2,
+      "seed": 0,
+      "add_bos": true,
+      "add_eos": false,
+      "sampling": false,
+      "cpu_only": true
+    }
+  },
+  "candidate_strategy": {
+    "automatic_selection": false,
+    "legacy_internal_matrices": {
+      "layers": [0, 1, 2, 3, 4, 5],
+      "matrix_names_in_order": ["attn_q", "attn_k", "attn_v", "attn_output", "ffn_gate", "ffn_up", "ffn_down"],
+      "tensor_pattern": "blk.{layer}.{matrix}.weight",
+      "profile": "v2",
+      "count": 42,
+      "selected_elements": 5971968,
+      "added_weight_bytes": 20528640,
+      "candidate_bytes": 39605952,
+      "candidate_sha256": "a0107dd0112554eeaa648c3f64e6017e61f1531327e993191c8bea7326b585da"
+    },
+    "embedding_extension": {
+      "profile": "v3",
+      "append_tensor": "token_embd.weight",
+      "reference_type": "F32",
+      "quantized_type": "Q4_0",
+      "dimensions": [288, 32000],
+      "reference_payload_sha256": "d298154f7c792cf1098fb85a84ec3e63facbdf211496c56cd24919ac77182c11",
+      "quantized_payload_sha256": "c749bf536849565a30017f15251744509a0078ee488190d80ab1ed7b8c6ab7fc",
+      "count": 43,
+      "selected_elements": 15187968,
+      "added_weight_bytes": 52208640,
+      "candidate_bytes": 71285952,
+      "candidate_sha256_must_be_frozen_before_inference": true
+    },
+    "preserved_output_head": {
+      "name": "output.weight",
+      "type": "Q8_0",
+      "bytes": 9792000,
+      "sha256": "314a6290d2c62043f1d9df750069672367c32a5c6141a1ff0f05dd841f544278"
+    },
+    "max_added_bytes": 67108864,
+    "max_selected_elements": 15187968
+  },
+  "metrics": [
+    {
+      "id": "mean_target_nll",
+      "direction": "lower",
+      "min_quantization_loss": "0.005",
+      "min_recovery_fraction": "0.5",
+      "max_reference_regression": "0.02",
+      "max_quantized_regression": "0.01"
+    },
+    {
+      "id": "target_token_accuracy",
+      "direction": "higher",
+      "min_quantization_loss": "0.02",
+      "min_recovery_fraction": "0.5",
+      "max_reference_regression": "0.03",
+      "max_quantized_regression": "0.02"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "embedding-v2-01-scarf",
+      "prompt": "A cold wind blew as Max waited for the bus.\n",
+      "target": "His grandmother gave him a long scarf. He wrapped it around his neck and felt warm. When the bus came, he waved to her from the window. She waved back until the bus was out of sight."
+    },
+    {
+      "id": "embedding-v2-02-puzzle",
+      "prompt": "Ruby spread the puzzle pieces across the floor.\n",
+      "target": "She found the corners first and put them together. Her brother helped her look for the blue pieces. One piece was under his sock. When the picture was done, they could see a big ship on the sea."
+    },
+    {
+      "id": "embedding-v2-03-hat",
+      "prompt": "The puppy took Will's hat and ran into the garden.\n",
+      "target": "Will called the puppy in a kind voice. It stopped near the fence and looked at him. Will held out a toy, and the puppy dropped the hat. Then they played together on the soft grass."
+    },
+    {
+      "id": "embedding-v2-04-paint",
+      "prompt": "Ada wanted to paint a picture for her teacher.\n",
+      "target": "She chose a clean sheet of paper and filled a cup with water. First she painted a yellow sun. Then she added a house with a red door. She let the picture dry before putting it in her school bag."
+    },
+    {
+      "id": "embedding-v2-05-bridge",
+      "prompt": "Two children built a bridge with wooden blocks.\n",
+      "target": "The middle fell down when they tried to put a toy truck on it. They made the legs wider and tried again. This time the bridge stayed up. They laughed as the truck rolled safely to the other side."
+    },
+    {
+      "id": "embedding-v2-06-basket",
+      "prompt": "Owen helped his grandfather carry a heavy basket.\n",
+      "target": "They each held one handle and walked slowly along the path. At the kitchen door they put the basket down. Inside were carrots from the garden. Owen washed them while his grandfather got a pot for their soup."
+    },
+    {
+      "id": "embedding-v2-07-snow",
+      "prompt": "Fresh snow covered the hill behind the school.\n",
+      "target": "Ivy pulled her sled to the top and sat down. Her friend gave it a small push. The sled went quickly down the hill and stopped near a tree. Ivy got up, smiled, and pulled it back for her friend."
+    },
+    {
+      "id": "embedding-v2-08-bell",
+      "prompt": "A small bell rang when June opened the shop door.\n",
+      "target": "The woman behind the counter smiled and said hello. June showed her the list from her father. The woman helped her find bread and milk. June paid, thanked her, and carried the bag home with both hands."
+    }
+  ],
+  "decision": {
+    "complete_role_runs_required": 4,
+    "comparisons_required": 2,
+    "identical_tokenization_required": true,
+    "positive_v3_requires_complete_runs": true,
+    "positive_v3_requires_nonzero_qualifying_losses": true,
+    "positive_v3_requires_every_qualifying_loss_recovered": true,
+    "positive_v3_requires_no_regressions": true,
+    "legacy_candidate_verdict_reported_separately": true,
+    "both_candidates_pass_does_not_prove_embedding_necessity": true,
+    "cross_study_task_scores_are_not_an_improvement_comparison": true,
+    "general_behavioral_recovery_claim": false
+  },
+  "execution_limits": {
+    "controller_state_at_freeze": "not-yet-authored-or-activated",
+    "max_public_ci_minutes": 20,
+    "local_weights_build_or_inference": false,
+    "paid_or_provider_api": false,
+    "preserve_negative_and_inconclusive_results": true,
+    "change_tasks_or_thresholds_after_output": false
+  }
+}

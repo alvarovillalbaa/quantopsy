@@ -73,7 +73,7 @@ class GGUFFile:
 
     The admitted subset has at least one tensor, little-endian version 3,
     F32/F16/Q4_0 payloads, and non-nested scalar/string metadata arrays.
-    The explicit v2 profile also admits opaque Q8_0 payloads.
+    Explicit v2/v3 profiles also admit opaque Q8_0 payloads.
     Tensor offsets remain relative to ``data_offset`` in the public records.
     """
 
@@ -288,7 +288,7 @@ class GGUFFile:
                 if dimensions[0] % 32:
                     fail("gguf_invalid_dimensions", "Q4_0 rows must contain whole 32-value blocks.")
                 nbytes = elements // 32 * 18
-            elif kind == TYPE_Q8_0 and self.profile == "v2":
+            elif kind == TYPE_Q8_0 and self.profile in ("v2", "v3"):
                 if dimensions[0] % 32:
                     fail("gguf_invalid_dimensions", "Q8_0 rows must contain whole 32-value blocks.")
                 nbytes = elements // 32 * 34

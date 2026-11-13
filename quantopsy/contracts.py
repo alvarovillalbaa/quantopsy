@@ -32,9 +32,9 @@ TYPE_NAMES = {TYPE_F32: "F32", TYPE_F16: "F16", TYPE_Q4_0: "Q4_0", TYPE_Q8_0: "Q
 
 
 def profile_version(profile: str) -> int:
-    if type(profile) is not str or profile not in ("v1", "v2"):
-        fail("gguf_invalid_profile", "Choose the explicit v1 or v2 compatibility profile.")
-    return 1 if profile == "v1" else 2
+    if type(profile) is not str or profile not in ("v1", "v2", "v3"):
+        fail("gguf_invalid_profile", "Choose the explicit v1, v2 or v3 compatibility profile.")
+    return {"v1": 1, "v2": 2, "v3": 3}[profile]
 
 
 @dataclass(frozen=True, slots=True)

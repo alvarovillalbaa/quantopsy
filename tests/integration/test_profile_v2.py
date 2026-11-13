@@ -148,14 +148,14 @@ class ProfileV2IntegrationTier2Tests(unittest.TestCase):
             stream.assert_not_called()
 
     def test_invalid_profile_values_are_not_coerced_and_fail_before_input_open(self):
-        for value in (None, True, False, 1, 2, 2.0, "", "V2", "v3"):
+        for value in (None, True, False, 1, 2, 2.0, "", "V2", "v4"):
             with self.subTest(profile=value):
                 with patch("quantopsy.gguf.os.open", side_effect=AssertionError("profile must be validated first")) as opened:
                     self.reject("gguf_invalid_profile", GGUFFile, self.root / "missing.gguf", profile=value)
                 opened.assert_not_called()
         with self.models() as (_, reference, quantized):
             plan = self.plan(reference, quantized)
-            for value in (True, 2, None, "v3"):
+            for value in (True, 2, None, "v4"):
                 with self.subTest(operation_profile=value):
                     self.reject("gguf_invalid_profile", pair_inputs, reference, quantized, profile=value)
                     self.reject("gguf_invalid_profile", create_plan, reference, quantized, [Q_NAME], provenance(), 4096, profile=value)

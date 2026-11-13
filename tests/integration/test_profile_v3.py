@@ -1,0 +1,337 @@
+"""Authored file/CLI seams for explicit input-embedding restoration; no model.
+
+Independent tiny GGUF encodings and expected bytes use tests.fixtures only.
+The opaque Q8 output head deliberately has a nonfinite scale and must be copied
+without decoding. These fixtures cannot establish recovered model behavior.
+"""
+from contextlib import ExitStack, redirect_stderr, redirect_stdout
+from copy import deepcopy
+import io
+import json
+from pathlib import Path
+import struct
+import tempfile
+import unittest
+from unittest.mock import patch
+
+from quantopsy.behavior import compare_behavior
+from quantopsy.cli import main
+from quantopsy.errors import QuantopsyError
+from quantopsy.gguf import GGUFFile
+from quantopsy.io import canonical_json_bytes
+from quantopsy.repair import create_plan, validate_plan, write_candidate
+from tests.behavior_fixtures import authored_documents, bind_records, encoded
+from tests.fixtures import (
+    F16, F32, Q4_0, Q4_POSITIVE, Q4_NEGATIVE, Q_NAME, Tensor,
+    gguf_bytes, provenance, replace_metadata, sha256, write_pair,
+)
+from tests.helpers.v2_fixtures import (
+    OPAQUE_NAME, OPAQUE_Q8, Q8_0, quantized_metadata, quantized_tensors,
+    reference_metadata, reference_tensors,
+)
+
+EMBEDDING = "token_embd.weight"
+EMBEDDING_F32 = struct.pack("<64f", *[index / 128 for index in range(64)])
+EMBEDDING_Q4 = Q4_NEGATIVE + Q4_POSITIVE
+
+
+class ProfileV3IntegrationTier2Tests(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory(prefix="quantopsy-v3-authored-")
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name)
+        self.serial = 0
+
+    def fixture(self, *, reference_meta=None, quantized_meta=None,
+                reference_embedding=None, quantized_embedding=None, include_embedding=True):
+        self.serial += 1
+        folder = self.root / ("pair-" + str(self.serial))
+        folder.mkdir()
+        reference, quantized = reference_tensors(), quantized_tensors()
+        if include_embedding:
+            reference.append(reference_embedding or Tensor(EMBEDDING, (32, 2), F32, EMBEDDING_F32))
+            quantized.append(quantized_embedding or Tensor(EMBEDDING, (32, 2), Q4_0, EMBEDDING_Q4))
+        return write_pair(folder, reference=reference, quantized=quantized,
+                          reference_meta=reference_metadata() if reference_meta is None else reference_meta,
+                          quantized_meta=quantized_metadata() if quantized_meta is None else quantized_meta)
+
+    def opened(self, pair, *, reference_profile="v3", quantized_profile="v3"):
+        stack = ExitStack()
+        self.addCleanup(stack.close)
+        return (stack.enter_context(GGUFFile(pair.reference, profile=reference_profile)),
+                stack.enter_context(GGUFFile(pair.quantized, profile=quantized_profile)))
+
+    def plan(self, reference, quantized, *, names=None, added=4096, elements=128, profile="v3"):
+        return create_plan(reference, quantized, [EMBEDDING] if names is None else names,
+                           provenance(), added, max_elements=elements, profile=profile)
+
+    def refused(self, code, function, *args, **kwargs):
+        with self.assertRaises(QuantopsyError) as caught:
+            function(*args, **kwargs)
+        self.assertEqual(caught.exception.code, code)
+
+    def command(self, *arguments):
+        out, err = io.StringIO(), io.StringIO()
+        with redirect_stdout(out), redirect_stderr(err):
+            status = main(list(map(str, arguments)))
+        return status, out.getvalue(), err.getvalue()
+
+    def test_embedding_plan_binds_explicit_version_kinds_growth_and_payload_hashes(self):
+        reference, quantized = self.opened(self.fixture())
+        plan = self.plan(reference, quantized)
+        self.assertEqual((plan["schema_version"], plan["added_weight_bytes"], plan["behavioral_validation"]),
+                         (3, 220, "not_run"))
+        self.assertEqual(plan["selected"], [{
+            "name": EMBEDDING, "dimensions": [32, 2], "elements": 64,
+            "reference_kind": F32, "quantized_kind": Q4_0,
+            "reference_sha256": sha256(EMBEDDING_F32), "quantized_sha256": sha256(EMBEDDING_Q4),
+            "reference_bytes": 256, "quantized_bytes": 36}])
+        self.assertEqual(plan, validate_plan(plan, profile="v3"))
+
+    def test_candidate_matches_independent_full_file_bytes_and_keeps_every_unselected_payload(self):
+        pair = self.fixture()
+        before = [pair.reference.read_bytes(), pair.quantized.read_bytes()]
+        reference, quantized = self.opened(pair)
+        plan = self.plan(reference, quantized)
+        manifest = write_candidate(reference, quantized, plan, self.root / "candidate", reserve_bytes=0, profile="v3")
+        prescribed = quantized_tensors() + [Tensor(EMBEDDING, (32, 2), F32, EMBEDDING_F32)]
+        metadata = [row for row in quantized_metadata() if row[0] != "general.file_type"]
+        expected = gguf_bytes(prescribed, metadata)
+        self.assertEqual((self.root / "candidate/candidate.gguf").read_bytes(), expected)
+        self.assertEqual(manifest["output"]["sha256"], sha256(expected))
+        self.assertEqual(manifest["schema_version"], 3)
+        self.assertEqual((self.root / "candidate/plan.json").read_bytes(), canonical_json_bytes(plan))
+        with GGUFFile(self.root / "candidate/candidate.gguf", profile="v3") as candidate:
+            for tensor in quantized.tensors:
+                self.assertEqual(candidate.hash_tensor(candidate.tensor(tensor.name)),
+                                 sha256(EMBEDDING_F32) if tensor.name == EMBEDDING else quantized.hash_tensor(tensor))
+            self.assertEqual(candidate.metadata["general.quantization_version"].value, 2)
+        self.assertEqual([pair.reference.read_bytes(), pair.quantized.read_bytes()], before)
+
+    def test_internal_matrices_and_embedding_can_be_explicitly_selected_together(self):
+        reference, quantized = self.opened(self.fixture())
+        plan = self.plan(reference, quantized, names=[Q_NAME, EMBEDDING], elements=128)
+        self.assertEqual([row["name"] for row in plan["selected"]], [Q_NAME, EMBEDDING])
+        self.assertEqual(plan["added_weight_bytes"], 440)
+        manifest = write_candidate(reference, quantized, plan, self.root / "both", reserve_bytes=0, profile="v3")
+        self.assertTrue(all(manifest["verification"].values()))
+
+    def test_v3_without_embedding_does_not_select_it_implicitly(self):
+        reference, quantized = self.opened(self.fixture())
+        plan = self.plan(reference, quantized, names=[Q_NAME])
+        write_candidate(reference, quantized, plan, self.root / "matrix-only", reserve_bytes=0, profile="v3")
+        with GGUFFile(self.root / "matrix-only/candidate.gguf", profile="v3") as candidate:
+            self.assertEqual(candidate.tensor(EMBEDDING).kind, Q4_0)
+            self.assertEqual(candidate.hash_tensor(candidate.tensor(EMBEDDING)), sha256(EMBEDDING_Q4))
+
+    def test_output_head_remains_opaque_and_is_not_admitted_for_restoration(self):
+        reference, quantized = self.opened(self.fixture())
+        self.refused("repair_selection_invalid", self.plan, reference, quantized, names=[OPAQUE_NAME])
+        original = GGUFFile.iter_values
+        def no_q8(model, tensor):
+            if tensor.kind == Q8_0:
+                raise AssertionError("Opaque output must not be decoded")
+            return original(model, tensor)
+        with patch.object(GGUFFile, "iter_values", no_q8):
+            plan = self.plan(reference, quantized)
+            write_candidate(reference, quantized, plan, self.root / "opaque", reserve_bytes=0, profile="v3")
+        with GGUFFile(self.root / "opaque/candidate.gguf", profile="v3") as candidate:
+            self.assertEqual(b"".join(candidate.iter_tensor_bytes(candidate.tensor(OPAQUE_NAME))), OPAQUE_Q8)
+
+    def test_v2_still_refuses_embedding_selection_and_uses_version_two_for_internal_matrices(self):
+        reference, quantized = self.opened(self.fixture(), reference_profile="v2", quantized_profile="v2")
+        self.refused("repair_selection_invalid", self.plan, reference, quantized, profile="v2")
+        self.assertEqual(self.plan(reference, quantized, names=[Q_NAME], profile="v2")["schema_version"], 2)
+
+    def test_older_profiles_refuse_version_three_plans_instead_of_upgrading(self):
+        reference, quantized = self.opened(self.fixture())
+        plan = self.plan(reference, quantized)
+        for profile in ("v1", "v2"):
+            with self.subTest(profile=profile):
+                self.refused("repair_invalid_plan", validate_plan, plan, profile=profile)
+        for version in (1, 2, True, 4):
+            with self.subTest(version=version):
+                altered = deepcopy(plan)
+                altered["schema_version"] = version
+                self.refused("repair_invalid_plan", validate_plan, altered, profile="v3")
+
+    def test_readers_and_operation_must_explicitly_agree_on_v3(self):
+        pair = self.fixture()
+        reference, quantized = self.opened(pair)
+        plan = self.plan(reference, quantized)
+        self.refused("repair_profile_mismatch", self.plan, reference, quantized, profile="v2")
+        old_reference, old_quantized = self.opened(pair, reference_profile="v2", quantized_profile="v2")
+        self.refused("repair_profile_mismatch", self.plan, old_reference, quantized)
+        self.refused("repair_profile_mismatch", self.plan, reference, old_quantized)
+        output = self.root / "mismatch"
+        self.refused("repair_profile_mismatch", write_candidate, old_reference, quantized, plan,
+                     output, reserve_bytes=0, profile="v3")
+        self.assertFalse(output.exists())
+
+    def test_embedding_dimensions_must_match_token_count(self):
+        ref_meta = replace_metadata(reference_metadata(), "tokenizer.ggml.tokens", 9, (8, ["a", "b", "c"]))
+        quant_meta = replace_metadata(quantized_metadata(), "tokenizer.ggml.tokens", 9, (8, ["a", "b", "c"]))
+        reference, quantized = self.opened(self.fixture(reference_meta=ref_meta, quantized_meta=quant_meta))
+        with patch.object(GGUFFile, "iter_values", side_effect=AssertionError("reject before decode")):
+            self.refused("repair_embedding_shape_invalid", self.plan, reference, quantized)
+
+    def test_embedding_dimensions_must_match_declared_width(self):
+        reference, quantized = self.opened(self.fixture(
+            reference_meta=replace_metadata(reference_metadata(), "llama.embedding_length", 4, 64),
+            quantized_meta=replace_metadata(quantized_metadata(), "llama.embedding_length", 4, 64)))
+        self.refused("repair_embedding_shape_invalid", self.plan, reference, quantized)
+
+    def test_missing_empty_or_nontext_token_inventory_cannot_justify_embedding_shape(self):
+        for replacement in (None, (9, (8, [])), (9, (4, [1, 2]))):
+            with self.subTest(replacement=replacement):
+                ref_meta = [row for row in reference_metadata() if row[0] != "tokenizer.ggml.tokens"]
+                quant_meta = [row for row in quantized_metadata() if row[0] != "tokenizer.ggml.tokens"]
+                if replacement is not None:
+                    ref_meta.append(("tokenizer.ggml.tokens", *replacement))
+                    quant_meta.append(("tokenizer.ggml.tokens", *replacement))
+                reference, quantized = self.opened(self.fixture(reference_meta=ref_meta, quantized_meta=quant_meta))
+                self.refused("repair_embedding_shape_invalid", self.plan, reference, quantized)
+
+    def test_missing_nonpositive_or_wrongly_typed_width_is_refused(self):
+        for replacement in (None, (4, 0), (5, -32), (8, "32"), (7, True)):
+            with self.subTest(replacement=replacement):
+                ref_meta = [row for row in reference_metadata() if row[0] != "llama.embedding_length"]
+                quant_meta = [row for row in quantized_metadata() if row[0] != "llama.embedding_length"]
+                if replacement is not None:
+                    ref_meta.append(("llama.embedding_length", *replacement))
+                    quant_meta.append(("llama.embedding_length", *replacement))
+                reference, quantized = self.opened(self.fixture(reference_meta=ref_meta, quantized_meta=quant_meta))
+                self.refused("repair_embedding_shape_invalid", self.plan, reference, quantized)
+
+    def test_explicit_vocabulary_size_must_agree_with_tokens(self):
+        for kind, value in ((4, 3), (5, 2), (7, True)):
+            with self.subTest(kind=kind, value=value):
+                reference, quantized = self.opened(self.fixture(
+                    reference_meta=replace_metadata(reference_metadata(), "llama.vocab_size", kind, value),
+                    quantized_meta=replace_metadata(quantized_metadata(), "llama.vocab_size", kind, value)))
+                self.refused("repair_embedding_shape_invalid", self.plan, reference, quantized)
+
+    def test_matching_explicit_vocabulary_size_accepts_the_embedding(self):
+        reference, quantized = self.opened(self.fixture(
+            reference_meta=replace_metadata(reference_metadata(), "llama.vocab_size", 4, 2),
+            quantized_meta=replace_metadata(quantized_metadata(), "llama.vocab_size", 4, 2)))
+        self.assertEqual(self.plan(reference, quantized)["selected"][0]["dimensions"], [32, 2])
+
+    def test_absent_or_duplicate_embedding_and_other_names_are_refused(self):
+        reference, quantized = self.opened(self.fixture(include_embedding=False))
+        self.refused("gguf_tensor_missing", self.plan, reference, quantized)
+        reference, quantized = self.opened(self.fixture())
+        for names in ([EMBEDDING, EMBEDDING], ["token_embd_norm.weight"], ["output.weight"], ["token_embd.weight.extra"]):
+            with self.subTest(names=names):
+                self.refused("repair_selection_invalid", self.plan, reference, quantized, names=names)
+
+    def test_q8_embedding_is_not_silently_decoded_or_selected(self):
+        reference, quantized = self.opened(self.fixture(
+            quantized_embedding=Tensor(EMBEDDING, (32, 2), Q8_0, OPAQUE_Q8)))
+        self.refused("repair_selection_invalid", self.plan, reference, quantized)
+
+    def test_f16_embedding_reference_is_not_silently_promoted_to_f32(self):
+        reference, quantized = self.opened(self.fixture(
+            reference_embedding=Tensor(EMBEDDING, (32, 2), F16, struct.pack("<64e", *range(64)))))
+        self.refused("repair_selection_invalid", self.plan, reference, quantized)
+
+    def test_work_and_added_weight_limits_reject_before_value_decoding(self):
+        reference, quantized = self.opened(self.fixture())
+        with patch.object(GGUFFile, "iter_values", side_effect=AssertionError("budget before decode")):
+            self.refused("repair_budget_exceeded", self.plan, reference, quantized, added=219)
+            self.refused("repair_budget_exceeded", self.plan, reference, quantized, elements=63)
+        plan = self.plan(reference, quantized, added=220, elements=64)
+        self.assertEqual((plan["max_added_bytes"], plan["max_elements"]), (220, 64))
+
+    def test_nonfinite_reference_embedding_is_refused(self):
+        reference, quantized = self.opened(self.fixture(
+            reference_embedding=Tensor(EMBEDDING, (32, 2), F32, struct.pack("<64f", float("inf"), *range(63)))))
+        self.refused("gguf_nonfinite_weight", self.plan, reference, quantized)
+
+    def test_nonfinite_quantized_embedding_is_refused(self):
+        reference, quantized = self.opened(self.fixture(
+            quantized_embedding=Tensor(EMBEDDING, (32, 2), Q4_0, bytes.fromhex("00 7c") + bytes(16) + Q4_POSITIVE)))
+        self.refused("gguf_nonfinite_weight", self.plan, reference, quantized)
+
+    def test_tampered_plan_cannot_change_embedding_payload_or_exceed_budgets(self):
+        reference, quantized = self.opened(self.fixture())
+        plan = self.plan(reference, quantized)
+        altered = deepcopy(plan)
+        altered["selected"][0]["reference_sha256"] = "f" * 64
+        output = self.root / "tampered"
+        self.refused("repair_plan_mismatch", write_candidate, reference, quantized, altered,
+                     output, reserve_bytes=0, profile="v3")
+        self.assertFalse(output.exists())
+        altered = deepcopy(plan)
+        altered["max_added_bytes"] = 219
+        self.refused("repair_budget_exceeded", validate_plan, altered, profile="v3")
+
+    def test_existing_output_and_symlink_are_preserved(self):
+        reference, quantized = self.opened(self.fixture())
+        plan = self.plan(reference, quantized)
+        existing = self.root / "existing"
+        existing.mkdir()
+        sentinel = existing / "sentinel"
+        sentinel.write_bytes(b"retain")
+        linked = self.root / "linked"
+        linked.symlink_to(existing, target_is_directory=True)
+        for output in (existing, linked):
+            with self.subTest(output=output.name):
+                with self.assertRaises(QuantopsyError):
+                    write_candidate(reference, quantized, plan, output, reserve_bytes=0, profile="v3")
+        self.assertEqual(sentinel.read_bytes(), b"retain")
+        self.assertTrue(linked.is_symlink())
+
+    def test_cli_plan_repair_and_inspect_retain_explicit_version_three(self):
+        pair = self.fixture()
+        declared = self.root / "provenance.json"
+        declared.write_bytes(canonical_json_bytes(provenance()))
+        plan_path, output = self.root / "plan-v3.json", self.root / "cli-candidate"
+        status, out, err = self.command("plan", pair.reference, pair.quantized, "--profile", "v3",
+            "--tensor", EMBEDDING, "--provenance", declared, "--max-added-bytes", "220", "--output", plan_path)
+        self.assertEqual((status, err), (0, ""))
+        self.assertEqual(json.loads(plan_path.read_bytes())["schema_version"], 3)
+        status, out, err = self.command("repair", pair.reference, pair.quantized, "--profile", "v3",
+            "--plan", plan_path, "--output-dir", output, "--reserve-bytes", "0")
+        self.assertEqual((status, err), (0, ""))
+        self.assertEqual(json.loads(out)["schema_version"], 3)
+        status, out, err = self.command("inspect", output / "candidate.gguf", "--profile", "v3")
+        self.assertEqual((status, err), (0, ""))
+        observed = json.loads(out)
+        self.assertEqual(observed["schema_version"], 3)
+        self.assertEqual(next(t for t in observed["tensors"] if t["name"] == EMBEDDING)["type"], "F32")
+        self.assertEqual(next(t for t in observed["tensors"] if t["name"] == OPAQUE_NAME)["type"], "Q8_0")
+
+    def test_cli_does_not_infer_v3_from_the_plan(self):
+        pair = self.fixture()
+        reference, quantized = self.opened(pair)
+        plan_path = self.root / "v3.json"
+        plan_path.write_bytes(canonical_json_bytes(self.plan(reference, quantized)))
+        for flags in ([], ["--profile", "v2"]):
+            output = self.root / ("no-upgrade-" + str(len(flags)))
+            status, out, err = self.command("repair", pair.reference, pair.quantized, *flags,
+                "--plan", plan_path, "--output-dir", output, "--reserve-bytes", "0")
+            self.assertEqual((status, out), (2, ""))
+            self.assertIn(json.loads(err)["error"]["code"], ("gguf_tensor_type_unsupported", "repair_invalid_plan"))
+            self.assertFalse(output.exists())
+
+    def test_data_only_comparator_accepts_bound_v3_manifest_without_claiming_inference(self):
+        pair = self.fixture()
+        reference, quantized = self.opened(pair)
+        manifest = write_candidate(reference, quantized, self.plan(reference, quantized),
+                                   self.root / "bound", reserve_bytes=0, profile="v3")
+        documents = authored_documents()
+        documents["manifest"] = manifest
+        for role, key in (("reference", "reference"), ("quantized", "quantized"), ("candidate", "output")):
+            documents["models"][role] = deepcopy(manifest[key])
+            documents[role]["model"] = deepcopy(manifest[key])
+        bind_records(documents)
+        paths = {}
+        for name, document in documents.items():
+            paths[name] = self.root / (name + ".json")
+            paths[name].write_bytes(encoded(document))
+        report = compare_behavior(paths["suite"], paths["config"], paths["models"], paths["reference"],
+                                  paths["quantized"], paths["candidate"], manifest_path=paths["manifest"])
+        self.assertTrue(report["acceptance"]["repair_manifest_records_bound"])
+        self.assertEqual(report["inference_execution"], "not_performed_by_comparator")
+        self.assertEqual(report["source_execution_authenticity"], "not_established_by_imported_records")
