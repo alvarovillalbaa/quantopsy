@@ -96,3 +96,27 @@ without executing those cases again. Independent original-stream audits
 recomputed all 24 task metrics and 16 threshold decisions. The candidate failed
 with 11 qualifying/10 recovered/four regression cases. Keep this negative study
 closed and immutable; broader recovery remains a separate objective.
+
+## Explicit embedding profile v3
+
+`integration/test_profile_v3.py` adds 25 Tier 2 file/CLI cases over independently
+encoded GGUF fixtures below 64 KiB. It qualifies explicit F32/Q4 input-embedding
+selection, metadata shape, create-only writer/manifest behavior and copying the
+unselected opaque output. It performs no model forward or network operation.
+The [focused contract](../docs/proposals/input-embedding-v3.md) selects these cases,
+28 v2 cases, 16 CLI cases and five existing manifest cases after shared profile,
+reader/repair/CLI/comparator changes. The v2 invalid-profile sentinel is now v4;
+the positive v1/v2 assertions remain.
+
+The [74-case qualification](../docs/results/2026/11-13/profile-v3-checks.md) on
+native Python 3.14.7 spans two invocations: 72 first-run passes and two corrected
+error-code expectations. The first actual child failed those two cases; its
+later observer also hit `ps EPERM`. Every failure, stream hash, explicit public
+path redaction and scoped source/index/process/root observation is retained.
+Only the two unfinished identities reran; no single 74-pass execution is claimed.
+The initial v3 test source remains as an inactive evidence text file.
+
+The [behavioral study v2](../docs/studies/embedding-v2.md) freezes eight new tasks,
+unchanged thresholds and four model roles for a future separate inference
+packet. That controller is not yet authored/activated. Do not reinterpret these
+fixture passes as actual model recovery or reopen the closed v1 study.

@@ -144,3 +144,25 @@ selected/unselected hashes and complete input hashes are verified before the
 last completion manifest. No Q8 restoration, automatic selection, model engine,
 inference, cryptographic lineage or behavioral recovery is implied. See the
 [separate proposal](proposals/opaque-q8-f32-v2.md) for its verification gate.
+
+## Opt-in profile v3
+
+V3 retains v2's container types, F32-to-Q4_0 selected restoration and opaque Q8_0
+copying, adding only explicit `token_embd.weight` selection for dense Llama.
+Inspection, plans and completion manifests use integer version 3; both readers
+and the operation must explicitly agree. Older plans and profiles are not
+upgraded implicitly. `diagnose`/`probe` and Q8 numerical admission are unchanged.
+
+The selected rank-two input embedding must have dimensions equal to positive
+uint32 `llama.embedding_length` and the count of a nonempty string-array
+`tokenizer.ggml.tokens`. Optional uint32 `llama.vocab_size` must agree with that
+count. Paired encoded metadata and tensor shapes must already match. This
+conservative shape policy precedes selected-value decoding and actual writing.
+F32/Q4_0 finite-value, work/growth, full input and payload hashes, create-only
+ownership, unselected bytes and manifest-last verification remain required.
+The writer regenerates the complete plan from the actual opened inputs.
+
+V1/v2 still refuse this target. V3 does not admit `output.weight`, selected Q8,
+automatic selection or tied-weight inference. The [contract](proposals/input-embedding-v3.md)
+and [fixture receipt](results/2026/11-13/profile-v3-checks.md) state verification
+limits; the separately frozen inference study remains unrun.

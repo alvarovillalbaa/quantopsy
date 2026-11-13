@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "quantopsy.profile-v3-observation-reconciliation.v1",
+  "recordedAt": "2026-11-13T08:03:48.262Z",
+  "originalObserverStatus": "failed-preserved",
+  "originalReceipt": {
+    "file": "profile-v3-checks-attempt-1.json",
+    "sha256": "9d7be65f8d05852db556dab5eaba6b2c176a2fd8bcc31cb678ede19c9cd4b44f"
+  },
+  "actualChild": {
+    "exitCode": 1,
+    "signal": null,
+    "expectedCases": 74,
+    "observedCases": 74,
+    "passed": 72,
+    "failed": 2,
+    "exactCaseSet": true,
+    "summary": "Ran 74 tests in 0.236s; FAILED (failures=2)"
+  },
+  "failureDetails": {
+    "kind": "two newly authored expectations use a later-layer error code",
+    "actualCode": "gguf_nonfinite_weight",
+    "expectedCode": "repair_invalid_values",
+    "productRefusedNonfiniteValues": true
+  },
+  "processObservation": {
+    "method": "native exec ps -axo pid=,pgid=",
+    "exitCode": 0,
+    "ownedProcessGroup": 35961,
+    "members": [],
+    "scope": "current snapshot, not all-host absence or past descendant behavior"
+  },
+  "openFileObservation": {
+    "method": "native exec lsof +D [owned-scratch]",
+    "exitCode": 1,
+    "outputEmpty": true
+  },
+  "sourceAndIndexUnchanged": true,
+  "fixtureFoldersRemainingBeforeOuterCleanup": [],
+  "ownedRootRemoved": true,
+  "ownedRootAbsenceReadback": true,
+  "stderrPublication": {
+    "originalFileAtCollection": "profile-v3-checks-attempt-1.stderr.txt",
+    "originalBytes": 16986,
+    "originalSha256": "fffea03c0cbdb92c5d9a0d42f2d8936c83ef5df2c050f84be5656d5bf974dc2e",
+    "originalPreserved": "local-only owning delivery notes; not published due repository absolute paths",
+    "publicFile": "profile-v3-checks-attempt-1.stderr.redacted.txt",
+    "publicBytes": 16854,
+    "publicSha256": "5f2b32ade8a0abd889e7d6cf6ec17a8e490e07ecaffde488221c8e567bcd909f",
+    "redactions": 4,
+    "replacement": "repository absolute path replaced with [repository]",
+    "originalBytesNotReconstructed": true
+  },
+  "testsRerun": false,
+  "modelInference": "unrun"
+}

@@ -4,7 +4,9 @@ Investigate quantization loss and create a local weight-restoration candidate.
 
 The source inspects GGUF containers, compares selected weights and supplied
 linear activation probes, and restores explicitly selected Q4_0 tensors from
-an F16 reference (default v1) or F32 reference (explicit v2) into a NEW GGUF bundle.
+an F16 reference (default v1) or F32 reference (explicit v2/v3) into a NEW GGUF bundle.
+V3 additionally permits explicit restoration of the Q4_0 input embedding after
+checking its width and tokenizer vocabulary shape.
 It uses Python 3.11+ and the standard
 library on POSIX macOS/Linux, with no model download, hosted service or inference
 engine. No Python/platform runtime matrix has been verified yet.
@@ -147,3 +149,30 @@ completed inference and failed its recovery criteria. Default v1 still excludes
 Q8 and requires selected F16 bytes.
 
 MIT licensed. Original implementation; see [primary sources](docs/sources.md).
+
+## Explicit input-embedding restoration v3
+
+Use `--profile v3` on each inspect/plan/repair operation to allow the additional
+target `token_embd.weight`. Its F32 reference and Q4_0 payload must match the
+declared Llama width and tokenizer count; optional vocabulary-size metadata
+must agree. Selection remains explicit. V1/v2 defaults, targets and record
+versions are unchanged; v3 plans/manifests use version 3. The Q8 output head
+remains unselected/opaque. No tied weights are inferred or restored implicitly.
+
+```sh
+python3 -m quantopsy plan reference-f32.gguf quantized-with-q8.gguf --profile v3 \
+  --tensor token_embd.weight --provenance local-provenance.json \
+  --max-added-bytes 67108864 --output repair-plan-v3.json
+python3 -m quantopsy repair reference-f32.gguf quantized-with-q8.gguf --profile v3 \
+  --plan repair-plan-v3.json --output-dir candidate-v3
+```
+
+These are usage examples. [Seventy-four authored fixture identities](docs/results/2026/11-13/profile-v3-checks.md)
+passed as 72 first-run passes plus two corrected refusal expectations, without
+replaying the 72. Original failures, the observer permission error, explicit
+public-path redactions and scoped cleanup are retained. No new model was run.
+The [frozen follow-up study](docs/studies/embedding-v2.md) compares a legacy
+42-matrix candidate and a 43-tensor embedding candidate on eight new tasks with
+unchanged thresholds. Its exact CI controller and real inference remain unrun;
+the previous negative result is preserved. Restoring more weights costs space
+and does not establish optimal quantization or general recovery.

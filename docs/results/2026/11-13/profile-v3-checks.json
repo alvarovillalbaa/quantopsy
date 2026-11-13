@@ -1,0 +1,386 @@
+{
+  "schemaVersion": "quantopsy.profile-v3-qualification.v1",
+  "recordedAt": "2026-11-13T08:06:41.959Z",
+  "status": "qualified-for-authored-fixture-scope",
+  "baseCommit": "0bf9fd2d4deafccd841e34e4ec5ffe91eb075bad",
+  "newCapability": "explicit v3 Q4_0 input embedding restored from matching F32, with declared shape and strict versions",
+  "acceptedCaseCount": 74,
+  "acceptedCases": [
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_absent_or_duplicate_embedding_and_other_names_are_refused",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_candidate_matches_independent_full_file_bytes_and_keeps_every_unselected_payload",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_cli_does_not_infer_v3_from_the_plan",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_cli_plan_repair_and_inspect_retain_explicit_version_three",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_data_only_comparator_accepts_bound_v3_manifest_without_claiming_inference",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_embedding_dimensions_must_match_declared_width",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_embedding_dimensions_must_match_token_count",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_embedding_plan_binds_explicit_version_kinds_growth_and_payload_hashes",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_existing_output_and_symlink_are_preserved",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_explicit_vocabulary_size_must_agree_with_tokens",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_f16_embedding_reference_is_not_silently_promoted_to_f32",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_internal_matrices_and_embedding_can_be_explicitly_selected_together",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_matching_explicit_vocabulary_size_accepts_the_embedding",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_missing_empty_or_nontext_token_inventory_cannot_justify_embedding_shape",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_missing_nonpositive_or_wrongly_typed_width_is_refused",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_older_profiles_refuse_version_three_plans_instead_of_upgrading",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_output_head_remains_opaque_and_is_not_admitted_for_restoration",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_q8_embedding_is_not_silently_decoded_or_selected",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_readers_and_operation_must_explicitly_agree_on_v3",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_tampered_plan_cannot_change_embedding_payload_or_exceed_budgets",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_v2_still_refuses_embedding_selection_and_uses_version_two_for_internal_matrices",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_v3_without_embedding_does_not_select_it_implicitly",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_work_and_added_weight_limits_reject_before_value_decoding",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_both_readers_and_operation_must_agree_on_the_explicit_profile",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_changed_source_before_or_during_v2_copy_never_publishes_completion",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_cli_plan_and_repair_require_explicit_matching_version_and_publish_schema_two",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_cli_v2_inspection_is_opt_in_and_diagnostics_reject_profile_flags",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_default_v1_refuses_q8_and_keeps_explicit_v1_reports_and_candidate_bytes",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_dense_layout_fences_remain_required_under_v2",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_every_unquantized_f32_and_f16_type_and_payload_binding_is_required",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_failed_v2_install_preserves_replaced_inodes_and_unexpected_files",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_forged_source_and_selected_hashes_cannot_write_a_candidate",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_invalid_profile_values_are_not_coerced_and_fail_before_input_open",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_manifest_install_failure_removes_owned_v2_artifacts_without_completion",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_opaque_q8_decoder_refuses_before_any_tensor_stream_is_consumed",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_pairing_checks_encoded_metadata_by_key_without_requiring_the_same_order",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_pairing_rejects_changed_complete_tensor_names_or_dimensions",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_requires_whole_dimension_zero_rows_not_just_total_blocks",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_span_is_two_explicit_34_byte_blocks_and_profile_is_read_only",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_truncation_overlap_alignment_and_unknown_encodings_are_refused",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_without_q4_still_requires_exact_quantization_version_two",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_reference_inventory_cannot_contain_opaque_q8",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_schema_versions_cannot_silently_choose_or_upgrade_the_requested_profile",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_selected_f32_values_and_q4_scales_must_be_finite",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_create_only_outputs_preserve_existing_files_directories_and_symlinks",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_output_and_storage_budgets_fail_before_directory_creation",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_plan_binds_selected_f32_bytes_and_returns_detached_strict_records",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_plan_rejects_boolean_integer_coercions_extra_fields_and_f16_widths",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_selection_refuses_q8_quantized_tensors_and_f16_references",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_writer_reparses_both_stages_and_preserves_every_prescribed_byte",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_work_and_growth_budgets_are_checked_before_selected_value_decoding",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_cli_failures_return_finite_json_without_echoing_paths_or_argument_payloads",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_cli_report_output_refuses_existing_files_and_retains_their_exact_bytes",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_diagnose_command_uses_selected_actual_weights_without_a_runner",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_failed_json_fsync_removes_only_the_owned_partial_and_closes_its_descriptor",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_inspect_prints_actual_container_hash_and_explicit_unrun_behavior",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_json_cleanup_preserves_a_replaced_path_after_the_owned_write_fails",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_json_create_is_private_and_input_output_paths_refuse_symlinks_or_nonfiles",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_json_depth_entry_byte_and_limit_budgets_reject_before_unbounded_output",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_json_descriptor_setup_failures_close_the_fd_and_never_claim_a_completed_record",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_json_output_rejects_cycles_non_json_values_and_isolated_unicode_units",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_json_reads_reject_invalid_utf8_duplicates_surrogates_and_nonfinite_numbers",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_json_roundtrip_preserves_unicode_zero_and_canonical_key_order",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_pair_open_failure_closes_prior_resources_through_the_actual_cli_stack",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_plan_command_creates_a_new_provenance_bound_record_with_exact_source_hashes",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_probe_command_reads_explicit_calibration_and_reports_only_supplied_linear_evidence",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_cli.CliTests.test_repair_command_writes_real_selected_f16_bytes_without_subprocess_or_network",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_behavior.BehaviorComparisonTier2Tests.test_good_measurements_without_repair_manifest_cannot_pass_bound_recovery_records",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_behavior.BehaviorComparisonTier2Tests.test_both_supported_repair_manifest_versions_bind_supplied_records",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_full_reference_quantized_and_candidate_identities_must_match",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_cannot_bind_an_arbitrary_or_stale_canonical_plan_hash",
+      "status": "ok"
+    },
+    {
+      "id": "tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_requires_strict_plan_arithmetic_verification_and_unclaimed_behavior",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_nonfinite_quantized_embedding_is_refused",
+      "status": "ok"
+    },
+    {
+      "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_nonfinite_reference_embedding_is_refused",
+      "status": "ok"
+    }
+  ],
+  "attempts": [
+    {
+      "receipt": "profile-v3-checks-attempt-1.json",
+      "status": "failed-observer-and-two-wrong-expectations",
+      "executed": 74,
+      "passed": 72,
+      "failed": 2,
+      "exitCode": 1,
+      "reconciliation": "profile-v3-checks-reconciliation-1.json",
+      "fullRawStderr": "local-only; repository path redactions published explicitly",
+      "publicStderr": "profile-v3-checks-attempt-1.stderr.redacted.txt"
+    },
+    {
+      "receipt": "profile-v3-checks-attempt-2.json",
+      "status": "two-selected-cases-passed",
+      "executed": 2,
+      "passed": 2,
+      "failed": 0,
+      "exitCode": 0,
+      "cleanup": "profile-v3-checks-cleanup-2.json"
+    }
+  ],
+  "single74PassInvocation": false,
+  "originalFailedVerdictsRetained": true,
+  "carryProof": {
+    "unchangedSourceInputs": 53,
+    "totalSourceInputs": 54,
+    "onlyChangedFile": "tests/integration/test_profile_v3.py",
+    "onlyTwoExpectedErrorLiteralsChanged": true,
+    "previousFile": "profile-v3-test-source-attempt-1.py.txt",
+    "previousFileSha256": "001604f89ae8b6f7bab9e57be36c3dadb7a9627d1c4435c4a4288ee7beedeb33",
+    "currentFileSha256": "5f7a2f8de87fa655e34e2e9e2ef7a1d4f5be0ee77e1ba62f11143db72ff1177d",
+    "productAndSharedFixturesUnchanged": true,
+    "passedCasesNotReplayed": 72
+  },
+  "pythonVersion": "3.14.7",
+  "bothSourceAndIndexGuardsPassed": true,
+  "bothChildExitAndCloseObserved": true,
+  "bothOwnedGroupsAbsentAtNativeSnapshots": true,
+  "bothOwnedRootsRemovedAndReadBackAbsent": true,
+  "streams": [
+    {
+      "file": "profile-v3-checks-attempt-1.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "profile-v3-checks-attempt-1.stderr.redacted.txt",
+      "bytes": 16854,
+      "sha256": "5f2b32ade8a0abd889e7d6cf6ec17a8e490e07ecaffde488221c8e567bcd909f",
+      "originalBytes": 16986,
+      "originalSha256": "fffea03c0cbdb92c5d9a0d42f2d8936c83ef5df2c050f84be5656d5bf974dc2e",
+      "repositoryPathRedactions": 4
+    },
+    {
+      "file": "profile-v3-checks-attempt-2.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "profile-v3-checks-attempt-2.stderr.txt",
+      "bytes": 430,
+      "sha256": "49e1b6a8a0de74975f652d9178420ed4dbdad0e5238c89b6da7ce089850e4a6d"
+    }
+  ],
+  "frozenStudy": {
+    "file": "docs/studies/embedding-v2.json",
+    "sha256": "8c35578fb0f8a2451a876f0a86cacf98941f7887a289df0bfd19c5ae416c5bc3",
+    "tasks": 8,
+    "promptAndTargetStringsDisjointFromV1": true,
+    "thresholdsIdenticalToV1": true,
+    "fourRoleComparisons": "unrun",
+    "controller": "not-yet-authored-or-activated"
+  },
+  "noLocalHeavyStorageException": true,
+  "noEngineOrModelExecution": true,
+  "noNewDependencyOrCI": true,
+  "noPaidServiceOrAccount": true,
+  "nextGate": "author and review exact bounded frozen-study controller, then execute real four-role inference in approved free CI",
+  "fullProduct": "unfinished"
+}

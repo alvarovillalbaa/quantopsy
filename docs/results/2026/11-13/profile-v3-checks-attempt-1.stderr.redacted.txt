@@ -1,0 +1,109 @@
+test_absent_or_duplicate_embedding_and_other_names_are_refused (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_absent_or_duplicate_embedding_and_other_names_are_refused) ... ok
+test_candidate_matches_independent_full_file_bytes_and_keeps_every_unselected_payload (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_candidate_matches_independent_full_file_bytes_and_keeps_every_unselected_payload) ... ok
+test_cli_does_not_infer_v3_from_the_plan (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_cli_does_not_infer_v3_from_the_plan) ... ok
+test_cli_plan_repair_and_inspect_retain_explicit_version_three (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_cli_plan_repair_and_inspect_retain_explicit_version_three) ... ok
+test_data_only_comparator_accepts_bound_v3_manifest_without_claiming_inference (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_data_only_comparator_accepts_bound_v3_manifest_without_claiming_inference) ... ok
+test_embedding_dimensions_must_match_declared_width (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_embedding_dimensions_must_match_declared_width) ... ok
+test_embedding_dimensions_must_match_token_count (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_embedding_dimensions_must_match_token_count) ... ok
+test_embedding_plan_binds_explicit_version_kinds_growth_and_payload_hashes (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_embedding_plan_binds_explicit_version_kinds_growth_and_payload_hashes) ... ok
+test_existing_output_and_symlink_are_preserved (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_existing_output_and_symlink_are_preserved) ... ok
+test_explicit_vocabulary_size_must_agree_with_tokens (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_explicit_vocabulary_size_must_agree_with_tokens) ... ok
+test_f16_embedding_reference_is_not_silently_promoted_to_f32 (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_f16_embedding_reference_is_not_silently_promoted_to_f32) ... ok
+test_internal_matrices_and_embedding_can_be_explicitly_selected_together (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_internal_matrices_and_embedding_can_be_explicitly_selected_together) ... ok
+test_matching_explicit_vocabulary_size_accepts_the_embedding (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_matching_explicit_vocabulary_size_accepts_the_embedding) ... ok
+test_missing_empty_or_nontext_token_inventory_cannot_justify_embedding_shape (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_missing_empty_or_nontext_token_inventory_cannot_justify_embedding_shape) ... ok
+test_missing_nonpositive_or_wrongly_typed_width_is_refused (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_missing_nonpositive_or_wrongly_typed_width_is_refused) ... ok
+test_nonfinite_quantized_embedding_is_refused (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_nonfinite_quantized_embedding_is_refused) ... FAIL
+test_nonfinite_reference_embedding_is_refused (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_nonfinite_reference_embedding_is_refused) ... FAIL
+test_older_profiles_refuse_version_three_plans_instead_of_upgrading (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_older_profiles_refuse_version_three_plans_instead_of_upgrading) ... ok
+test_output_head_remains_opaque_and_is_not_admitted_for_restoration (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_output_head_remains_opaque_and_is_not_admitted_for_restoration) ... ok
+test_q8_embedding_is_not_silently_decoded_or_selected (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_q8_embedding_is_not_silently_decoded_or_selected) ... ok
+test_readers_and_operation_must_explicitly_agree_on_v3 (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_readers_and_operation_must_explicitly_agree_on_v3) ... ok
+test_tampered_plan_cannot_change_embedding_payload_or_exceed_budgets (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_tampered_plan_cannot_change_embedding_payload_or_exceed_budgets) ... ok
+test_v2_still_refuses_embedding_selection_and_uses_version_two_for_internal_matrices (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_v2_still_refuses_embedding_selection_and_uses_version_two_for_internal_matrices) ... ok
+test_v3_without_embedding_does_not_select_it_implicitly (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_v3_without_embedding_does_not_select_it_implicitly) ... ok
+test_work_and_added_weight_limits_reject_before_value_decoding (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_work_and_added_weight_limits_reject_before_value_decoding) ... ok
+test_both_readers_and_operation_must_agree_on_the_explicit_profile (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_both_readers_and_operation_must_agree_on_the_explicit_profile) ... ok
+test_changed_source_before_or_during_v2_copy_never_publishes_completion (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_changed_source_before_or_during_v2_copy_never_publishes_completion) ... ok
+test_cli_plan_and_repair_require_explicit_matching_version_and_publish_schema_two (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_cli_plan_and_repair_require_explicit_matching_version_and_publish_schema_two) ... ok
+test_cli_v2_inspection_is_opt_in_and_diagnostics_reject_profile_flags (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_cli_v2_inspection_is_opt_in_and_diagnostics_reject_profile_flags) ... ok
+test_default_v1_refuses_q8_and_keeps_explicit_v1_reports_and_candidate_bytes (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_default_v1_refuses_q8_and_keeps_explicit_v1_reports_and_candidate_bytes) ... ok
+test_dense_layout_fences_remain_required_under_v2 (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_dense_layout_fences_remain_required_under_v2) ... ok
+test_every_unquantized_f32_and_f16_type_and_payload_binding_is_required (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_every_unquantized_f32_and_f16_type_and_payload_binding_is_required) ... ok
+test_failed_v2_install_preserves_replaced_inodes_and_unexpected_files (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_failed_v2_install_preserves_replaced_inodes_and_unexpected_files) ... ok
+test_forged_source_and_selected_hashes_cannot_write_a_candidate (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_forged_source_and_selected_hashes_cannot_write_a_candidate) ... ok
+test_invalid_profile_values_are_not_coerced_and_fail_before_input_open (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_invalid_profile_values_are_not_coerced_and_fail_before_input_open) ... ok
+test_manifest_install_failure_removes_owned_v2_artifacts_without_completion (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_manifest_install_failure_removes_owned_v2_artifacts_without_completion) ... ok
+test_opaque_q8_decoder_refuses_before_any_tensor_stream_is_consumed (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_opaque_q8_decoder_refuses_before_any_tensor_stream_is_consumed) ... ok
+test_pairing_checks_encoded_metadata_by_key_without_requiring_the_same_order (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_pairing_checks_encoded_metadata_by_key_without_requiring_the_same_order) ... ok
+test_pairing_rejects_changed_complete_tensor_names_or_dimensions (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_pairing_rejects_changed_complete_tensor_names_or_dimensions) ... ok
+test_q8_requires_whole_dimension_zero_rows_not_just_total_blocks (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_requires_whole_dimension_zero_rows_not_just_total_blocks) ... ok
+test_q8_span_is_two_explicit_34_byte_blocks_and_profile_is_read_only (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_span_is_two_explicit_34_byte_blocks_and_profile_is_read_only) ... ok
+test_q8_truncation_overlap_alignment_and_unknown_encodings_are_refused (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_truncation_overlap_alignment_and_unknown_encodings_are_refused) ... ok
+test_q8_without_q4_still_requires_exact_quantization_version_two (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_without_q4_still_requires_exact_quantization_version_two) ... ok
+test_reference_inventory_cannot_contain_opaque_q8 (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_reference_inventory_cannot_contain_opaque_q8) ... ok
+test_schema_versions_cannot_silently_choose_or_upgrade_the_requested_profile (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_schema_versions_cannot_silently_choose_or_upgrade_the_requested_profile) ... ok
+test_selected_f32_values_and_q4_scales_must_be_finite (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_selected_f32_values_and_q4_scales_must_be_finite) ... ok
+test_v2_create_only_outputs_preserve_existing_files_directories_and_symlinks (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_create_only_outputs_preserve_existing_files_directories_and_symlinks) ... ok
+test_v2_output_and_storage_budgets_fail_before_directory_creation (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_output_and_storage_budgets_fail_before_directory_creation) ... ok
+test_v2_plan_binds_selected_f32_bytes_and_returns_detached_strict_records (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_plan_binds_selected_f32_bytes_and_returns_detached_strict_records) ... ok
+test_v2_plan_rejects_boolean_integer_coercions_extra_fields_and_f16_widths (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_plan_rejects_boolean_integer_coercions_extra_fields_and_f16_widths) ... ok
+test_v2_selection_refuses_q8_quantized_tensors_and_f16_references (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_selection_refuses_q8_quantized_tensors_and_f16_references) ... ok
+test_v2_writer_reparses_both_stages_and_preserves_every_prescribed_byte (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_writer_reparses_both_stages_and_preserves_every_prescribed_byte) ... ok
+test_work_and_growth_budgets_are_checked_before_selected_value_decoding (tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_work_and_growth_budgets_are_checked_before_selected_value_decoding) ... ok
+test_cli_failures_return_finite_json_without_echoing_paths_or_argument_payloads (tests.test_cli.CliTests.test_cli_failures_return_finite_json_without_echoing_paths_or_argument_payloads) ... ok
+test_cli_report_output_refuses_existing_files_and_retains_their_exact_bytes (tests.test_cli.CliTests.test_cli_report_output_refuses_existing_files_and_retains_their_exact_bytes) ... ok
+test_diagnose_command_uses_selected_actual_weights_without_a_runner (tests.test_cli.CliTests.test_diagnose_command_uses_selected_actual_weights_without_a_runner) ... ok
+test_failed_json_fsync_removes_only_the_owned_partial_and_closes_its_descriptor (tests.test_cli.CliTests.test_failed_json_fsync_removes_only_the_owned_partial_and_closes_its_descriptor) ... ok
+test_inspect_prints_actual_container_hash_and_explicit_unrun_behavior (tests.test_cli.CliTests.test_inspect_prints_actual_container_hash_and_explicit_unrun_behavior) ... ok
+test_json_cleanup_preserves_a_replaced_path_after_the_owned_write_fails (tests.test_cli.CliTests.test_json_cleanup_preserves_a_replaced_path_after_the_owned_write_fails) ... ok
+test_json_create_is_private_and_input_output_paths_refuse_symlinks_or_nonfiles (tests.test_cli.CliTests.test_json_create_is_private_and_input_output_paths_refuse_symlinks_or_nonfiles) ... ok
+test_json_depth_entry_byte_and_limit_budgets_reject_before_unbounded_output (tests.test_cli.CliTests.test_json_depth_entry_byte_and_limit_budgets_reject_before_unbounded_output) ... ok
+test_json_descriptor_setup_failures_close_the_fd_and_never_claim_a_completed_record (tests.test_cli.CliTests.test_json_descriptor_setup_failures_close_the_fd_and_never_claim_a_completed_record) ... ok
+test_json_output_rejects_cycles_non_json_values_and_isolated_unicode_units (tests.test_cli.CliTests.test_json_output_rejects_cycles_non_json_values_and_isolated_unicode_units) ... ok
+test_json_reads_reject_invalid_utf8_duplicates_surrogates_and_nonfinite_numbers (tests.test_cli.CliTests.test_json_reads_reject_invalid_utf8_duplicates_surrogates_and_nonfinite_numbers) ... ok
+test_json_roundtrip_preserves_unicode_zero_and_canonical_key_order (tests.test_cli.CliTests.test_json_roundtrip_preserves_unicode_zero_and_canonical_key_order) ... ok
+test_pair_open_failure_closes_prior_resources_through_the_actual_cli_stack (tests.test_cli.CliTests.test_pair_open_failure_closes_prior_resources_through_the_actual_cli_stack) ... ok
+test_plan_command_creates_a_new_provenance_bound_record_with_exact_source_hashes (tests.test_cli.CliTests.test_plan_command_creates_a_new_provenance_bound_record_with_exact_source_hashes) ... ok
+test_probe_command_reads_explicit_calibration_and_reports_only_supplied_linear_evidence (tests.test_cli.CliTests.test_probe_command_reads_explicit_calibration_and_reports_only_supplied_linear_evidence) ... ok
+test_repair_command_writes_real_selected_f16_bytes_without_subprocess_or_network (tests.test_cli.CliTests.test_repair_command_writes_real_selected_f16_bytes_without_subprocess_or_network) ... ok
+test_good_measurements_without_repair_manifest_cannot_pass_bound_recovery_records (tests.test_behavior.BehaviorComparisonTier2Tests.test_good_measurements_without_repair_manifest_cannot_pass_bound_recovery_records) ... ok
+test_both_supported_repair_manifest_versions_bind_supplied_records (tests.test_behavior.BehaviorComparisonTier2Tests.test_both_supported_repair_manifest_versions_bind_supplied_records) ... ok
+test_manifest_full_reference_quantized_and_candidate_identities_must_match (tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_full_reference_quantized_and_candidate_identities_must_match) ... ok
+test_manifest_cannot_bind_an_arbitrary_or_stale_canonical_plan_hash (tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_cannot_bind_an_arbitrary_or_stale_canonical_plan_hash) ... ok
+test_manifest_requires_strict_plan_arithmetic_verification_and_unclaimed_behavior (tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_requires_strict_plan_arithmetic_verification_and_unclaimed_behavior) ... ok
+
+======================================================================
+FAIL: test_nonfinite_quantized_embedding_is_refused (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_nonfinite_quantized_embedding_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "[repository]/tests/integration/test_profile_v3.py", line 254, in test_nonfinite_quantized_embedding_is_refused
+    self.refused("repair_invalid_values", self.plan, reference, quantized)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[repository]/tests/integration/test_profile_v3.py", line 71, in refused
+    self.assertEqual(caught.exception.code, code)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'gguf_nonfinite_weight' != 'repair_invalid_values'
+- gguf_nonfinite_weight
++ repair_invalid_values
+
+
+======================================================================
+FAIL: test_nonfinite_reference_embedding_is_refused (tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_nonfinite_reference_embedding_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "[repository]/tests/integration/test_profile_v3.py", line 249, in test_nonfinite_reference_embedding_is_refused
+    self.refused("repair_invalid_values", self.plan, reference, quantized)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "[repository]/tests/integration/test_profile_v3.py", line 71, in refused
+    self.assertEqual(caught.exception.code, code)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'gguf_nonfinite_weight' != 'repair_invalid_values'
+- gguf_nonfinite_weight
++ repair_invalid_values
+
+
+----------------------------------------------------------------------
+Ran 74 tests in 0.236s
+
+FAILED (failures=2)

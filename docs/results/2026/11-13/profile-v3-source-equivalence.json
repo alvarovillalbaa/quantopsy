@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "quantopsy.profile-v3-source-equivalence.v1",
+  "qualifiedSourceCommit": "27ea65a5d0d7e65cae18f6a8380e6e8af78f09e3",
+  "qualifiedSourceTree": "979e729818b588299ca6b438d61db38f4fba36b4",
+  "qualifiedInputs": 54,
+  "unchangedInputs": 48,
+  "changedDocuments": [
+    "AGENTS.md",
+    "README.md",
+    "docs/behavior.md",
+    "docs/format.md",
+    "docs/proposals/input-embedding-v3.md",
+    "tests/README.md"
+  ],
+  "allProductTestHelperAndFrozenDataBytesUnchanged": true,
+  "closedScientificSourcesAndResultsUnchanged": true,
+  "studyJsonSha256": "8c35578fb0f8a2451a876f0a86cacf98941f7887a289df0bfd19c5ae416c5bc3",
+  "priorObserverFailureAndTwoFailedCasesRetained": true,
+  "newCIActivated": false,
+  "newModelExecuted": false,
+  "localHeavyOperation": false
+}

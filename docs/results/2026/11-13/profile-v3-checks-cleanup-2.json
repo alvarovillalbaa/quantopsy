@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "quantopsy.profile-v3-checks-cleanup.v1",
+  "recordedAt": "2026-11-13T08:06:41.957Z",
+  "originalReceipt": {
+    "file": "profile-v3-checks-attempt-2.json",
+    "sha256": "78905dc6de244567203f5225bf1c929f544b0ef3c6c7b890773f7486fc75ad56"
+  },
+  "processObservation": {
+    "method": "native exec ps -axo pid=,pgid=",
+    "exitCode": 0,
+    "ownedProcessGroup": 36012,
+    "members": [],
+    "scope": "current owned-group snapshot"
+  },
+  "openFileObservation": {
+    "method": "native exec lsof +D [owned-scratch]",
+    "exitCode": 1,
+    "outputEmpty": true
+  },
+  "fixtureFoldersRemainingBeforeOuterCleanup": [],
+  "ownedRootRemoved": true,
+  "ownedRootAbsenceReadback": true,
+  "testsRerun": false
+}

@@ -1,0 +1,1211 @@
+{
+  "schemaVersion": "quantopsy.profile-v3-native-observation.v1",
+  "status": "observer_failed",
+  "observerError": "spawnSync ps EPERM after test child closed and streams were retained",
+  "baseCommit": "0bf9fd2d4deafccd841e34e4ec5ffe91eb075bad",
+  "startedAt": "2026-11-13T08:01:05.878Z",
+  "childDurationUpperBoundMs": 49773,
+  "python": {
+    "version": "3.14.7",
+    "executableSha256": "87d4df53fd91304be5bac391fb204643c36b7df2023c04a0953bcbc7d4fdf634"
+  },
+  "command": {
+    "program": "python3",
+    "argv": [
+      "-B",
+      "-m",
+      "unittest",
+      "-v",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests",
+      "tests.test_cli.CliTests",
+      "tests.test_behavior.BehaviorComparisonTier2Tests.test_good_measurements_without_repair_manifest_cannot_pass_bound_recovery_records",
+      "tests.test_behavior.BehaviorComparisonTier2Tests.test_both_supported_repair_manifest_versions_bind_supplied_records",
+      "tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_full_reference_quantized_and_candidate_identities_must_match",
+      "tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_cannot_bind_an_arbitrary_or_stale_canonical_plan_hash",
+      "tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_requires_strict_plan_arithmetic_verification_and_unclaimed_behavior"
+    ],
+    "cwd": "[repository]",
+    "environment": {
+      "HOME": "preserved",
+      "TMPDIR": "[owned-scratch]/fixtures",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "PYTHON_COLORS": "0",
+      "NO_COLOR": "1"
+    },
+    "timeoutMs": 40000,
+    "streamLimitBytes": 262144,
+    "pid": 35961,
+    "exitObserved": {
+      "code": 1,
+      "signal": null
+    },
+    "closed": {
+      "code": 1,
+      "signal": null
+    },
+    "stop": null,
+    "launchError": null,
+    "stdout": {
+      "file": "profile-v3-checks-attempt-1.stdout.txt",
+      "bytes": 0,
+      "observedBytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "file": "profile-v3-checks-attempt-1.stderr.txt",
+      "bytes": 16986,
+      "observedBytes": 16986,
+      "sha256": "fffea03c0cbdb92c5d9a0d42f2d8936c83ef5df2c050f84be5656d5bf974dc2e"
+    }
+  },
+  "cases": {
+    "expected": [
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_embedding_plan_binds_explicit_version_kinds_growth_and_payload_hashes",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_candidate_matches_independent_full_file_bytes_and_keeps_every_unselected_payload",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_internal_matrices_and_embedding_can_be_explicitly_selected_together",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_v3_without_embedding_does_not_select_it_implicitly",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_output_head_remains_opaque_and_is_not_admitted_for_restoration",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_v2_still_refuses_embedding_selection_and_uses_version_two_for_internal_matrices",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_older_profiles_refuse_version_three_plans_instead_of_upgrading",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_readers_and_operation_must_explicitly_agree_on_v3",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_embedding_dimensions_must_match_token_count",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_embedding_dimensions_must_match_declared_width",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_missing_empty_or_nontext_token_inventory_cannot_justify_embedding_shape",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_missing_nonpositive_or_wrongly_typed_width_is_refused",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_explicit_vocabulary_size_must_agree_with_tokens",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_matching_explicit_vocabulary_size_accepts_the_embedding",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_absent_or_duplicate_embedding_and_other_names_are_refused",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_q8_embedding_is_not_silently_decoded_or_selected",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_f16_embedding_reference_is_not_silently_promoted_to_f32",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_work_and_added_weight_limits_reject_before_value_decoding",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_nonfinite_reference_embedding_is_refused",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_nonfinite_quantized_embedding_is_refused",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_tampered_plan_cannot_change_embedding_payload_or_exceed_budgets",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_existing_output_and_symlink_are_preserved",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_cli_plan_repair_and_inspect_retain_explicit_version_three",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_cli_does_not_infer_v3_from_the_plan",
+      "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_data_only_comparator_accepts_bound_v3_manifest_without_claiming_inference",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_span_is_two_explicit_34_byte_blocks_and_profile_is_read_only",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_requires_whole_dimension_zero_rows_not_just_total_blocks",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_truncation_overlap_alignment_and_unknown_encodings_are_refused",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_without_q4_still_requires_exact_quantization_version_two",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_default_v1_refuses_q8_and_keeps_explicit_v1_reports_and_candidate_bytes",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_opaque_q8_decoder_refuses_before_any_tensor_stream_is_consumed",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_invalid_profile_values_are_not_coerced_and_fail_before_input_open",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_both_readers_and_operation_must_agree_on_the_explicit_profile",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_plan_binds_selected_f32_bytes_and_returns_detached_strict_records",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_plan_rejects_boolean_integer_coercions_extra_fields_and_f16_widths",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_schema_versions_cannot_silently_choose_or_upgrade_the_requested_profile",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_reference_inventory_cannot_contain_opaque_q8",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_selection_refuses_q8_quantized_tensors_and_f16_references",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_pairing_checks_encoded_metadata_by_key_without_requiring_the_same_order",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_pairing_rejects_changed_complete_tensor_names_or_dimensions",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_every_unquantized_f32_and_f16_type_and_payload_binding_is_required",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_dense_layout_fences_remain_required_under_v2",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_work_and_growth_budgets_are_checked_before_selected_value_decoding",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_selected_f32_values_and_q4_scales_must_be_finite",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_forged_source_and_selected_hashes_cannot_write_a_candidate",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_changed_source_before_or_during_v2_copy_never_publishes_completion",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_writer_reparses_both_stages_and_preserves_every_prescribed_byte",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_create_only_outputs_preserve_existing_files_directories_and_symlinks",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_output_and_storage_budgets_fail_before_directory_creation",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_manifest_install_failure_removes_owned_v2_artifacts_without_completion",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_failed_v2_install_preserves_replaced_inodes_and_unexpected_files",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_cli_v2_inspection_is_opt_in_and_diagnostics_reject_profile_flags",
+      "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_cli_plan_and_repair_require_explicit_matching_version_and_publish_schema_two",
+      "tests.test_cli.CliTests.test_inspect_prints_actual_container_hash_and_explicit_unrun_behavior",
+      "tests.test_cli.CliTests.test_diagnose_command_uses_selected_actual_weights_without_a_runner",
+      "tests.test_cli.CliTests.test_probe_command_reads_explicit_calibration_and_reports_only_supplied_linear_evidence",
+      "tests.test_cli.CliTests.test_plan_command_creates_a_new_provenance_bound_record_with_exact_source_hashes",
+      "tests.test_cli.CliTests.test_repair_command_writes_real_selected_f16_bytes_without_subprocess_or_network",
+      "tests.test_cli.CliTests.test_cli_failures_return_finite_json_without_echoing_paths_or_argument_payloads",
+      "tests.test_cli.CliTests.test_pair_open_failure_closes_prior_resources_through_the_actual_cli_stack",
+      "tests.test_cli.CliTests.test_cli_report_output_refuses_existing_files_and_retains_their_exact_bytes",
+      "tests.test_cli.CliTests.test_json_roundtrip_preserves_unicode_zero_and_canonical_key_order",
+      "tests.test_cli.CliTests.test_json_reads_reject_invalid_utf8_duplicates_surrogates_and_nonfinite_numbers",
+      "tests.test_cli.CliTests.test_json_depth_entry_byte_and_limit_budgets_reject_before_unbounded_output",
+      "tests.test_cli.CliTests.test_json_output_rejects_cycles_non_json_values_and_isolated_unicode_units",
+      "tests.test_cli.CliTests.test_json_create_is_private_and_input_output_paths_refuse_symlinks_or_nonfiles",
+      "tests.test_cli.CliTests.test_failed_json_fsync_removes_only_the_owned_partial_and_closes_its_descriptor",
+      "tests.test_cli.CliTests.test_json_descriptor_setup_failures_close_the_fd_and_never_claim_a_completed_record",
+      "tests.test_cli.CliTests.test_json_cleanup_preserves_a_replaced_path_after_the_owned_write_fails",
+      "tests.test_behavior.BehaviorComparisonTier2Tests.test_good_measurements_without_repair_manifest_cannot_pass_bound_recovery_records",
+      "tests.test_behavior.BehaviorComparisonTier2Tests.test_both_supported_repair_manifest_versions_bind_supplied_records",
+      "tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_full_reference_quantized_and_candidate_identities_must_match",
+      "tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_cannot_bind_an_arbitrary_or_stale_canonical_plan_hash",
+      "tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_requires_strict_plan_arithmetic_verification_and_unclaimed_behavior"
+    ],
+    "observed": [
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_absent_or_duplicate_embedding_and_other_names_are_refused",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_candidate_matches_independent_full_file_bytes_and_keeps_every_unselected_payload",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_cli_does_not_infer_v3_from_the_plan",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_cli_plan_repair_and_inspect_retain_explicit_version_three",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_data_only_comparator_accepts_bound_v3_manifest_without_claiming_inference",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_embedding_dimensions_must_match_declared_width",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_embedding_dimensions_must_match_token_count",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_embedding_plan_binds_explicit_version_kinds_growth_and_payload_hashes",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_existing_output_and_symlink_are_preserved",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_explicit_vocabulary_size_must_agree_with_tokens",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_f16_embedding_reference_is_not_silently_promoted_to_f32",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_internal_matrices_and_embedding_can_be_explicitly_selected_together",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_matching_explicit_vocabulary_size_accepts_the_embedding",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_missing_empty_or_nontext_token_inventory_cannot_justify_embedding_shape",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_missing_nonpositive_or_wrongly_typed_width_is_refused",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_nonfinite_quantized_embedding_is_refused",
+        "status": "FAIL"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_nonfinite_reference_embedding_is_refused",
+        "status": "FAIL"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_older_profiles_refuse_version_three_plans_instead_of_upgrading",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_output_head_remains_opaque_and_is_not_admitted_for_restoration",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_q8_embedding_is_not_silently_decoded_or_selected",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_readers_and_operation_must_explicitly_agree_on_v3",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_tampered_plan_cannot_change_embedding_payload_or_exceed_budgets",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_v2_still_refuses_embedding_selection_and_uses_version_two_for_internal_matrices",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_v3_without_embedding_does_not_select_it_implicitly",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v3.ProfileV3IntegrationTier2Tests.test_work_and_added_weight_limits_reject_before_value_decoding",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_both_readers_and_operation_must_agree_on_the_explicit_profile",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_changed_source_before_or_during_v2_copy_never_publishes_completion",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_cli_plan_and_repair_require_explicit_matching_version_and_publish_schema_two",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_cli_v2_inspection_is_opt_in_and_diagnostics_reject_profile_flags",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_default_v1_refuses_q8_and_keeps_explicit_v1_reports_and_candidate_bytes",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_dense_layout_fences_remain_required_under_v2",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_every_unquantized_f32_and_f16_type_and_payload_binding_is_required",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_failed_v2_install_preserves_replaced_inodes_and_unexpected_files",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_forged_source_and_selected_hashes_cannot_write_a_candidate",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_invalid_profile_values_are_not_coerced_and_fail_before_input_open",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_manifest_install_failure_removes_owned_v2_artifacts_without_completion",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_opaque_q8_decoder_refuses_before_any_tensor_stream_is_consumed",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_pairing_checks_encoded_metadata_by_key_without_requiring_the_same_order",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_pairing_rejects_changed_complete_tensor_names_or_dimensions",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_requires_whole_dimension_zero_rows_not_just_total_blocks",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_span_is_two_explicit_34_byte_blocks_and_profile_is_read_only",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_truncation_overlap_alignment_and_unknown_encodings_are_refused",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_q8_without_q4_still_requires_exact_quantization_version_two",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_reference_inventory_cannot_contain_opaque_q8",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_schema_versions_cannot_silently_choose_or_upgrade_the_requested_profile",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_selected_f32_values_and_q4_scales_must_be_finite",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_create_only_outputs_preserve_existing_files_directories_and_symlinks",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_output_and_storage_budgets_fail_before_directory_creation",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_plan_binds_selected_f32_bytes_and_returns_detached_strict_records",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_plan_rejects_boolean_integer_coercions_extra_fields_and_f16_widths",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_selection_refuses_q8_quantized_tensors_and_f16_references",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_v2_writer_reparses_both_stages_and_preserves_every_prescribed_byte",
+        "status": "ok"
+      },
+      {
+        "id": "tests.integration.test_profile_v2.ProfileV2IntegrationTier2Tests.test_work_and_growth_budgets_are_checked_before_selected_value_decoding",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_cli_failures_return_finite_json_without_echoing_paths_or_argument_payloads",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_cli_report_output_refuses_existing_files_and_retains_their_exact_bytes",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_diagnose_command_uses_selected_actual_weights_without_a_runner",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_failed_json_fsync_removes_only_the_owned_partial_and_closes_its_descriptor",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_inspect_prints_actual_container_hash_and_explicit_unrun_behavior",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_cleanup_preserves_a_replaced_path_after_the_owned_write_fails",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_create_is_private_and_input_output_paths_refuse_symlinks_or_nonfiles",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_depth_entry_byte_and_limit_budgets_reject_before_unbounded_output",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_descriptor_setup_failures_close_the_fd_and_never_claim_a_completed_record",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_output_rejects_cycles_non_json_values_and_isolated_unicode_units",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_reads_reject_invalid_utf8_duplicates_surrogates_and_nonfinite_numbers",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_json_roundtrip_preserves_unicode_zero_and_canonical_key_order",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_pair_open_failure_closes_prior_resources_through_the_actual_cli_stack",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_plan_command_creates_a_new_provenance_bound_record_with_exact_source_hashes",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_probe_command_reads_explicit_calibration_and_reports_only_supplied_linear_evidence",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_cli.CliTests.test_repair_command_writes_real_selected_f16_bytes_without_subprocess_or_network",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_behavior.BehaviorComparisonTier2Tests.test_good_measurements_without_repair_manifest_cannot_pass_bound_recovery_records",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_behavior.BehaviorComparisonTier2Tests.test_both_supported_repair_manifest_versions_bind_supplied_records",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_full_reference_quantized_and_candidate_identities_must_match",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_cannot_bind_an_arbitrary_or_stale_canonical_plan_hash",
+        "status": "ok"
+      },
+      {
+        "id": "tests.test_behavior.BehaviorComparisonTier2Tests.test_manifest_requires_strict_plan_arithmetic_verification_and_unclaimed_behavior",
+        "status": "ok"
+      }
+    ],
+    "exactSetMatched": true
+  },
+  "source": {
+    "before": [
+      {
+        "path": ".gitignore",
+        "mode": "100644",
+        "bytes": 243,
+        "sha256": "9bbd21af805e40ee1262e68716fb4e28b25315e57acd5843554d4412e6289858",
+        "gitBlob": "8262f64aee788bc1427dd8dd3bbb3eab723d2895"
+      },
+      {
+        "path": "AGENTS.md",
+        "mode": "100644",
+        "bytes": 12323,
+        "sha256": "61aae3e34d2819f3d8c7834e81e45bb3426de339dac4055d221c1b474cc8ec7e",
+        "gitBlob": "bd6c394514d8dad8b6ce7fa6778b43927fc6c3ea"
+      },
+      {
+        "path": "LICENSE",
+        "mode": "100644",
+        "bytes": 1078,
+        "sha256": "6e3ae862a0f98e9f377f98f71fd86160932dad7186416f5509a335703c6fe3b5",
+        "gitBlob": "7694388483b2d169819b727c2484e0e748498f4c"
+      },
+      {
+        "path": "README.md",
+        "mode": "100644",
+        "bytes": 8345,
+        "sha256": "a300c15a37b921b00ff42fef211fb2bee61ec5502475f6680cd3d9516c97dd5b",
+        "gitBlob": "e511861a08777aa5c085471b9cdd5cfa5c6bea28"
+      },
+      {
+        "path": "docs/behavior.md",
+        "mode": "100644",
+        "bytes": 3098,
+        "sha256": "8e00ed0e0eba7eca802fb6670e1e5de714219ab0c8a112eac3f5b99d5b35d8a1",
+        "gitBlob": "0fbd036bd757e664aeda1c469c22dd43113230b9"
+      },
+      {
+        "path": "docs/format.md",
+        "mode": "100644",
+        "bytes": 8637,
+        "sha256": "4389204ed7eb829e48704b6f98ce2b5355af2de15e31f234a11df97d52457b34",
+        "gitBlob": "8604affb31cfda7c538ffb3e0954cf0701b346d4"
+      },
+      {
+        "path": "docs/proposals/behavioral-inference-v1.md",
+        "mode": "100644",
+        "bytes": 5565,
+        "sha256": "411935230af817bdd98ffe98b71d679ebdd31e4d65c4b0492ca9b95e153125d9",
+        "gitBlob": "f9800809427f38578a5db6a13a423f9f7485b802"
+      },
+      {
+        "path": "docs/proposals/behavioral-inference.workflow.yml.example",
+        "mode": "100644",
+        "bytes": 1276,
+        "sha256": "07e72b94906d39a74d75a4095d481027871fc393d529c076420a28608528069b",
+        "gitBlob": "ba63c862049156ed33a8fc6734f10d3bf885de37"
+      },
+      {
+        "path": "docs/proposals/fixture-checks.md",
+        "mode": "100644",
+        "bytes": 3544,
+        "sha256": "68dda832064b8805e4ce5fdbc06abe1fdca3f66d2b73c8b04c14b8117f9f6f53",
+        "gitBlob": "42226859a030cf1a273077f8f66c3c6d97cbcc52"
+      },
+      {
+        "path": "docs/proposals/gguf-compat-v2.workflow.yml.example",
+        "mode": "100644",
+        "bytes": 1357,
+        "sha256": "a6905c00d7493b842dc4b6e2cfae4a6f3809d88a9a2f6ee99e37c21e96c285ad",
+        "gitBlob": "c51d20985fc6e7974476a9fcb8e3668d5426346f"
+      },
+      {
+        "path": "docs/proposals/input-embedding-v3.md",
+        "mode": "100644",
+        "bytes": 4780,
+        "sha256": "01695f4eb4bfa1a4db639766034adbf592d162f8e2b4475e3d374ae9fe48cbfc",
+        "gitBlob": "b1102e9e8915581aa7069e089e229b5740c59caa"
+      },
+      {
+        "path": "docs/proposals/opaque-q8-f32-v2.md",
+        "mode": "100644",
+        "bytes": 4383,
+        "sha256": "f9e41a30c6ba26d425a4192c6662473cd39cf5ee26ab0e60e65e8b618a52f4c1",
+        "gitBlob": "f4e37eea0d67761d44054412ffbd4b857696fc06"
+      },
+      {
+        "path": "docs/proposals/public-gguf-observation.md",
+        "mode": "100644",
+        "bytes": 11016,
+        "sha256": "5b2a79dd03ef21d4db8ddc51c93997a411eff8f60fa5cc7e392d6e637ebaec50",
+        "gitBlob": "90578ff2bb69736816cdc91db849fac862071e37"
+      },
+      {
+        "path": "docs/proposals/public-gguf-observation.workflow.yml.example",
+        "mode": "100644",
+        "bytes": 1351,
+        "sha256": "80da93fb43b7a46cd7419f45a6caec92747211e926f85ffc711dbc395c2f7ddc",
+        "gitBlob": "5bd41b87ec2b8ba72185fd2982904e84c9673097"
+      },
+      {
+        "path": "docs/research/2026/11-07/real-artifact-selection.md",
+        "mode": "100644",
+        "bytes": 3141,
+        "sha256": "64c0b7ee56e616168c4159c61cb017beb28ff6a6f37f5fe0498fcf5bbf84d2de",
+        "gitBlob": "305b49b01efaf9b756c0625c28b4dc3f7360e310"
+      },
+      {
+        "path": "docs/research/2026/11-08/behavioral-engine.md",
+        "mode": "100644",
+        "bytes": 11524,
+        "sha256": "d150f20a35a647c91b8a20b5f79e98e0949ed789739dfd8ad7b94dfb56b43964",
+        "gitBlob": "e505e8ea0d6f916b2e2e9e20d797a0f6eafeec1b"
+      },
+      {
+        "path": "docs/sources.md",
+        "mode": "100644",
+        "bytes": 4059,
+        "sha256": "caf02310913f07cc511e425001ac7a82d4b2df1a18a6c75785f3824558e61719",
+        "gitBlob": "741f6ac3e99c729f6458d3974ff485e9b942cb71"
+      },
+      {
+        "path": "docs/spec.md",
+        "mode": "100644",
+        "bytes": 5449,
+        "sha256": "1a1bbb6ae2161304fafd3c4846c47ee60d4ec5395829a65b176c674bba4441fa",
+        "gitBlob": "3988f0185ba30af61ad4542d589da97c52e0fd7d"
+      },
+      {
+        "path": "docs/studies/embedding-v2.json",
+        "mode": "100644",
+        "bytes": 7185,
+        "sha256": "8c35578fb0f8a2451a876f0a86cacf98941f7887a289df0bfd19c5ae416c5bc3",
+        "gitBlob": "ef4a2b3cd6158fef97cd0183ee3980345dc14157"
+      },
+      {
+        "path": "docs/studies/embedding-v2.md",
+        "mode": "100644",
+        "bytes": 3730,
+        "sha256": "9297a05f38bf90c0bbe33374267114e67942d16acaa249c3eb50bf0d76b730de",
+        "gitBlob": "b965829bbc57dc6d52f9c08fa683b0b5d09f7d71"
+      },
+      {
+        "path": "examples/probes.example.json",
+        "mode": "100644",
+        "bytes": 473,
+        "sha256": "7a8a743e99c316839c1d8b7d0b2cd51ab4b4f5fa4e0d5401dc6ad6659c7f0569",
+        "gitBlob": "483198b8312c8a81928c9aca8e91aa8e1b130d75"
+      },
+      {
+        "path": "examples/provenance.example.json",
+        "mode": "100644",
+        "bytes": 296,
+        "sha256": "1a5331a1fa7edd6a2e77bb84080ab2a5a3866f136eaa32fb49a44c7e9ecc2950",
+        "gitBlob": "2acc55cd9fc32972daafaf3c2de78cfaaad13a31"
+      },
+      {
+        "path": "quantopsy/__init__.py",
+        "mode": "100644",
+        "bytes": 99,
+        "sha256": "2a114c8834891f57ef666e57c4444252378c233660aa4280b301449d696f4983",
+        "gitBlob": "830caf9c9fd65a4e4bc6d39dcc475351141b2331"
+      },
+      {
+        "path": "quantopsy/__main__.py",
+        "mode": "100644",
+        "bytes": 48,
+        "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+        "gitBlob": "eb53e2f31b2f703ad32ef64b8a41faa3e7d18e08"
+      },
+      {
+        "path": "quantopsy/behavior.py",
+        "mode": "100644",
+        "bytes": 17550,
+        "sha256": "7fb0c91a3777a0b6dd96d952a5d79e73e09bf7e1a5ba05af1bf2615e4acfb7d3",
+        "gitBlob": "85224d822699b815e07ae1ea64b4e6a8b8a60345"
+      },
+      {
+        "path": "quantopsy/cli.py",
+        "mode": "100644",
+        "bytes": 8519,
+        "sha256": "9ede8567f99250916499d22e9dba22c9e2552a37b7290b64abad4988eb1acc22",
+        "gitBlob": "fbcad20e01b5c9ac4ddcfd6b82a3cc6ed20f3b96"
+      },
+      {
+        "path": "quantopsy/contracts.py",
+        "mode": "100644",
+        "bytes": 1419,
+        "sha256": "4df7d607db41d02c0c03c83b3b647201d4004461d13d6ef1e835e83a801d766e",
+        "gitBlob": "06c719e541232cb657e0cc46a7ab8ff9ecc39a4f"
+      },
+      {
+        "path": "quantopsy/diagnostics.py",
+        "mode": "100644",
+        "bytes": 11864,
+        "sha256": "120eb56904b8db1e2391013586f7f2b6591c0c9b0b8a8e37b70140c09e4a09d7",
+        "gitBlob": "6ecef296f7e074419c38197418bbc847dfc1f402"
+      },
+      {
+        "path": "quantopsy/errors.py",
+        "mode": "100644",
+        "bytes": 339,
+        "sha256": "58714b8b8dd29939217a9b395bfee40cdb17591cd6b4b2619336ebdfb42bf926",
+        "gitBlob": "e77dba60a233e5ec473bb7f2b6cdb5455622b46d"
+      },
+      {
+        "path": "quantopsy/gguf.py",
+        "mode": "100644",
+        "bytes": 20367,
+        "sha256": "d83d62cf90fd2ac671dbf524cdcc3dad46f5d789d43dbcfdc5b6c35a234b6a21",
+        "gitBlob": "adea33ec782acc0fa1e948f482b72932525fcd87"
+      },
+      {
+        "path": "quantopsy/io.py",
+        "mode": "100644",
+        "bytes": 5972,
+        "sha256": "5c1e7a89f7a08e82e68fd089de1258b340fd67051df13cb271d46872c8626bb3",
+        "gitBlob": "16fdf76faf0aaee280ccc5edc863bce56c705f3c"
+      },
+      {
+        "path": "quantopsy/repair.py",
+        "mode": "100644",
+        "bytes": 32575,
+        "sha256": "788d87a13917aefc94c1eb3ccc3554852d600906af984a5c2eacad8d800aa770",
+        "gitBlob": "26454fc99a6a1a59ee5c02a29390d38688259e5a"
+      },
+      {
+        "path": "tests/README.md",
+        "mode": "100644",
+        "bytes": 6637,
+        "sha256": "383abafa3b144dde9ebbaf11f3477027a7a91118d14030b8dcfe7b016b5beb87",
+        "gitBlob": "d752d9de3da8a709fde83d728d2cbf50e77ab2b4"
+      },
+      {
+        "path": "tests/__init__.py",
+        "mode": "100644",
+        "bytes": 86,
+        "sha256": "e1631a641fd09d08a8a4df20ed4bc239bf732b415388f9d28f831fb7bf9499e1",
+        "gitBlob": "588278021eeaeb731e29d8dd27c8675fb761c9cb"
+      },
+      {
+        "path": "tests/behavior_fixtures.py",
+        "mode": "100644",
+        "bytes": 5358,
+        "sha256": "8cdbb0c1369b8d740d91aaa8b1daf021f7ba3d6b98405bdd8c26058bc73ec677",
+        "gitBlob": "10bbe1a76fcfe218070b1dc96765090696fca254"
+      },
+      {
+        "path": "tests/fixtures.py",
+        "mode": "100644",
+        "bytes": 6855,
+        "sha256": "c22cbf315b8bef3ee96de902ee679ea0089ebde8c256f1e01d519767d6be7ea7",
+        "gitBlob": "ecab52e0020273248d8f2b7b9d3f533ceb3ba8b9"
+      },
+      {
+        "path": "tests/helpers/__init__.py",
+        "mode": "100644",
+        "bytes": 68,
+        "sha256": "e62d7d1059fb90bf8c96dbbfe196bfec385ba37bfc5450dbcfb5aaad2136d74d",
+        "gitBlob": "17ddcedd5eca58e4d4e243015c730335b2d66c36"
+      },
+      {
+        "path": "tests/helpers/behavioral_engine/CMakeLists.txt",
+        "mode": "100644",
+        "bytes": 1575,
+        "sha256": "5735c313aa6d26ca7858086bd7fd5879909ff770c44e3aadadbd2f633f9b4616",
+        "gitBlob": "9b3729f288b1a1a98604e8fea1698d6395f775b1"
+      },
+      {
+        "path": "tests/helpers/behavioral_inference.py",
+        "mode": "100644",
+        "bytes": 15351,
+        "sha256": "690f4ff0333db55981b911146b2af977f0c1b4aff23115a244bb9d3a3636844d",
+        "gitBlob": "55d3ea6e1c2ef550623f24fb81e5f5d5ec64f711"
+      },
+      {
+        "path": "tests/helpers/behavioral_scorer.cpp",
+        "mode": "100644",
+        "bytes": 11901,
+        "sha256": "1250873fd22340593aa7ca34b7a90ec9b42cea1f8ca2b9f88a4b5bea2ee42de2",
+        "gitBlob": "660ea685f557cd8f2797593bfa43812780c36230"
+      },
+      {
+        "path": "tests/helpers/public_gguf_inventory.py",
+        "mode": "100644",
+        "bytes": 22524,
+        "sha256": "e1a51e561fc9ba2ab0a2b4e3604575accd37d2b560eebd7cda62772bda32c1f5",
+        "gitBlob": "2d08eeee93d01d4dabe7b2e966b9cfdf6f40fead"
+      },
+      {
+        "path": "tests/helpers/public_gguf_v2_bindings.py",
+        "mode": "100644",
+        "bytes": 28139,
+        "sha256": "0b90498f1386408f7936c5d685a4a8a1fc41b0a99eaac1f56db2a6f851b4aafc",
+        "gitBlob": "b9f4bf6836d43a740493c78f267ee0a19a04df0d"
+      },
+      {
+        "path": "tests/helpers/v2_fixtures.py",
+        "mode": "100644",
+        "bytes": 2981,
+        "sha256": "d20977ba1f125b6221c9dce90abe81bad136b76ab433d43b9470aa2c49a230a6",
+        "gitBlob": "0832cde7e108315fa825643889bc381aa2f67859"
+      },
+      {
+        "path": "tests/integration/__init__.py",
+        "mode": "100644",
+        "bytes": 70,
+        "sha256": "662a062e0c481de840b7d6ff760abfe23c7a6241228019f64cbc2a79975e862f",
+        "gitBlob": "43cd991e39ec7ed9d943ca8ca36197e61d24e90c"
+      },
+      {
+        "path": "tests/integration/test_profile_v2.py",
+        "mode": "100644",
+        "bytes": 31722,
+        "sha256": "6207ea11c4545c4b06e864c2549a51c132ae81b8bcc3cc701388e813fbf588f9",
+        "gitBlob": "dfde59a2e3ab3bf114f18b6e7c1781f6c41528e9"
+      },
+      {
+        "path": "tests/integration/test_profile_v3.py",
+        "mode": "100644",
+        "bytes": 20691,
+        "sha256": "001604f89ae8b6f7bab9e57be36c3dadb7a9627d1c4435c4a4288ee7beedeb33",
+        "gitBlob": "cfc0d2070c7a9666850ef08ccf3eaa7c5dc8d620"
+      },
+      {
+        "path": "tests/scripts/run-behavioral-inference.py",
+        "mode": "100644",
+        "bytes": 63108,
+        "sha256": "df44f477419791e4591b7e11b8c1da1121c42c44db597c6b73372e13973678df",
+        "gitBlob": "191d931d7c0ec08e0d9baa55ed0f76bf26d76ae4"
+      },
+      {
+        "path": "tests/scripts/run-public-gguf-observation.py",
+        "mode": "100644",
+        "bytes": 69730,
+        "sha256": "92611546993827585f6308ed9ee4106cee6591e5d878de6d272ec2e122b98372",
+        "gitBlob": "8d1af2e82b4c7b529bdd9c8d22a5b357f9628c6c"
+      },
+      {
+        "path": "tests/scripts/run-public-gguf-v2-compatibility.py",
+        "mode": "100644",
+        "bytes": 98268,
+        "sha256": "5161f1b9f89f6b8534f2e036dce06850082e4579e427417fa1ba0411cce9b99d",
+        "gitBlob": "43519a27fd6f67ecb27c724468aacfefc8b2da2a"
+      },
+      {
+        "path": "tests/test_behavior.py",
+        "mode": "100644",
+        "bytes": 28475,
+        "sha256": "41ac50fd9fefc0dfe3d7307194526a43cda81113ed92985f7b832b5ce9d0ea84",
+        "gitBlob": "750c987b201f767a0e89e88a5e5a22966520e5eb"
+      },
+      {
+        "path": "tests/test_cli.py",
+        "mode": "100644",
+        "bytes": 14989,
+        "sha256": "c5671130315b47cd002e04cfc2842c08ad798962916313714eec4b91033c2bf7",
+        "gitBlob": "3365a11ab4451379ac17a4c6d7b04c92f5a078fb"
+      },
+      {
+        "path": "tests/test_diagnostics.py",
+        "mode": "100644",
+        "bytes": 18400,
+        "sha256": "da5cc24bfa5a4262fbb6057d0a31a2bfc584256db2a191736f4145e7063d9f2b",
+        "gitBlob": "7e4fc88686602a73809f8149d85252ca260a55e5"
+      },
+      {
+        "path": "tests/test_gguf.py",
+        "mode": "100644",
+        "bytes": 16392,
+        "sha256": "c6d8d6027ef5c0bbc3112faf0432789c1df69ac99d925974d3589d6dcbb49b20",
+        "gitBlob": "732cf4606ed5510123a00e40c87d3467c4077c68"
+      },
+      {
+        "path": "tests/test_repair.py",
+        "mode": "100644",
+        "bytes": 28259,
+        "sha256": "64a6d1079a2ed36f5e1968dc21476d04688931471d253c610733f524084c52f5",
+        "gitBlob": "1b2f3bf137ebd93e55652f1a543909aca235d554"
+      }
+    ],
+    "after": [
+      {
+        "path": ".gitignore",
+        "mode": "100644",
+        "bytes": 243,
+        "sha256": "9bbd21af805e40ee1262e68716fb4e28b25315e57acd5843554d4412e6289858",
+        "gitBlob": "8262f64aee788bc1427dd8dd3bbb3eab723d2895"
+      },
+      {
+        "path": "AGENTS.md",
+        "mode": "100644",
+        "bytes": 12323,
+        "sha256": "61aae3e34d2819f3d8c7834e81e45bb3426de339dac4055d221c1b474cc8ec7e",
+        "gitBlob": "bd6c394514d8dad8b6ce7fa6778b43927fc6c3ea"
+      },
+      {
+        "path": "LICENSE",
+        "mode": "100644",
+        "bytes": 1078,
+        "sha256": "6e3ae862a0f98e9f377f98f71fd86160932dad7186416f5509a335703c6fe3b5",
+        "gitBlob": "7694388483b2d169819b727c2484e0e748498f4c"
+      },
+      {
+        "path": "README.md",
+        "mode": "100644",
+        "bytes": 8345,
+        "sha256": "a300c15a37b921b00ff42fef211fb2bee61ec5502475f6680cd3d9516c97dd5b",
+        "gitBlob": "e511861a08777aa5c085471b9cdd5cfa5c6bea28"
+      },
+      {
+        "path": "docs/behavior.md",
+        "mode": "100644",
+        "bytes": 3098,
+        "sha256": "8e00ed0e0eba7eca802fb6670e1e5de714219ab0c8a112eac3f5b99d5b35d8a1",
+        "gitBlob": "0fbd036bd757e664aeda1c469c22dd43113230b9"
+      },
+      {
+        "path": "docs/format.md",
+        "mode": "100644",
+        "bytes": 8637,
+        "sha256": "4389204ed7eb829e48704b6f98ce2b5355af2de15e31f234a11df97d52457b34",
+        "gitBlob": "8604affb31cfda7c538ffb3e0954cf0701b346d4"
+      },
+      {
+        "path": "docs/proposals/behavioral-inference-v1.md",
+        "mode": "100644",
+        "bytes": 5565,
+        "sha256": "411935230af817bdd98ffe98b71d679ebdd31e4d65c4b0492ca9b95e153125d9",
+        "gitBlob": "f9800809427f38578a5db6a13a423f9f7485b802"
+      },
+      {
+        "path": "docs/proposals/behavioral-inference.workflow.yml.example",
+        "mode": "100644",
+        "bytes": 1276,
+        "sha256": "07e72b94906d39a74d75a4095d481027871fc393d529c076420a28608528069b",
+        "gitBlob": "ba63c862049156ed33a8fc6734f10d3bf885de37"
+      },
+      {
+        "path": "docs/proposals/fixture-checks.md",
+        "mode": "100644",
+        "bytes": 3544,
+        "sha256": "68dda832064b8805e4ce5fdbc06abe1fdca3f66d2b73c8b04c14b8117f9f6f53",
+        "gitBlob": "42226859a030cf1a273077f8f66c3c6d97cbcc52"
+      },
+      {
+        "path": "docs/proposals/gguf-compat-v2.workflow.yml.example",
+        "mode": "100644",
+        "bytes": 1357,
+        "sha256": "a6905c00d7493b842dc4b6e2cfae4a6f3809d88a9a2f6ee99e37c21e96c285ad",
+        "gitBlob": "c51d20985fc6e7974476a9fcb8e3668d5426346f"
+      },
+      {
+        "path": "docs/proposals/input-embedding-v3.md",
+        "mode": "100644",
+        "bytes": 4780,
+        "sha256": "01695f4eb4bfa1a4db639766034adbf592d162f8e2b4475e3d374ae9fe48cbfc",
+        "gitBlob": "b1102e9e8915581aa7069e089e229b5740c59caa"
+      },
+      {
+        "path": "docs/proposals/opaque-q8-f32-v2.md",
+        "mode": "100644",
+        "bytes": 4383,
+        "sha256": "f9e41a30c6ba26d425a4192c6662473cd39cf5ee26ab0e60e65e8b618a52f4c1",
+        "gitBlob": "f4e37eea0d67761d44054412ffbd4b857696fc06"
+      },
+      {
+        "path": "docs/proposals/public-gguf-observation.md",
+        "mode": "100644",
+        "bytes": 11016,
+        "sha256": "5b2a79dd03ef21d4db8ddc51c93997a411eff8f60fa5cc7e392d6e637ebaec50",
+        "gitBlob": "90578ff2bb69736816cdc91db849fac862071e37"
+      },
+      {
+        "path": "docs/proposals/public-gguf-observation.workflow.yml.example",
+        "mode": "100644",
+        "bytes": 1351,
+        "sha256": "80da93fb43b7a46cd7419f45a6caec92747211e926f85ffc711dbc395c2f7ddc",
+        "gitBlob": "5bd41b87ec2b8ba72185fd2982904e84c9673097"
+      },
+      {
+        "path": "docs/research/2026/11-07/real-artifact-selection.md",
+        "mode": "100644",
+        "bytes": 3141,
+        "sha256": "64c0b7ee56e616168c4159c61cb017beb28ff6a6f37f5fe0498fcf5bbf84d2de",
+        "gitBlob": "305b49b01efaf9b756c0625c28b4dc3f7360e310"
+      },
+      {
+        "path": "docs/research/2026/11-08/behavioral-engine.md",
+        "mode": "100644",
+        "bytes": 11524,
+        "sha256": "d150f20a35a647c91b8a20b5f79e98e0949ed789739dfd8ad7b94dfb56b43964",
+        "gitBlob": "e505e8ea0d6f916b2e2e9e20d797a0f6eafeec1b"
+      },
+      {
+        "path": "docs/sources.md",
+        "mode": "100644",
+        "bytes": 4059,
+        "sha256": "caf02310913f07cc511e425001ac7a82d4b2df1a18a6c75785f3824558e61719",
+        "gitBlob": "741f6ac3e99c729f6458d3974ff485e9b942cb71"
+      },
+      {
+        "path": "docs/spec.md",
+        "mode": "100644",
+        "bytes": 5449,
+        "sha256": "1a1bbb6ae2161304fafd3c4846c47ee60d4ec5395829a65b176c674bba4441fa",
+        "gitBlob": "3988f0185ba30af61ad4542d589da97c52e0fd7d"
+      },
+      {
+        "path": "docs/studies/embedding-v2.json",
+        "mode": "100644",
+        "bytes": 7185,
+        "sha256": "8c35578fb0f8a2451a876f0a86cacf98941f7887a289df0bfd19c5ae416c5bc3",
+        "gitBlob": "ef4a2b3cd6158fef97cd0183ee3980345dc14157"
+      },
+      {
+        "path": "docs/studies/embedding-v2.md",
+        "mode": "100644",
+        "bytes": 3730,
+        "sha256": "9297a05f38bf90c0bbe33374267114e67942d16acaa249c3eb50bf0d76b730de",
+        "gitBlob": "b965829bbc57dc6d52f9c08fa683b0b5d09f7d71"
+      },
+      {
+        "path": "examples/probes.example.json",
+        "mode": "100644",
+        "bytes": 473,
+        "sha256": "7a8a743e99c316839c1d8b7d0b2cd51ab4b4f5fa4e0d5401dc6ad6659c7f0569",
+        "gitBlob": "483198b8312c8a81928c9aca8e91aa8e1b130d75"
+      },
+      {
+        "path": "examples/provenance.example.json",
+        "mode": "100644",
+        "bytes": 296,
+        "sha256": "1a5331a1fa7edd6a2e77bb84080ab2a5a3866f136eaa32fb49a44c7e9ecc2950",
+        "gitBlob": "2acc55cd9fc32972daafaf3c2de78cfaaad13a31"
+      },
+      {
+        "path": "quantopsy/__init__.py",
+        "mode": "100644",
+        "bytes": 99,
+        "sha256": "2a114c8834891f57ef666e57c4444252378c233660aa4280b301449d696f4983",
+        "gitBlob": "830caf9c9fd65a4e4bc6d39dcc475351141b2331"
+      },
+      {
+        "path": "quantopsy/__main__.py",
+        "mode": "100644",
+        "bytes": 48,
+        "sha256": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+        "gitBlob": "eb53e2f31b2f703ad32ef64b8a41faa3e7d18e08"
+      },
+      {
+        "path": "quantopsy/behavior.py",
+        "mode": "100644",
+        "bytes": 17550,
+        "sha256": "7fb0c91a3777a0b6dd96d952a5d79e73e09bf7e1a5ba05af1bf2615e4acfb7d3",
+        "gitBlob": "85224d822699b815e07ae1ea64b4e6a8b8a60345"
+      },
+      {
+        "path": "quantopsy/cli.py",
+        "mode": "100644",
+        "bytes": 8519,
+        "sha256": "9ede8567f99250916499d22e9dba22c9e2552a37b7290b64abad4988eb1acc22",
+        "gitBlob": "fbcad20e01b5c9ac4ddcfd6b82a3cc6ed20f3b96"
+      },
+      {
+        "path": "quantopsy/contracts.py",
+        "mode": "100644",
+        "bytes": 1419,
+        "sha256": "4df7d607db41d02c0c03c83b3b647201d4004461d13d6ef1e835e83a801d766e",
+        "gitBlob": "06c719e541232cb657e0cc46a7ab8ff9ecc39a4f"
+      },
+      {
+        "path": "quantopsy/diagnostics.py",
+        "mode": "100644",
+        "bytes": 11864,
+        "sha256": "120eb56904b8db1e2391013586f7f2b6591c0c9b0b8a8e37b70140c09e4a09d7",
+        "gitBlob": "6ecef296f7e074419c38197418bbc847dfc1f402"
+      },
+      {
+        "path": "quantopsy/errors.py",
+        "mode": "100644",
+        "bytes": 339,
+        "sha256": "58714b8b8dd29939217a9b395bfee40cdb17591cd6b4b2619336ebdfb42bf926",
+        "gitBlob": "e77dba60a233e5ec473bb7f2b6cdb5455622b46d"
+      },
+      {
+        "path": "quantopsy/gguf.py",
+        "mode": "100644",
+        "bytes": 20367,
+        "sha256": "d83d62cf90fd2ac671dbf524cdcc3dad46f5d789d43dbcfdc5b6c35a234b6a21",
+        "gitBlob": "adea33ec782acc0fa1e948f482b72932525fcd87"
+      },
+      {
+        "path": "quantopsy/io.py",
+        "mode": "100644",
+        "bytes": 5972,
+        "sha256": "5c1e7a89f7a08e82e68fd089de1258b340fd67051df13cb271d46872c8626bb3",
+        "gitBlob": "16fdf76faf0aaee280ccc5edc863bce56c705f3c"
+      },
+      {
+        "path": "quantopsy/repair.py",
+        "mode": "100644",
+        "bytes": 32575,
+        "sha256": "788d87a13917aefc94c1eb3ccc3554852d600906af984a5c2eacad8d800aa770",
+        "gitBlob": "26454fc99a6a1a59ee5c02a29390d38688259e5a"
+      },
+      {
+        "path": "tests/README.md",
+        "mode": "100644",
+        "bytes": 6637,
+        "sha256": "383abafa3b144dde9ebbaf11f3477027a7a91118d14030b8dcfe7b016b5beb87",
+        "gitBlob": "d752d9de3da8a709fde83d728d2cbf50e77ab2b4"
+      },
+      {
+        "path": "tests/__init__.py",
+        "mode": "100644",
+        "bytes": 86,
+        "sha256": "e1631a641fd09d08a8a4df20ed4bc239bf732b415388f9d28f831fb7bf9499e1",
+        "gitBlob": "588278021eeaeb731e29d8dd27c8675fb761c9cb"
+      },
+      {
+        "path": "tests/behavior_fixtures.py",
+        "mode": "100644",
+        "bytes": 5358,
+        "sha256": "8cdbb0c1369b8d740d91aaa8b1daf021f7ba3d6b98405bdd8c26058bc73ec677",
+        "gitBlob": "10bbe1a76fcfe218070b1dc96765090696fca254"
+      },
+      {
+        "path": "tests/fixtures.py",
+        "mode": "100644",
+        "bytes": 6855,
+        "sha256": "c22cbf315b8bef3ee96de902ee679ea0089ebde8c256f1e01d519767d6be7ea7",
+        "gitBlob": "ecab52e0020273248d8f2b7b9d3f533ceb3ba8b9"
+      },
+      {
+        "path": "tests/helpers/__init__.py",
+        "mode": "100644",
+        "bytes": 68,
+        "sha256": "e62d7d1059fb90bf8c96dbbfe196bfec385ba37bfc5450dbcfb5aaad2136d74d",
+        "gitBlob": "17ddcedd5eca58e4d4e243015c730335b2d66c36"
+      },
+      {
+        "path": "tests/helpers/behavioral_engine/CMakeLists.txt",
+        "mode": "100644",
+        "bytes": 1575,
+        "sha256": "5735c313aa6d26ca7858086bd7fd5879909ff770c44e3aadadbd2f633f9b4616",
+        "gitBlob": "9b3729f288b1a1a98604e8fea1698d6395f775b1"
+      },
+      {
+        "path": "tests/helpers/behavioral_inference.py",
+        "mode": "100644",
+        "bytes": 15351,
+        "sha256": "690f4ff0333db55981b911146b2af977f0c1b4aff23115a244bb9d3a3636844d",
+        "gitBlob": "55d3ea6e1c2ef550623f24fb81e5f5d5ec64f711"
+      },
+      {
+        "path": "tests/helpers/behavioral_scorer.cpp",
+        "mode": "100644",
+        "bytes": 11901,
+        "sha256": "1250873fd22340593aa7ca34b7a90ec9b42cea1f8ca2b9f88a4b5bea2ee42de2",
+        "gitBlob": "660ea685f557cd8f2797593bfa43812780c36230"
+      },
+      {
+        "path": "tests/helpers/public_gguf_inventory.py",
+        "mode": "100644",
+        "bytes": 22524,
+        "sha256": "e1a51e561fc9ba2ab0a2b4e3604575accd37d2b560eebd7cda62772bda32c1f5",
+        "gitBlob": "2d08eeee93d01d4dabe7b2e966b9cfdf6f40fead"
+      },
+      {
+        "path": "tests/helpers/public_gguf_v2_bindings.py",
+        "mode": "100644",
+        "bytes": 28139,
+        "sha256": "0b90498f1386408f7936c5d685a4a8a1fc41b0a99eaac1f56db2a6f851b4aafc",
+        "gitBlob": "b9f4bf6836d43a740493c78f267ee0a19a04df0d"
+      },
+      {
+        "path": "tests/helpers/v2_fixtures.py",
+        "mode": "100644",
+        "bytes": 2981,
+        "sha256": "d20977ba1f125b6221c9dce90abe81bad136b76ab433d43b9470aa2c49a230a6",
+        "gitBlob": "0832cde7e108315fa825643889bc381aa2f67859"
+      },
+      {
+        "path": "tests/integration/__init__.py",
+        "mode": "100644",
+        "bytes": 70,
+        "sha256": "662a062e0c481de840b7d6ff760abfe23c7a6241228019f64cbc2a79975e862f",
+        "gitBlob": "43cd991e39ec7ed9d943ca8ca36197e61d24e90c"
+      },
+      {
+        "path": "tests/integration/test_profile_v2.py",
+        "mode": "100644",
+        "bytes": 31722,
+        "sha256": "6207ea11c4545c4b06e864c2549a51c132ae81b8bcc3cc701388e813fbf588f9",
+        "gitBlob": "dfde59a2e3ab3bf114f18b6e7c1781f6c41528e9"
+      },
+      {
+        "path": "tests/integration/test_profile_v3.py",
+        "mode": "100644",
+        "bytes": 20691,
+        "sha256": "001604f89ae8b6f7bab9e57be36c3dadb7a9627d1c4435c4a4288ee7beedeb33",
+        "gitBlob": "cfc0d2070c7a9666850ef08ccf3eaa7c5dc8d620"
+      },
+      {
+        "path": "tests/scripts/run-behavioral-inference.py",
+        "mode": "100644",
+        "bytes": 63108,
+        "sha256": "df44f477419791e4591b7e11b8c1da1121c42c44db597c6b73372e13973678df",
+        "gitBlob": "191d931d7c0ec08e0d9baa55ed0f76bf26d76ae4"
+      },
+      {
+        "path": "tests/scripts/run-public-gguf-observation.py",
+        "mode": "100644",
+        "bytes": 69730,
+        "sha256": "92611546993827585f6308ed9ee4106cee6591e5d878de6d272ec2e122b98372",
+        "gitBlob": "8d1af2e82b4c7b529bdd9c8d22a5b357f9628c6c"
+      },
+      {
+        "path": "tests/scripts/run-public-gguf-v2-compatibility.py",
+        "mode": "100644",
+        "bytes": 98268,
+        "sha256": "5161f1b9f89f6b8534f2e036dce06850082e4579e427417fa1ba0411cce9b99d",
+        "gitBlob": "43519a27fd6f67ecb27c724468aacfefc8b2da2a"
+      },
+      {
+        "path": "tests/test_behavior.py",
+        "mode": "100644",
+        "bytes": 28475,
+        "sha256": "41ac50fd9fefc0dfe3d7307194526a43cda81113ed92985f7b832b5ce9d0ea84",
+        "gitBlob": "750c987b201f767a0e89e88a5e5a22966520e5eb"
+      },
+      {
+        "path": "tests/test_cli.py",
+        "mode": "100644",
+        "bytes": 14989,
+        "sha256": "c5671130315b47cd002e04cfc2842c08ad798962916313714eec4b91033c2bf7",
+        "gitBlob": "3365a11ab4451379ac17a4c6d7b04c92f5a078fb"
+      },
+      {
+        "path": "tests/test_diagnostics.py",
+        "mode": "100644",
+        "bytes": 18400,
+        "sha256": "da5cc24bfa5a4262fbb6057d0a31a2bfc584256db2a191736f4145e7063d9f2b",
+        "gitBlob": "7e4fc88686602a73809f8149d85252ca260a55e5"
+      },
+      {
+        "path": "tests/test_gguf.py",
+        "mode": "100644",
+        "bytes": 16392,
+        "sha256": "c6d8d6027ef5c0bbc3112faf0432789c1df69ac99d925974d3589d6dcbb49b20",
+        "gitBlob": "732cf4606ed5510123a00e40c87d3467c4077c68"
+      },
+      {
+        "path": "tests/test_repair.py",
+        "mode": "100644",
+        "bytes": 28259,
+        "sha256": "64a6d1079a2ed36f5e1968dc21476d04688931471d253c610733f524084c52f5",
+        "gitBlob": "1b2f3bf137ebd93e55652f1a543909aca235d554"
+      }
+    ],
+    "unchanged": true,
+    "indexUnchanged": true,
+    "indexBeforeSha256": "e246a00cc4e7480e7326808a7790fc1755b0fa6176b699503af80f3c1133c4f1",
+    "indexAfterSha256": "e246a00cc4e7480e7326808a7790fc1755b0fa6176b699503af80f3c1133c4f1"
+  },
+  "cleanup": {
+    "originalProcessGroupAbsent": "unverified",
+    "openFiles": "unverified",
+    "ownedRoot": "not-yet-removed"
+  },
+  "modelInference": "unrun"
+}

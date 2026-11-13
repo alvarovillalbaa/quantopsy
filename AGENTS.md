@@ -181,3 +181,12 @@ controller and source/engine/candidate freeze are ready. Preserve the first
 negative study and every failure. Fixture or byte success never supplies the
 missing new inference result; no positive/general recovery claim is authorized
 by this preparation. No paid resource, account or model/provider API is involved.
+
+The [fixture qualification](docs/results/2026/11-13/profile-v3-checks.md) accepts
+74 distinct cases at source `27ea65a5`: 72 first-run passes plus two corrected
+decoder-refusal expectations, not one all-green 74-case execution. The first
+observer's `ps EPERM`, failed child, originals and explicit public path redactions
+are preserved. Product/shared fixtures stayed exact; only two error literals
+changed before the two-case completion. Native snapshots found both owned groups
+absent; both roots were removed. Never rerun the 72 for a green outer packet. No model
+ran, and the new behavioral study/controller remains unrun/unactivated.

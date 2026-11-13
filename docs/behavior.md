@@ -43,8 +43,11 @@ fractions do not. Any candidate regression beyond either bound fails, even
 without qualifying loss. Passing requires complete runs, at least one loss,
 all qualifying losses recovered and no excessive regression.
 
-Optional repair manifests must satisfy the existing strict plan contract,
-bind all models and declare all byte checks complete. This checks records,
+Optional repair manifests may use explicit repair schema 1, 2 or 3 and must
+satisfy that version's strict plan contract. A v3 manifest can bind explicit
+input-embedding restoration; it never upgrades an older plan or authenticates
+the shape/bytes of an unopened model. The behavioral records above stay version 1.
+Each manifest binds all models and declares all byte checks complete. This checks records,
 not actual payloads. Reports disclaim inference execution, model opening,
 freeze chronology and execution authenticity. `supplied_recovery_records_pass`
 describes records only. Independently verified token/execution evidence is

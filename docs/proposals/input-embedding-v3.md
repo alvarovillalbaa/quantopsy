@@ -74,3 +74,14 @@ fixture scope needs no environment or storage exception. No network, paid
 resource, account, provider/model API, production setting or database is used.
 The separate [frozen behavioral follow-up](../studies/embedding-v2.md) remains
 unexecuted until its own exact CI controller/source/engine freeze is ready.
+
+## Fixture outcome
+
+The [actual qualification](../results/2026/11-13/profile-v3-checks.md) accepts
+74 distinct identities across two invocations at exact source `27ea65a5`.
+The first run had 72 passes and two wrong new error-code expectations; its
+observer then hit `ps EPERM`. Only those two cases reran after correcting their
+expectations to the decoder's earlier nonfinite refusal. Full product/shared
+source and all other test logic stayed exact. Original failures and separate
+native cleanup/readbacks remain explicit; no single 74-pass run or inference
+acceptance is claimed. This fixture scope is closed.
