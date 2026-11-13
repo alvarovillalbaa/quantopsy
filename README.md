@@ -171,8 +171,12 @@ These are usage examples. [Seventy-four authored fixture identities](docs/result
 passed as 72 first-run passes plus two corrected refusal expectations, without
 replaying the 72. Original failures, the observer permission error, explicit
 public-path redactions and scoped cleanup are retained. No new model was run.
-The [frozen follow-up study](docs/studies/embedding-v2.md) compares a legacy
-42-matrix candidate and a 43-tensor embedding candidate on eight new tasks with
-unchanged thresholds. Its exact CI controller and real inference remain unrun;
-the previous negative result is preserved. Restoring more weights costs space
+That fixture qualification is separate from the subsequently completed
+[frozen follow-up study](docs/results/2026/11-13/embedding-study-v2-attempt-1.md).
+Four actual model roles covered eight new tasks / 368 target tokens each.
+The 42-matrix candidate recovered 9 of 12 qualifying losses; the 43-tensor
+embedding candidate recovered 12 of 12. Both exceeded four regression limits
+and **failed the unchanged recovery criteria**. Original token records,
+independent arithmetic and owned cleanup are retained; temporary CI is retired.
+The previous negative study is unchanged. Restoring more weights costs space
 and does not establish optimal quantization or general recovery.

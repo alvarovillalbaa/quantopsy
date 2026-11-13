@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "audit": 4,
+  "kind": "quantopsy.embedding-study-receipt-audit",
+  "passed": true,
+  "auditedAtUtc": "2026-11-13T08:49:08.755826+00:00",
+  "dataOnly": true,
+  "inferenceOrFixtureRerun": false,
+  "supersedesObserverAssumptionsOnly": [
+    "embedding-study-v2-audit-1.json; inventory captures have no command-only completeness flags",
+    "embedding-study-v2-audit-2.json; hash original product JSON bytes, not reconstructed canonical formatting",
+    "embedding-study-v2-audit-3.json; validate wrapper and compare explicit three-role map"
+  ],
+  "sourceCommit": "4f06e453b64de1ebcae87ed6d4407989e4ba91a0",
+  "sourceFiles": 88,
+  "sourceBytes": 3799446,
+  "fullSourceGitBindings": true,
+  "archiveSha256": "be42772ec90c99a7ceae5c7ce075a13a8ebaf2be44e221802e19ac9d56399a23",
+  "receiptSha256": "e57e51ebc0d03e1695c3a1aa932fae3208489eeaaccbcfdfd915e74b59b530d7",
+  "verifierSha256": "1f406ba91b13123c46dc002db1d8f31a2ef11aee92c7fcb3931ac03646d7f964",
+  "protocolSha256": "8c35578fb0f8a2451a876f0a86cacf98941f7887a289df0bfd19c5ae416c5bc3",
+  "captureCount": 145,
+  "commandCount": 62,
+  "completeCommandStreams": 124,
+  "sourceGuards": 7,
+  "roles": [
+    {
+      "role": "reference",
+      "tasks": 8,
+      "targetTokens": 368,
+      "actualForwardMs": 449,
+      "model": {
+        "name": "stories15M.gguf",
+        "sha256": "61b50d457809a5194818fd22e6724b456cd7bb9a6264c52c8110684c53f3704a",
+        "size": 98357920
+      }
+    },
+    {
+      "role": "quantized",
+      "tasks": 8,
+      "targetTokens": 368,
+      "actualForwardMs": 338,
+      "model": {
+        "name": "stories15M-q4_0.gguf",
+        "sha256": "6151b1929d7f5aa3385d9ddef3393e55587c0a55de661562322bc51dfda93a04",
+        "size": 19077344
+      }
+    },
+    {
+      "role": "candidate-v2",
+      "tasks": 8,
+      "targetTokens": 368,
+      "actualForwardMs": 388,
+      "model": {
+        "name": "candidate.gguf",
+        "sha256": "a0107dd0112554eeaa648c3f64e6017e61f1531327e993191c8bea7326b585da",
+        "size": 39605952
+      }
+    },
+    {
+      "role": "candidate-v3",
+      "tasks": 8,
+      "targetTokens": 368,
+      "actualForwardMs": 409,
+      "model": {
+        "name": "candidate.gguf",
+        "sha256": "16157d19ac9c84fdfc5ece112283b362600cf8324a45e2e8b5be737e0d007617",
+        "size": 71285952
+      }
+    }
+  ],
+  "taskRoleMeasurements": 32,
+  "metricValuesRecomputed": 64,
+  "thresholdCasesRecomputed": 32,
+  "identicalFourRoleTokenization": true,
+  "comparisons": {
+    "v2": {
+      "qualifyingLosses": 12,
+      "recovered": 9,
+      "regressions": 4,
+      "pass": false,
+      "regressionCases": [
+        {
+          "task": "embedding-v2-01-scarf",
+          "metric": "target_token_accuracy",
+          "referenceExceeded": false,
+          "quantizedExceeded": true
+        },
+        {
+          "task": "embedding-v2-02-puzzle",
+          "metric": "mean_target_nll",
+          "referenceExceeded": true,
+          "quantizedExceeded": true
+        },
+        {
+          "task": "embedding-v2-04-paint",
+          "metric": "mean_target_nll",
+          "referenceExceeded": true,
+          "quantizedExceeded": false
+        },
+        {
+          "task": "embedding-v2-04-paint",
+          "metric": "target_token_accuracy",
+          "referenceExceeded": true,
+          "quantizedExceeded": false
+        }
+      ],
+      "candidate": {
+        "name": "candidate.gguf",
+        "sha256": "a0107dd0112554eeaa648c3f64e6017e61f1531327e993191c8bea7326b585da",
+        "size": 39605952
+      }
+    },
+    "v3": {
+      "qualifyingLosses": 12,
+      "recovered": 12,
+      "regressions": 4,
+      "pass": false,
+      "regressionCases": [
+        {
+          "task": "embedding-v2-01-scarf",
+          "metric": "target_token_accuracy",
+          "referenceExceeded": false,
+          "quantizedExceeded": true
+        },
+        {
+          "task": "embedding-v2-02-puzzle",
+          "metric": "mean_target_nll",
+          "referenceExceeded": false,
+          "quantizedExceeded": true
+        },
+        {
+          "task": "embedding-v2-03-hat",
+          "metric": "target_token_accuracy",
+          "referenceExceeded": false,
+          "quantizedExceeded": true
+        },
+        {
+          "task": "embedding-v2-05-bridge",
+          "metric": "target_token_accuracy",
+          "referenceExceeded": false,
+          "quantizedExceeded": true
+        }
+      ],
+      "candidate": {
+        "name": "candidate.gguf",
+        "sha256": "16157d19ac9c84fdfc5ece112283b362600cf8324a45e2e8b5be737e0d007617",
+        "size": 71285952
+      }
+    }
+  },
+  "cleanup": {
+    "passed": true,
+    "ownedFilesVerified": 1452,
+    "ownedDirectoriesVerified": 222,
+    "ownedFileVectorSha256": "ea5cd7a8772be580f59e901d689a6f1980fec2f94df35dc3d59c1416a8a5968b",
+    "allOriginalGroupsAbsent": true,
+    "allChildrenReaped": true
+  },
+  "limits": [
+    "Data-only arithmetic and hash audit of retained originals; no local weights, build or inference.",
+    "Runner source/freeze/engine/process observations are retained evidence, not independent host attestation.",
+    "Disposed weights/logits were not reconstructed locally; compatibility is not cryptographic model lineage.",
+    "Both candidate verdicts are negative. Tiny authored tasks establish no general semantic recovery.",
+    "Cleanup snapshots cover owned resources and observed groups, not all-host disposal."
+  ]
+}

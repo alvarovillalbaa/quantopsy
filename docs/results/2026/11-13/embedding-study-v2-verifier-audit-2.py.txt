@@ -1,0 +1,242 @@
+"""Read-only receipt audit; never imports product code or executes inference."""
+import base64
+import gzip
+import hashlib
+import json
+import re
+import subprocess
+import zipfile
+from datetime import datetime, timezone
+from decimal import Decimal, ROUND_HALF_EVEN, localcontext
+from pathlib import Path
+
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[3]
+SOURCE = "4f06e453b64de1ebcae87ed6d4407989e4ba91a0"
+RAW_SHA = "e57e51ebc0d03e1695c3a1aa932fae3208489eeaaccbcfdfd915e74b59b530d7"
+ZIP_SHA = "be42772ec90c99a7ceae5c7ce075a13a8ebaf2be44e221802e19ac9d56399a23"
+PROTOCOL_SHA = "8c35578fb0f8a2451a876f0a86cacf98941f7887a289df0bfd19c5ae416c5bc3"
+
+
+def need(condition, label):
+    if not condition:
+        raise ValueError(label)
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def canonical(value):
+    return (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False) + "\n").encode()
+
+
+captures = []
+
+
+def decode(record):
+    packed = base64.b64decode(record["data"], validate=True)
+    raw = gzip.decompress(packed)
+    need(len(packed) == record["compressedBytes"], "compressed length")
+    need(len(raw) == record["bytes"] and sha(raw) == record["sha256"], "capture bytes/hash")
+    for flag in ("complete", "retained"):
+        if flag in record:
+            need(record[flag] is True, "optional capture flag " + flag)
+    if "observedBytes" in record:
+        need(record["observedBytes"] == len(raw) and record["observedSha256"] == sha(raw), "observed stream")
+    return raw
+
+
+def walk(value, path="$"):
+    if isinstance(value, dict):
+        if value.get("encoding") == "gzip-base64":
+            raw = decode(value)
+            captures.append({"path": path, "bytes": len(raw), "sha256": sha(raw)})
+        else:
+            for key, item in value.items():
+                walk(item, path + "." + key)
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            walk(item, path + "." + str(index))
+
+
+raw = (HERE / "embedding-study-v2-attempt-1.json").read_bytes()
+need(sha(raw) == RAW_SHA, "raw receipt identity")
+archive = HERE / "embedding-study-v2-attempt-1.zip"
+need(sha(archive.read_bytes()) == ZIP_SHA, "artifact identity")
+with zipfile.ZipFile(archive) as bundle:
+    need(bundle.namelist() == ["quantopsy-embedding-43394377250.log"], "single artifact member")
+    need(bundle.read(bundle.namelist()[0]) == b"QUANTOPSY_EMBEDDING_STUDY_V2_RESULT=" + raw + b"\n", "artifact/original JSON equality")
+report = json.loads(raw)
+need(report["sourceCommit"] == SOURCE and report["operationalCompleted"] is True, "source/completion")
+walk(report)
+need(len(captures) == 145, "capture coverage")
+commands = {row["label"]: row for row in report["commands"]}
+need(len(commands) == len(report["commands"]) == 62, "unique commands")
+for row in commands.values():
+    need(row["normallyClosed"] and row["exitObservedAndReaped"] and row["originalProcessGroupAbsent"], "command lifecycle")
+    need(row["exitCode"] == 0 and not row["timedOut"] and not row["termSent"] and not row["killSent"] and row["ownershipError"] is None, "command exit")
+    need(row["descriptorsClosed"] == row["pipesEOF"] == [True, True], "pipe closure")
+    for channel in ("stdout", "stderr"):
+        need(row[channel]["complete"] is True and row[channel]["retained"] is True, "mandatory command stream flags")
+
+source_rows = report["sourceFiles"]
+tree = subprocess.check_output(["git", "ls-tree", "-rz", SOURCE], cwd=ROOT)
+tree_rows = {}
+for entry in tree.split(b"\0"):
+    if entry:
+        head, path = entry.split(b"\t", 1)
+        mode, kind, blob = head.decode().split()
+        need(kind == "blob", "source contains only blobs")
+        tree_rows[path.decode()] = (mode, blob)
+need(len(source_rows) == len(tree_rows) == 88, "entire source vector")
+for row in source_rows:
+    need(tree_rows[row["path"]] == (row["mode"], row["gitBlob"]), "source mode/blob")
+    body = subprocess.check_output(["git", "cat-file", "blob", row["gitBlob"]], cwd=ROOT)
+    blob = hashlib.sha1(b"blob " + str(len(body)).encode() + b"\0" + body).hexdigest()
+    need(blob == row["gitBlob"] and len(body) == row["bytes"] and sha(body) == row["sha256"], "source bytes")
+guards = report["guards"]
+need([g["label"] for g in guards] == ["before", "after_candidates", "before_build", "after_build", "after_inference", "before_cleanup", "after_cleanup"], "guard boundaries")
+need(all(g["passed"] and g["fullGitIndexNativeBindings"] and g["blobs"] == 88 and g["bytes"] == 3799446 for g in guards), "guard outcomes")
+need(len({g["vectorSha256"] for g in guards}) == 1, "unchanged source guards")
+
+freeze = report["measurementFreeze"]
+originals = {name: decode(value) for name, value in freeze["originals"].items()}
+identities = {row["relativePath"]: row for row in freeze["files"]}
+for name, body in originals.items():
+    need(sha(body) == identities[name]["sha256"] and len(body) == identities[name]["bytes"], "frozen original identity")
+protocol_raw = (ROOT / "docs/studies/embedding-v2.json").read_bytes()
+need(sha(protocol_raw) == PROTOCOL_SHA and originals["output/predeclared-protocol.json"] == protocol_raw, "predeclared protocol")
+protocol = json.loads(protocol_raw)
+suite = json.loads(originals["output/suite.json"])
+config = json.loads(originals["output/config.json"])
+engine = json.loads(originals["output/engine-manifest.json"])
+need(engine == freeze["engineManifest"] and config == freeze["configuration"], "freeze configuration")
+need(suite["metrics"] == protocol["metrics"] and len(suite["tasks"]) == 8, "frozen thresholds/tasks")
+wire = "".join(t["id"] + "\t" + t["prompt"].encode().hex() + "\t" + t["target"].encode().hex() + "\n" for t in protocol["tasks"]).encode()
+need(wire == originals["output/tasks.tsv"], "exact authored task wire")
+need([t["id"] for t in suite["tasks"]] == [t["id"] for t in protocol["tasks"]], "task order")
+need(freeze["beforeAnyInference"] is True and freeze["protocolSha256"] == PROTOCOL_SHA, "reported pre-inference freeze")
+need(engine["upstream"]["revision"] == protocol["engine"]["revision"], "engine revision")
+need(report["engineSource"]["gitTreeSha1"] == report["engineSource"]["trustedCommitTreeSha1"] == protocol["engine"]["git_tree"], "reported reconstructed upstream tree")
+for row in engine["sources"]:
+    body = (ROOT / row["path"]).read_bytes()
+    need(len(body) == row["bytes"] and sha(body) == row["sha256"], "engine/runtime native input")
+need(len(engine["sources"]) == 5 and config["engine"]["source_sha256"] == sha(originals["output/engine-manifest.json"]), "source manifest binding")
+need(identities["build/quantopsy-behavioral-scorer"] == report["engineBinary"], "frozen binary")
+
+metrics = {}
+tokens = {}
+raw_runs = {}
+role_summaries = []
+for invocation in report["inferenceRuns"]:
+    role = invocation["measurementRole"]
+    command = commands[invocation["originalCommand"]]
+    scorer = json.loads(decode(command["stdout"]))
+    run_raw = decode(invocation["runOriginal"])
+    run = json.loads(run_raw)
+    raw_runs[role] = run_raw
+    need(run == invocation["run"] and run["status"] == "complete" and run["error"] is None, "complete bound run")
+    need(run["suite_sha256"] == sha(originals["output/suite.json"]) and run["config_sha256"] == sha(originals["output/config.json"]), "run freeze hashes")
+    need(run["engine"] == config["engine"] and scorer["engine_revision"] == config["engine"]["revision"], "scorer engine binding")
+    need(scorer["kind"] == "quantopsy.llama-target-scores" and scorer["parameters"] == engine["recipe"]["parameters"], "actual settings")
+    need(scorer["vocab_tokens"] == 32000 and scorer["model_context_tokens"] == 128, "model token limits")
+    need(command["argv"][0].endswith("/build/quantopsy-behavioral-scorer"), "actual scorer path")
+    need(len(scorer["tasks"]) == len(run["tasks"]) == 8, "full actual role coverage")
+    metrics[role], tokens[role] = [], []
+    token_count = 0
+    for expected, task, recorded in zip(protocol["tasks"], scorer["tasks"], run["tasks"]):
+        need(task["id"] == recorded["id"] == expected["id"], "actual task order")
+        ids, targets, predicted, nll = (task[k] for k in ("token_ids", "target_ids", "predicted_ids", "target_nll"))
+        prefix = task["prompt_tokens"]
+        need(0 < prefix < len(ids) <= 128 and ids[prefix:] == targets and len(targets) == len(predicted) == len(nll) > 0, "actual token coverage")
+        need(all(type(t) is int and 0 <= t < scorer["vocab_tokens"] for t in ids + targets + predicted), "actual token IDs")
+        need(all(isinstance(v, str) and re.fullmatch(r"[0-9]+\.[0-9]{17}", v) for v in nll), "original NLL encoding")
+        with localcontext() as ctx:
+            ctx.prec = 128
+            numbers = [Decimal(v) for v in nll]
+            need(all(v.is_finite() and 0 <= v <= 1000 for v in numbers), "finite NLL")
+            quantum = Decimal("1e-12")
+            mean = sum(numbers, Decimal(0)) / len(numbers)
+            accuracy = Decimal(sum(a == b for a, b in zip(targets, predicted))) / len(targets)
+            values = [format(v.quantize(quantum, rounding=ROUND_HALF_EVEN), "f") for v in (mean, accuracy)]
+        need(recorded["metrics"] == [{"id": m["id"], "value": v} for m, v in zip(protocol["metrics"], values)], "independent aggregation")
+        metrics[role].append(values)
+        tokens[role].append((task["id"], prefix, ids, targets))
+        token_count += len(targets)
+    role_summaries.append({"role": role, "tasks": 8, "targetTokens": token_count, "actualForwardMs": invocation["durationMs"], "model": run["model"]})
+need(set(metrics) == {"reference", "quantized", "candidate-v2", "candidate-v3"}, "exact four roles")
+need(all(value == tokens["reference"] for value in tokens.values()), "identical four-role tokenization")
+
+decisions = {}
+for profile, candidate in report["candidates"].items():
+    comparison = report["comparisons"][profile]["value"]
+    manifest, plan = candidate["manifest"], candidate["plan"]
+    need(sha(canonical(manifest)) == candidate["manifestSha256"] and sha(canonical(plan)) == candidate["planSha256"] == manifest["plan_sha256"], "plan/manifest hashes")
+    need(manifest["selected"] == plan["selected"] and len(plan["selected"]) == (42 if profile == "v2" else 43), "selection count")
+    need(all(manifest["verification"].values()), "manifest verification evidence")
+    need(len(candidate["independentPayloads"]) == 57, "payload inventory coverage")
+    payloads = {r["name"]: r for r in candidate["independentPayloads"]}
+    for selected in manifest["selected"]:
+        row = payloads[selected["name"]]
+        need(row["source"] == "reference" and row["sha256"] == selected["reference_sha256"] and row["bytes"] == selected["reference_bytes"], "selected payload identity")
+    head = payloads["output.weight"]
+    need(head["source"] == "quantized" and head["sha256"] == protocol["candidate_strategy"]["preserved_output_head"]["sha256"], "opaque output preserved")
+    model = manifest["output"]
+    identity = candidate["candidateIdentity"]
+    need(model["size"] == identity["bytes"] and model["sha256"] == identity["sha256"], "candidate bytes")
+    model_doc = json.loads(originals["output/models-" + profile + ".json"])
+    need(comparison["models"] == model_doc and model_doc["candidate"] == model, "comparison model binding")
+    need(comparison["inputs"]["repair_manifest_sha256"] == candidate["manifestSha256"], "comparison manifest binding")
+    for role in ("reference", "quantized", "candidate"):
+        key = "candidate-" + profile if role == "candidate" else role
+        need(comparison["inputs"]["run_sha256"][role] == sha(raw_runs[key]), "comparison run binding")
+        actual_model = next(x["run"]["model"] for x in report["inferenceRuns"] if x["measurementRole"] == key)
+        need(model_doc[role] == actual_model, "actual model triplet")
+    lost = recovered = regressions = 0
+    regression_rows = []
+    for index, task in enumerate(comparison["tasks"]):
+        need(task["id"] == protocol["tasks"][index]["id"], "comparison task identity")
+        for j, case in enumerate(task["cases"]):
+            metric = protocol["metrics"][j]
+            values = {role: metrics["candidate-" + profile if role == "candidate" else role][index][j] for role in ("reference", "quantized", "candidate")}
+            need(case["values"] == values and case["metric"] == metric["id"] and case["direction"] == metric["direction"], "comparison values")
+            need(case["thresholds"] == {k: metric[k] for k in metric if k not in ("id", "direction")}, "exact thresholds")
+            r, q, c = (Decimal(values[k]) for k in ("reference", "quantized", "candidate"))
+            d = Decimal(1 if metric["direction"] == "lower" else -1)
+            loss, improvement, rr, qr = d * (q-r), d * (q-c), d * (c-r), d * (c-q)
+            qualifying = loss > 0 and loss >= Decimal(metric["min_quantization_loss"])
+            recovery = qualifying and improvement > 0 and improvement >= loss * Decimal(metric["min_recovery_fraction"])
+            ref_exceeded = rr > Decimal(metric["max_reference_regression"])
+            quant_exceeded = qr > Decimal(metric["max_quantized_regression"])
+            need(all(Decimal(case[k]) == v for k, v in (("quantization_loss", loss), ("candidate_improvement", improvement), ("reference_regression", rr), ("quantized_regression", qr))), "independent directed differences")
+            need((case["qualifying_loss"], case["recovered"], case["reference_regression_exceeded"], case["quantized_regression_exceeded"]) == (qualifying, recovery, ref_exceeded, quant_exceeded), "independent threshold decisions")
+            lost += qualifying
+            recovered += recovery
+            regressions += ref_exceeded or quant_exceeded
+            if ref_exceeded or quant_exceeded:
+                regression_rows.append({"task": task["id"], "metric": metric["id"], "referenceExceeded": ref_exceeded, "quantizedExceeded": quant_exceeded})
+    passed = lost > 0 and recovered == lost and regressions == 0
+    acceptance = comparison["acceptance"]
+    need((lost, recovered, regressions, passed) == (acceptance["qualifying_loss_cases"], acceptance["recovered_cases"], acceptance["regression_cases"], acceptance["measurements_pass"]), "independent final verdict")
+    need(acceptance["complete_runs"] and acceptance["repair_manifest_records_bound"] and acceptance["supplied_recovery_records_pass"] == passed, "comparison completeness")
+    decisions[profile] = {"qualifyingLosses": lost, "recovered": recovered, "regressions": regressions, "pass": passed, "regressionCases": regression_rows, "candidate": model}
+
+cleanup = report["cleanup"]
+need(cleanup["passed"] and cleanup["allOriginalGroupsAbsent"] and cleanup["allChildrenReaped"] and not cleanup["failures"] and not cleanup["remaining"] and not cleanup["uncertain"] and not cleanup["signals"], "owned cleanup")
+need(report["scratchCleanup"] == "passed" and report["processCleanup"] == {"allRowsNormallyClosed": True, "allCommandExitsZero": True, "signalsSent": False}, "final closure")
+print(json.dumps({"schemaVersion": 1, "audit": 2, "kind": "quantopsy.embedding-study-receipt-audit", "passed": True,
+    "auditedAtUtc": datetime.now(timezone.utc).isoformat(), "dataOnly": True, "inferenceOrFixtureRerun": False,
+    "supersedesObserverAssumptionOnly": "embedding-study-v2-audit-1.json; inventory captures have no command-only completeness flags",
+    "sourceCommit": SOURCE, "sourceFiles": 88, "sourceBytes": 3799446, "fullSourceGitBindings": True,
+    "archiveSha256": ZIP_SHA, "receiptSha256": RAW_SHA, "verifierSha256": sha(Path(__file__).read_bytes()),
+    "protocolSha256": PROTOCOL_SHA, "captureCount": len(captures), "commandCount": 62, "completeCommandStreams": 124,
+    "sourceGuards": len(guards), "roles": role_summaries, "taskRoleMeasurements": 32, "metricValuesRecomputed": 64,
+    "thresholdCasesRecomputed": 32, "identicalFourRoleTokenization": True, "comparisons": decisions,
+    "cleanup": {k: cleanup[k] for k in ("passed", "ownedFilesVerified", "ownedDirectoriesVerified", "ownedFileVectorSha256", "allOriginalGroupsAbsent", "allChildrenReaped")},
+    "limits": ["Data-only arithmetic and hash audit of retained originals; no local weights, build or inference.",
+               "Runner source/freeze/engine/process observations are retained evidence, not independent host attestation.",
+               "Disposed weights/logits were not reconstructed locally; compatibility is not cryptographic model lineage.",
+               "Both candidate verdicts are negative. Tiny authored tasks establish no general semantic recovery.",
+               "Cleanup snapshots cover owned resources and observed groups, not all-host disposal."]}, indent=2))

@@ -208,3 +208,16 @@ process/EOF/groups, immutable inputs, exact storage/budgets and nonce/inode
 teardown. A negative study may complete operationally; no global/semantic
 recovery claim follows. Retire only this one exact workflow/QA ref after terminal
 proof. Full product/portfolio remains unfinished.
+
+The [actual embedding-study-v2 result](docs/results/2026/11-13/embedding-study-v2-attempt-1.md)
+completed at `4f06e453`: four roles / eight new tasks / 368 target tokens per
+role. V2 recovered nine of 12 qualifying losses and v3 recovered 12 of 12;
+both exceeded four regression limits and failed recovery. No fixture reran.
+Retained originals and independent data-only audit recompute all 64 metric
+values and 32 threshold cases. Preserve the three failed audit observers as
+well as the negative model result. All 62 commands closed normally and owned
+scratch teardown passed. Workflow `417050024` is disabled and its exact QA ref
+is deleted with readback. This frozen scope is closed; no repetition or
+outcome-based retuning. Old studies/product/runtime/test bytes remain unchanged.
+Any new strategy needs its own versioned predeclaration. General recovery and
+full product/portfolio acceptance remain open.

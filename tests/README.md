@@ -116,7 +116,11 @@ path redaction and scoped source/index/process/root observation is retained.
 Only the two unfinished identities reran; no single 74-pass execution is claimed.
 The initial v3 test source remains as an inactive evidence text file.
 
-The [behavioral study v2](../docs/studies/embedding-v2.md) freezes eight new tasks,
-unchanged thresholds and four model roles for a future separate inference
-packet. That controller is not yet authored/activated. Do not reinterpret these
-fixture passes as actual model recovery or reopen the closed v1 study.
+The separate [behavioral study v2 result](../docs/results/2026/11-13/embedding-study-v2-attempt-1.md)
+completed four actual role runs on eight new tasks with identical tokenization,
+368 targets per role and unchanged thresholds. V2 recovered 9/12 losses and v3
+12/12; both had four excessive regression cases and failed recovery. The
+data-only receipt audit recomputed all 64 metric values and 32 threshold cases.
+Its failed observers are preserved separately from the original run. All 62
+commands closed normally and owned teardown passed; the temporary control is
+retired. No fixture case reran. The closed v1 study remains unchanged.

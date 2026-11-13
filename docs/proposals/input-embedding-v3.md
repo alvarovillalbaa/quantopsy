@@ -72,8 +72,9 @@ Storage Guard measured 3.6 GiB free / 34 GiB required. No local checkpoint,
 model/engine execution, install, build or large copy is permitted. The tiny
 fixture scope needs no environment or storage exception. No network, paid
 resource, account, provider/model API, production setting or database is used.
-The separate [frozen behavioral follow-up](../studies/embedding-v2.md) remains
-unexecuted until its own exact CI controller/source/engine freeze is ready.
+At preparation the separate [frozen behavioral follow-up](../studies/embedding-v2.md)
+was unexecuted. Its [later actual result](../results/2026/11-13/embedding-study-v2-attempt-1.md)
+completed four role runs; both candidates failed the unchanged recovery criteria.
 
 ## Fixture outcome
 

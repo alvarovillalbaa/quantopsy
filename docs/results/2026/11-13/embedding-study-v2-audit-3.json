@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "audit": 3,
+  "passed": false,
+  "kind": "quantopsy.embedding-study-receipt-audit-observer-failure",
+  "dataOnly": true,
+  "inferenceOrFixtureRerun": false,
+  "verifierSource": "embedding-study-v2-verifier-audit-3.py.txt",
+  "exitCode": 1,
+  "failure": "ValueError: comparison model binding",
+  "cause": "The observer compared the model-document wrapper (including kind/schema_version) to the comparison's three-role model map. Compare the explicit three role entries while validating the wrapper separately.",
+  "alreadyVerifiedBeforeFailure": ["All checks preceding the previous observer failure", "Original v2 product plan/manifest/comparison bytes", "57 v2 payload records and selected payload identities", "Preserved opaque output-head identity"],
+  "originalReceiptSha256": "e57e51ebc0d03e1695c3a1aa932fae3208489eeaaccbcfdfd915e74b59b530d7",
+  "originalsChanged": false,
+  "runnerFailureInferred": false,
+  "next": "Validate the actual document wrapper and explicit role map; rerun the data audit only."
+}

@@ -1,6 +1,10 @@
 # Predeclared input-embedding follow-up, behavioral study v2
 
-13 November 2026. **UNRUN.** Preserve the [first study's negative result](../results/2026/11-08/behavioral-inference-attempt-2.md):
+13 November 2026. **State at predeclaration: UNRUN.** The subsequent
+[actual result](../results/2026/11-13/embedding-study-v2-attempt-1.md) completed
+four role runs and is negative for both candidates: v2 12 qualifying / nine
+recovered / four regressions; v3 12 / 12 / four. Protocol JSON remains byte-exact.
+Preserve the [first study's negative result](../results/2026/11-08/behavioral-inference-attempt-2.md):
 11 qualifying losses, 10 recovered, four regression cases. The old eight tasks,
 thresholds, candidates, scorer and originals are immutable. The Notion brief
 does not guarantee a positive recovery result.

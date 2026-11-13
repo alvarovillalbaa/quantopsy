@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "observedAtUtc": "2026-11-13T08:50:11Z",
+  "repository": "alvarovillalbaa/quantopsy",
+  "run": {"id": 43394377250, "attempt": 1, "job": 131781628289, "status": "completed", "conclusion": "success", "headSha": "4ce9057335f5f634c17bbfe928fcde086f73a67e", "createdAt": "2026-11-13T08:35:14Z", "updatedAt": "2026-11-13T08:37:02Z"},
+  "workflow": {"id": 417050024, "path": ".github/workflows/embedding-study-v2.yml", "before": "active", "disableExit": 0, "readback": "disabled_manually"},
+  "qaRef": {"name": "refs/heads/qa/quantopsy-embedding-20261113-1", "verifiedBeforeDeletionSha": "4ce9057335f5f634c17bbfe928fcde086f73a67e", "deleteExit": 0, "matchingRefsReadback": []},
+  "artifact": {"id": 14021394647, "bytes": 205725, "sha256": "be42772ec90c99a7ceae5c7ce075a13a8ebaf2be44e221802e19ac9d56399a23", "canonicalZipPreserved": true, "exactExtractedJsonPreserved": true},
+  "localTransferCleanup": {"scope": "one task-created transfer directory/file and one redundant extracted log", "nonceRootDeviceInodeRechecked": true, "regularNonSymlinkFileAndHashChecked": true, "duplicateLogEqualsZipMember": true, "nativeLsofExit": 1, "nativeLsofOutputBytes": 0, "ownedTransferRemovedAndAbsenceReadBack": true, "redundantLogRemovedAndAbsenceReadBack": true},
+  "otherWorkflowsOrRefsChanged": false,
+  "noRerun": true,
+  "recoveryPass": {"v2": false, "v3": false},
+  "portfolioGoalComplete": false
+}

@@ -165,4 +165,6 @@ The writer regenerates the complete plan from the actual opened inputs.
 V1/v2 still refuse this target. V3 does not admit `output.weight`, selected Q8,
 automatic selection or tied-weight inference. The [contract](proposals/input-embedding-v3.md)
 and [fixture receipt](results/2026/11-13/profile-v3-checks.md) state verification
-limits; the separately frozen inference study remains unrun.
+limits. The separate [frozen inference study](results/2026/11-13/embedding-study-v2-attempt-1.md)
+completed four role runs; both candidates failed its unchanged recovery criteria.
+V3 recovered all 12 qualifying losses but exceeded four regression limits.

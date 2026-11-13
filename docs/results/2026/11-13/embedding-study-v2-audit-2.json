@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "audit": 2,
+  "passed": false,
+  "kind": "quantopsy.embedding-study-receipt-audit-observer-failure",
+  "dataOnly": true,
+  "inferenceOrFixtureRerun": false,
+  "verifierSource": "embedding-study-v2-verifier-audit-2.py.txt",
+  "exitCode": 1,
+  "failure": "ValueError: plan/manifest hashes",
+  "cause": "The observer reconstructed compact canonical JSON instead of hashing the original product-written plan/manifest bytes. Original JSON captures are retained in jsonFileOriginals and must supply these hashes.",
+  "alreadyVerifiedBeforeFailure": ["ZIP/member/raw JSON equality", "145 compressed original captures", "62 normally closed commands and 124 complete command streams", "88 prepared source Git blobs", "seven source guards", "frozen task wire and thresholds", "four-role token coverage and 64 independently aggregated metric values"],
+  "originalReceiptSha256": "e57e51ebc0d03e1695c3a1aa932fae3208489eeaaccbcfdfd915e74b59b530d7",
+  "originalsChanged": false,
+  "runnerFailureInferred": false,
+  "next": "Hash exact retained product-written originals; preserve this failed observer and rerun only the data audit."
+}

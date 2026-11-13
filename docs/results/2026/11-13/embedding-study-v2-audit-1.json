@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "quantopsy.embedding-study-audit.v1",
+  "status": "failed",
+  "stage": "local-data-only-audit",
+  "reason": "Generic capture traversal wrongly required command-only complete/retained flags on an independent inventory raw-region record",
+  "path": "$.bindings.0.inputs.1.inventory.descriptorRegion.raw",
+  "observedKeys": [
+    "encoding",
+    "bytes",
+    "sha256",
+    "compressedBytes",
+    "data"
+  ],
+  "originalZipVerified": true,
+  "originalReceiptPreserved": true,
+  "modelOrCIReexecution": false
+}
