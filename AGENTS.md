@@ -190,3 +190,21 @@ are preserved. Product/shared fixtures stayed exact; only two error literals
 changed before the two-case completion. Native snapshots found both owned groups
 absent; both roots were removed. Never rerun the 72 for a green outer packet. No model
 ran, and the new behavioral study/controller remains unrun/unactivated.
+
+## Exact embedding-study-v2 execution — 13 November 2026
+
+Standing all-work approval covers the new [execution packet](docs/proposals/embedding-study-v2-execution.md):
+one free public Ubuntu job capped20min, exact parent b60d04db, four added source/
+proposal/template files and this append only. Frozen JSON8c35578f, all product/
+test/old-study/scorer/build bytes remain exact. Carry 74 fixture identities with
+source/two-literal proofs; execute no fixture suite. Freshly bind both public
+inputs, rebuild legacy42/v3embedding43 candidates, reconstruct/build the pinned
+official CPU engine, freeze both triplets and perform four actual role runs on
+the eight new tasks. Preserve all originals and both threshold verdicts.
+
+Controller/helper source is separate; old main/protocol never runs or changes.
+No model/API/payment/account or local heavy exception. Enforce source/index,
+process/EOF/groups, immutable inputs, exact storage/budgets and nonce/inode
+teardown. A negative study may complete operationally; no global/semantic
+recovery claim follows. Retire only this one exact workflow/QA ref after terminal
+proof. Full product/portfolio remains unfinished.

@@ -1,0 +1,40 @@
+name: Temporary Quantopsy embedding study v2
+on:
+  create:
+permissions:
+  contents: read
+concurrency:
+  group: quantopsy-embedding-20261113-1
+  cancel-in-progress: false
+jobs:
+  frozen-embedding:
+    if: github.repository == 'alvarovillalbaa/quantopsy' && github.event.repository.private == false && github.event.ref_type == 'branch' && github.event.ref == 'qa/quantopsy-embedding-20261113-1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      CI: 'true'
+      SOURCE_COMMIT: APPROVED_SOURCE_COMMIT
+      QUANTOPSY_ARTIFACT_PUBLIC_REPOSITORY: 'true'
+    steps:
+      - name: Record earliest owned step
+        shell: bash
+        run: echo "QUANTOPSY_ARTIFACT_JOB_STARTED_MS=$(date +%s%3N)" >> "$GITHUB_ENV"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ env.SOURCE_COMMIT }}
+          fetch-depth: 2
+          persist-credentials: false
+          clean: false
+      - name: Frozen four-role CPU inference and owned teardown
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -I -B -S tests/scripts/run-embedding-study-v2.py --source-commit "$SOURCE_COMMIT" | tee "$RUNNER_TEMP/quantopsy-embedding-${GITHUB_RUN_ID}.log"
+      - name: Retain bounded original receipt
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: quantopsy-embedding-${{ github.run_id }}
+          path: ${{ runner.temp }}/quantopsy-embedding-${{ github.run_id }}.log
+          if-no-files-found: error
+          retention-days: 1
