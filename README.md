@@ -1,5 +1,9 @@
 # Quantopsy
 
+<!-- project-family:start -->
+> **Project family:** [AI Research & Evaluation](https://github.com/alvarovillalbaa#ai-research-and-evaluation) · **Area:** Quantization
+<!-- project-family:end -->
+
 Investigate quantization loss and create a local weight-restoration candidate.
 
 The source inspects GGUF containers, compares selected weights and supplied
